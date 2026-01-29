@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  aura-3d-mongo:
+    image: mongo:latest
+    container_name: aura-3d-mongo
+    restart: unless-stopped
+    environment:
+      - "MONGO_INITDB_ROOT_USERNAME=admin"
+      - "MONGO_INITDB_ROOT_PASSWORD=admin"
+    volumes:
+      - ./data/mongo:/data/db
+      - ./docker/mongo/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+    networks:
+      - aura-3d-network
+
+  aura-3d-api:
+    image: jxnatang7/aura-3d-api:latest
+    container_name: aura-3d-api
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    env_file:
+      - .env
+    depends_on:
+      aura-3d-mongo:
+        condition: service_healthy
+    networks:
+      - aura-3d-network
+
+networks:
+  aura-3d-network:
+    driver: bridge
