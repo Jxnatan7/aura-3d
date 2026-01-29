@@ -48,7 +48,6 @@ jobs:
 
           cd ~/apps/aura-3d/backend
 
-          # Agora o pull terá permissão
           docker compose pull aura-3d-api
           docker compose up -d
 

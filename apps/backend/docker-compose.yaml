@@ -32,7 +32,7 @@ services:
     env_file:
       - .env
     environment:
-      - DB_URL=mongodb://admin:admin@aura-3d-mongo:27017/aura-3d-system?authSource=admin
+      - DB_URL=mongodb://admin:admin@aura-3d-mongo:27017/aura-3d?authSource=admin
     depends_on:
       aura-3d-mongo:
         condition: service_healthy

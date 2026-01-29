@@ -23,7 +23,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.jxnatan.easymobile"
+      "package": "com.jxnatan.aura3dmobile"
     },
     "web": {
       "bundler": "metro",
