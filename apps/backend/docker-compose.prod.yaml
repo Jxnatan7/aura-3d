@@ -17,6 +17,8 @@ services:
     volumes:
       - ./data/mongo:/data/db
       - ./docker/mongo/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+    ports:
+      - "27017:27017"
     networks:
       - aura-3d-network
 
