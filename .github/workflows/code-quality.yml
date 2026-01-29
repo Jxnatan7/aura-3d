@@ -14,7 +14,7 @@ jobs:
   lint:
     name: ESLint & Prettier
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Enable Corepack and Install Yarn
         run: |
@@ -55,7 +55,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['javascript', 'typescript']
+        language: ["javascript", "typescript"]
 
     steps:
       - name: Checkout code
@@ -79,7 +79,7 @@ jobs:
     name: Dependency Review
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
-    
+
     permissions:
       contents: read
       pull-requests: write
@@ -99,7 +99,7 @@ jobs:
     name: Bundle Size Check
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -107,7 +107,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Enable Corepack and Install Yarn
         run: |
@@ -119,7 +119,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Build backend
-        run: yarn workspace easy-backend build
+        run: yarn workspace aura-3d-backend build
 
       - name: Check backend bundle size
         run: |

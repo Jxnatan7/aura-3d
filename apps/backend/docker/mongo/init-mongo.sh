@@ -6,9 +6,9 @@ db.createUser({
   pwd: "admin",
   roles: [
     { role: "root", db: "admin" },
-    { role: "dbOwner", db: "easy-app" },
-    { role: "readWrite", db: "easy-app" },
-    { role: "dbAdmin", db: "easy-app" }
+    { role: "dbOwner", db: "aura-3d" },
+    { role: "readWrite", db: "aura-3d" },
+    { role: "dbAdmin", db: "aura-3d" }
   ]
 });
 '
