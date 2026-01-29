@@ -28,7 +28,7 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code (para pegar o docker-compose)
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Copy docker-compose via SCP
@@ -37,8 +37,9 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "docker-compose.prod.yaml,docker/mongo/init-mongo.sh"
+          source: "apps/backend/docker-compose.prod.yaml,apps/backend/docker/mongo/init-mongo.sh"
           target: "~/apps/aura-3d"
+          strip_components: 2
 
       - name: Execute Remote SSH Commands
         uses: appleboy/ssh-action@master
