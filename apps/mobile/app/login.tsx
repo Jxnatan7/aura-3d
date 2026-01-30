@@ -47,6 +47,7 @@ export default function Login() {
         <FormTextInput
           name="phone"
           marginTop="m"
+          label="Telefone"
           placeholder="Telefone"
           keyboardType="numeric"
           autoCapitalize="none"
