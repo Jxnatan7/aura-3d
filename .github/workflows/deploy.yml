@@ -42,7 +42,7 @@ jobs:
           cat <<EOF > ~/apps/aura-3d/backend/.env
           NODE_ENV=production
           PORT=3001
-          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          JWT_SECRET_KEY=${{ secrets.JWT_SECRET }}
           DB_URL=${{ secrets.MONGO_URI }}
           MESHY_AI_URL=${{ secrets.MESHY_AI_URL }}
           MESHY_API_KEY=${{ secrets.MESHY_API_KEY }}
