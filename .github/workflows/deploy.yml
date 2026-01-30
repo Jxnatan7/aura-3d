@@ -39,12 +39,10 @@ jobs:
 
       - name: Setup and Run Docker Compose
         run: |
-          mkdir -p ~/apps/aura-3d/backend/mongo
+          mkdir -p ~/apps/aura-3d/backend
 
           cp apps/backend/docker-compose.prod.yaml ~/apps/aura-3d/backend/docker-compose.yaml
-          cp apps/backend/docker/mongo/init-mongo.sh ~/apps/aura-3d/backend/mongo/
-
-          chmod +x ~/apps/aura-3d/backend/mongo/init-mongo.sh
+          cp apps/backend/docker/mongo/init-mongo.sh ~/apps/aura-3d/backend/docker/mongo/
 
           cd ~/apps/aura-3d/backend
 
