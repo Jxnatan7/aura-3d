@@ -4,8 +4,8 @@ metadata:
   name: mongo-secret
 type: Opaque
 stringData:
-  MONGO_ROOT_USERNAME: admin
-  MONGO_ROOT_PASSWORD: admin
+  MONGO_ROOT_USERNAME: "${MONGO_ROOT_USERNAME}"
+  MONGO_ROOT_PASSWORD: "${MONGO_ROOT_PASSWORD}"
 ---
 apiVersion: v1
 kind: ConfigMap

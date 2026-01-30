@@ -3,8 +3,9 @@ kind: ConfigMap
 metadata:
   name: api-config
 data:
-  DB_URL: "mongodb://admin:admin@mongo-service:27017/aura-3d?authSource=admin"
+  # DB_URL: "mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongo-service:27017/aura-3d?authSource=admin"
   PORT: "3001"
-  JWT_SECRET_KEY: YbbjRPykWM4ecjiBp3f1ZAe34OmXJ3HSTUi9zE6IkTy
-  MESHY_AI_URL: https://api.meshy.ai/openapi/v1
-  MESHY_API_KEY: https://api.meshy.ai/openapi/v1
+  DB_URL: "${MONGO_URI}"
+  JWT_SECRET_KEY: "${JWT_SECRET}"
+  MESHY_AI_URL: "${MESHY_AI_URL}"
+  MESHY_API_KEY: "${MESHY_API_KEY}"

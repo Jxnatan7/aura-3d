@@ -1,4 +1,4 @@
-name: Deploy to Production
+name: Deploy to Kubernetes Production
 
 on:
   push:
@@ -24,39 +24,48 @@ jobs:
           push: true
           tags: jxnatang7/aura-3d-api:latest
 
-  deploy:
+  deploy-k8s:
     needs: build-and-push
     runs-on: self-hosted
+    env:
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      MESHY_API_KEY: ${{ secrets.MESHY_API_KEY }}
+      MONGO_ROOT_USERNAME: ${{ secrets.MONGO_ROOT_USERNAME || 'admin' }}
+      MONGO_ROOT_PASSWORD: ${{ secrets.MONGO_ROOT_PASSWORD || 'admin' }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      DOCKER_EMAIL: ${{ secrets.DOCKER_EMAIL }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Create .env file
+      - name: Create Docker Registry Secret in K8s
         run: |
-          cat <<EOF > ~/apps/aura-3d/backend/.env
-          NODE_ENV=production
-          PORT=3001
-          JWT_SECRET_KEY=${{ secrets.JWT_SECRET }}
-          DB_URL=${{ secrets.MONGO_URI }}
-          MESHY_AI_URL=${{ secrets.MESHY_AI_URL }}
-          MESHY_API_KEY=${{ secrets.MESHY_API_KEY }}
-          EOF
-      - name: Setup and Run Docker Compose
+          kubectl delete secret regcred --ignore-not-found
+
+          kubectl create secret docker-registry regcred \
+            --docker-server=https://index.docker.io/v1/ \
+            --docker-username=$DOCKER_USERNAME \
+            --docker-password=$DOCKER_PASSWORD \
+            --docker-email=${DOCKER_EMAIL}
+
+      - name: Deploy Manifests
         run: |
-          mkdir -p ~/apps/aura-3d/backend/docker/mongo
+          cd k8s
 
-          cp apps/backend/docker-compose.prod.yaml ~/apps/aura-3d/backend/docker-compose.yaml
-          cp apps/backend/docker/mongo/init-mongo.sh ~/apps/aura-3d/backend/docker/mongo/
+          envsubst < mongo-config.yaml | kubectl apply -f -
+          envsubst < api-config.yaml | kubectl apply -f -
 
-          cd ~/apps/aura-3d/backend
+          kubectl apply -f mongo-service.yaml
+          kubectl apply -f mongo-statefulset.yaml
 
-          docker compose pull aura-3d-api
-          docker compose up -d
+          kubectl apply -f api-service.yaml
+          kubectl apply -f ingress.yaml
 
-          docker image prune -f
+          kubectl apply -f api-deployment.yaml
+
+      - name: Force Rollout Restart
+        run: |
+          kubectl rollout restart deployment/aura-3d-api
+          kubectl rollout status deployment/aura-3d-api
