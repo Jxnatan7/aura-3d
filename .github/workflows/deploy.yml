@@ -11,6 +11,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup kubeconfig from secret
+        env:
+          KUBECONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64 }}
+        run: |
+          mkdir -p $HOME/.kube
+          echo "$KUBECONFIG_BASE64" | base64 --decode > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+          kubectl --kubeconfig=$HOME/.kube/config get nodes
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -39,11 +48,20 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Setup kubeconfig from secret
+        env:
+          KUBECONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64 }}
+        run: |
+          mkdir -p $HOME/.kube
+          echo "$KUBECONFIG_BASE64" | base64 --decode > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+          kubectl --kubeconfig=$HOME/.kube/config get nodes
+
       - name: Create Docker Registry Secret in K8s
         run: |
-          k3s kubectl delete secret regcred --ignore-not-found
-
-          k3s kubectl create secret docker-registry regcred \
+          kubectl delete secret regcred --ignore-not-found
+          kubectl create secret docker-registry regcred \
             --docker-server=https://index.docker.io/v1/ \
             --docker-username=$DOCKER_USERNAME \
             --docker-password=$DOCKER_PASSWORD \
@@ -52,19 +70,15 @@ jobs:
       - name: Deploy Manifests
         run: |
           cd k8s
-
-          envsubst < mongo-config.yaml | k3s kubectl apply -f -
-          envsubst < api-config.yaml | k3s kubectl apply -f -
-
-          k3s kubectl apply -f mongo-service.yaml
-          k3s kubectl apply -f mongo-statefulset.yaml
-
-          k3s kubectl apply -f api-service.yaml
-          k3s kubectl apply -f ingress.yaml
-
-          k3s kubectl apply -f api-deployment.yaml
+          envsubst < mongo-config.yaml | kubectl apply -f -
+          envsubst < api-config.yaml | kubectl apply -f -
+          kubectl apply -f mongo-service.yaml
+          kubectl apply -f mongo-statefulset.yaml
+          kubectl apply -f api-service.yaml
+          kubectl apply -f ingress.yaml
+          kubectl apply -f api-deployment.yaml
 
       - name: Force Rollout Restart
         run: |
-          k3s kubectl rollout restart deployment/aura-3d-api
-          k3s kubectl rollout status deployment/aura-3d-api
+          kubectl rollout restart deployment/aura-3d-api
+          kubectl rollout status deployment/aura-3d-api
