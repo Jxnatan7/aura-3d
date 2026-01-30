@@ -37,6 +37,16 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Create .env file
+        run: |
+          cat <<EOF > ~/apps/aura-3d/backend/.env
+          NODE_ENV=production
+          PORT=3001
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          DB_URL=${{ secrets.MONGO_URI }}
+          MESHY_AI_URL=${{ secrets.MESHY_AI_URL }}
+          MESHY_API_KEY=${{ secrets.MESHY_API_KEY }}
+          EOF
       - name: Setup and Run Docker Compose
         run: |
           mkdir -p ~/apps/aura-3d/backend/docker/mongo

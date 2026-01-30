@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   aura-3d-mongo:
     image: mongo:latest
