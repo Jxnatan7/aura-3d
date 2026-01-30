@@ -39,6 +39,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Prepare kubeconfig (copy from k3s)
+        run: |
+          sudo mkdir -p $HOME/.kube
+          sudo cp /etc/rancher/k3s/k3s.yaml $HOME/.kube/config
+
+          sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+          chmod 600 $HOME/.kube/config
+
+          echo "Kubeconfig owner and perms:"
+          ls -l $HOME/.kube/config
 
       - name: Create Docker Registry Secret in K8s
         run: |
