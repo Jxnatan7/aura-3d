@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongo-secret
+type: Opaque
+stringData:
+  MONGO_ROOT_USERNAME: admin
+  MONGO_ROOT_PASSWORD: admin
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-init-scripts
+data:
+  init-mongo.sh: |
+    #!/bin/bash
+    mongosh --eval '
+    use admin;
+    db.createUser({
+      user: "admin",
+      pwd: "admin",
+      roles: [
+        { role: "root", db: "admin" },
+        { role: "dbOwner", db: "aura-3d" },
+        { role: "readWrite", db: "aura-3d" },
+        { role: "dbAdmin", db: "aura-3d" }
+      ]
+    });
+    '

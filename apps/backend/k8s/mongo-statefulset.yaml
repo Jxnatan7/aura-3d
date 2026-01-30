@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: aura-3d-mongo
+spec:
+  serviceName: "mongo-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aura-3d-mongo
+  template:
+    metadata:
+      labels:
+        app: aura-3d-mongo
+    spec:
+      tolerations:
+        - operator: "Exists"
+      containers:
+        - name: mongo
+          image: mongo:latest
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: MONGO_ROOT_USERNAME
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: MONGO_ROOT_PASSWORD
+          volumeMounts:
+            - name: mongo-persistent-storage
+              mountPath: /data/db
+            - name: mongo-init-scripts
+              mountPath: /docker-entrypoint-initdb.d/init-mongo.sh
+              subPath: init-mongo.sh
+      volumes:
+        - name: mongo-init-scripts
+          configMap:
+            name: mongo-init-scripts
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-persistent-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi

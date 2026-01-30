@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aura-3d-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: aura-3d-api-service
+                port:
+                  number: 80
