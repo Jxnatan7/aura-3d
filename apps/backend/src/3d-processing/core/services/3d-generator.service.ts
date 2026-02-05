@@ -24,7 +24,7 @@ export class GeneratorService {
     const { result: externalId } = await this.aiProvider.createImageTo3D({
       image_url: `data:image/png;base64,${dto.imageBase64}`,
       model_type: dto.modelType ?? "standard",
-      target_polycount: 3000,
+      target_polycount: 20000,
       should_texture: true,
       should_remesh: true,
     });
@@ -34,11 +34,12 @@ export class GeneratorService {
       imageUrl: dto.imageBase64,
       userId: userId ? new Types.ObjectId(userId) : undefined,
       status: "PENDING",
+      name: dto.name,
     });
   }
 
-  async getInternalModel3DTaskStatus(taskId: string) {
-    const task = await this.model3DRepository.findByExternalId(taskId);
+  async getModel3DById(modelId: string) {
+    const task = await this.model3DRepository.findByExternalId(modelId);
     if (!task) throw new NotFoundException("Task not found");
     return task;
   }

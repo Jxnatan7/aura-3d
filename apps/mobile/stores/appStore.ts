@@ -6,18 +6,15 @@ import { useAuthStore } from "./authStore";
 
 type AppState = {
   theme: "light" | "dark";
-  chatId: string | null;
   isLoading: boolean;
   error: string | null;
 
-  setChatId: (id: string) => void;
   setupUser: (payload: any) => Promise<void>;
   setTheme: (theme: "light" | "dark") => void;
   clearAppData: () => void;
 };
 
 const INITIAL_STATE: Partial<AppState> = {
-  chatId: null,
   isLoading: false,
   error: null,
   theme: "light",
@@ -27,7 +24,6 @@ export const useAppStore = create<AppState>()(
   persist(
     (set, get) => ({
       theme: "light",
-      chatId: null,
       isLoading: false,
       error: null,
       setupUser: async (payload) => {
@@ -63,13 +59,12 @@ export const useAppStore = create<AppState>()(
           throw error;
         }
       },
-      setChatId: (id) => set({ chatId: id }),
       setTheme: (theme) => set({ theme }),
       clearAppData: () => set({ ...get(), ...INITIAL_STATE }),
     }),
     {
       name: "app-storage",
       storage: createJSONStorage(() => generalStorage),
-    }
-  )
+    },
+  ),
 );

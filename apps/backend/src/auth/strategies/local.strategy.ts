@@ -3,7 +3,7 @@ import { Strategy } from "passport-local";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 
 import { AuthService } from "../auth.service";
-import { MessagesHelper } from "../../helpers/messages.helper";
+import { MessagesHelper } from "../../@helpers/messages.helper";
 import { User } from "src/user/core/schemas/user.schema";
 
 @Injectable()

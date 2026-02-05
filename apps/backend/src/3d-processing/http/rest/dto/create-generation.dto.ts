@@ -1,7 +1,10 @@
-import { IsBase64, IsEnum, IsOptional } from "class-validator";
+import { IsEnum, IsOptional, IsString } from "class-validator";
 
 export class Create3DGenerationDto {
-  @IsBase64()
+  @IsString()
+  name: string;
+
+  @IsString()
   imageBase64: string;
 
   @IsOptional()

@@ -10,7 +10,7 @@ import { LocalStrategy } from "./strategies/local.strategy";
 import { JwtStrategy } from "./strategies/jwt.strategy";
 import { UserSchema } from "src/user/core/schemas/user.schema";
 import { UserService } from "src/user/core/services/user.service";
-import { convertTime } from "src/helpers/convertTime";
+import { convertTime } from "src/@helpers/convertTime";
 
 @Module({
   imports: [

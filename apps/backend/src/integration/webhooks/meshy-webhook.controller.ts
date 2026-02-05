@@ -15,6 +15,10 @@ export class MeshyWebhookController {
   @Post()
   @HttpCode(200)
   async handleMeshyUpdate(@Body() payload: MeshyTaskResponse) {
+    console.log(
+      "🚀 ~ MeshyWebhookController ~ handleMeshyUpdate ~ payload:",
+      payload,
+    );
     if (!payload.id) throw new BadRequestException("Invalid payload");
 
     this.eventEmitter.emit("3d.task.updated", payload);

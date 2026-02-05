@@ -5,9 +5,10 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 
 export default function ModelView() {
   const { push } = useRouter();
-  const { glb } = useLocalSearchParams<{
+  const { glb, name, id } = useLocalSearchParams<{
     id: string;
     glb: string;
+    name: string;
   }>();
 
   return (
@@ -15,7 +16,7 @@ export default function ModelView() {
       variant="screen"
       containerHeaderProps={{ backButtonFallback: () => push("/") }}
     >
-      <ModelViewer>
+      <ModelViewer id={id} name={name}>
         <Model url={glb} />
       </ModelViewer>
     </Container>

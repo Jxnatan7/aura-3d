@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 import { hashSync } from "bcrypt";
 import * as jwt from "jsonwebtoken";
-import { convertTime } from "src/helpers/convertTime";
+import { convertTime } from "src/@helpers/convertTime";
 
 export enum UserRole {
   ADMIN = "ADMIN",

@@ -1,4 +1,3 @@
-// src/app.module.ts
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
@@ -13,7 +12,7 @@ import { Processing3dModule } from "./3d-processing/3d-processing.module";
   imports: [
     EventEmitterModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(process.env.DB_URL ?? ""),
+    MongooseModule.forRoot(process.env.DB_URL ?? "", { dbName: "aura-3d" }),
     AuthModule,
     UserModule,
     IntegrationModule,

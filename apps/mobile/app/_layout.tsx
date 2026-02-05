@@ -60,6 +60,7 @@ function RootLayoutNav() {
               >
                 <Stack.Screen name="index" />
                 <Stack.Screen name="model-view" />
+                <Stack.Screen name="model-preview" />
                 <Stack.Screen name="create-model" />
                 <Stack.Screen name="login" />
                 <Stack.Screen name="register" />

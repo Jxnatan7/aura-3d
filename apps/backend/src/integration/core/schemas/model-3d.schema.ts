@@ -30,6 +30,9 @@ class ModelUrls {
 
 @Schema({ timestamps: true, collection: "models_3d" })
 export class Model3D extends Document {
+  @Prop()
+  name?: string;
+
   @Prop({ required: true, index: true })
   externalId: string;
 

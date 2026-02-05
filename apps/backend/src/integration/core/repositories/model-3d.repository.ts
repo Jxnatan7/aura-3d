@@ -29,7 +29,7 @@ export class Model3DRepository {
 
     if (!updated) {
       throw new NotFoundException(
-        `Task with externalId ${externalId} not found`,
+        `Model with externalId ${externalId} not found`,
       );
     }
     return updated;

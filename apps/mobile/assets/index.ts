@@ -18,5 +18,3 @@ export const localFonts = {
   MulishFontLight: require("./fonts/Mulish-Light.ttf"),
   MulishBlack: require("./fonts/Mulish-Black.ttf"),
 };
-
-export const localModels = [require("./models/example/ferrari-light.glb")];

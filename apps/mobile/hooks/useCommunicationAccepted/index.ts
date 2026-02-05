@@ -44,7 +44,7 @@ export default function useCommunicationAccepted({
         if (!payload) return;
         if (onAccepted) onAccepted(payload);
         if (payload.chatId) {
-          useAppStore.getState().setChatId(payload.chatId);
+          useAppStore.getState().setModelId(payload.chatId);
         }
       } catch (err) {
         console.error("handleAccepted error", err);

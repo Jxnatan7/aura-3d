@@ -8,7 +8,7 @@ import { Model3D } from "src/integration/core/schemas/model-3d.schema";
 export class Model3dUpdatedListener {
   private readonly logger = new Logger(Model3dUpdatedListener.name);
 
-  constructor(private readonly taskRepo: Model3DRepository) {}
+  constructor(private readonly model3DRepo: Model3DRepository) {}
 
   @OnEvent("3d.task.updated")
   async handleTaskUpdate(payload: MeshyTaskResponse) {
@@ -18,11 +18,19 @@ export class Model3dUpdatedListener {
 
     const updateData: Partial<Model3D> = {
       ...payload,
+      modelUrls: payload.model_urls,
+      textureUrls: payload.texture_urls,
+      startedAt: payload.started_at,
+      externalCreatedAt: payload.created_at,
+      expiresAt: payload.expires_at,
+      finishedAt: payload.finished_at,
+      thumbnailUrl: payload.thumbnail_url,
+      texturePrompt: payload.texture_prompt,
       rawMetadata: payload,
     };
 
     try {
-      await this.taskRepo.updateByExternalId(payload.id, updateData);
+      await this.model3DRepo.updateByExternalId(payload.id, updateData);
       this.logger.debug(
         `Task ${payload.id} atualizada com sucesso no banco de dados.`,
       );

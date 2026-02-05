@@ -1,6 +1,7 @@
 import axiosClient from "@/api/axiosClient";
 
 export type Create3DGenerationDto = {
+  name: string;
   imageBase64: string;
   modelType?: "standard" | "lowpoly";
 };
@@ -33,6 +34,7 @@ export type MeshyStatus =
 
 export type Model3D = {
   _id?: string;
+  name: string;
   externalId: string;
   status: MeshyStatus;
   type?: string;

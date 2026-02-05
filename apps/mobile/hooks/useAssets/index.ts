@@ -3,7 +3,7 @@ import * as Font from "expo-font";
 import { Asset } from "expo-asset";
 import * as SplashScreen from "expo-splash-screen";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { localFonts, localImages, localModels } from "@/assets";
+import { localFonts, localImages } from "@/assets";
 
 export default function useAssets() {
   const [isReady, setIsReady] = useState(false);
@@ -18,7 +18,7 @@ export default function useAssets() {
           ...FontAwesome.font,
         });
 
-        const assetsToCache = [...localImages, ...localModels];
+        const assetsToCache = [...localImages];
 
         const cacheAssets = assetsToCache.map((asset) => {
           return Asset.fromModule(asset).downloadAsync();

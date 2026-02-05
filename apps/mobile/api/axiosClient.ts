@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useAuthStore } from "@/stores/authStore";
-import { useCommunicationRequestStore } from "@/stores/communicationRequestStore";
 import { Platform } from "react-native";
 
 const mobileBaseURL = `${process.env.EXPO_PUBLIC_API_URL}/api/v1`;
@@ -20,10 +19,9 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(
   (config) => {
     const token = useAuthStore.getState().token;
-    const visitorToken = useCommunicationRequestStore.getState().visitorToken;
 
-    if (token || visitorToken) {
-      config.headers.Authorization = `Bearer ${token || visitorToken}`;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;

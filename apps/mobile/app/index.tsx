@@ -35,6 +35,7 @@ const ModelItem = ({ item, index }: { item: Model3D; index: number }) => {
               params: {
                 id: item._id,
                 glb: item.modelUrls?.glb,
+                name: item.name,
               },
             });
           },

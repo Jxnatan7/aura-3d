@@ -2,7 +2,7 @@ import React, { Suspense, useState } from "react";
 import { ActivityIndicator, StyleSheet } from "react-native";
 import { Canvas, useFrame, useThree } from "@react-three/fiber/native";
 import { Center, Environment } from "@react-three/drei/native";
-import { Box } from "@/components/restyle";
+import { Box, Text } from "@/components/restyle";
 import { useViewerController } from "../useViewerController";
 import { InteractiveStage } from "../InteractiveStage";
 import Button from "../Button";
@@ -13,6 +13,8 @@ import * as THREE from "three";
 import { GestureDetector } from "react-native-gesture-handler";
 
 export type ModelViewerProps = {
+  id: string;
+  name: string;
   children: React.ReactNode;
   initialRotation?: [number, number];
   autoRotate?: boolean;
@@ -41,6 +43,8 @@ const CameraZoom = ({ zoom }: { zoom: number }) => {
 };
 
 export const ModelViewer = ({
+  id,
+  name = "Model",
   children,
   initialRotation = [0, 0],
   autoRotate = true,
@@ -106,6 +110,13 @@ export const ModelViewer = ({
           width="auto"
           padding="m"
         />
+      </Box>
+
+      <Box position="absolute" top={200} alignSelf="center" zIndex={10}>
+        <Text variant="infoTitle" alignSelf="center" mb="s">
+          {name}
+        </Text>
+        <Text variant="infoSubtitle">{id}</Text>
       </Box>
 
       <GestureDetector gesture={controller.gestures}>

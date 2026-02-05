@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { secureStorage } from "./store";
 import { useAppStore } from "./appStore";
-import { useCommunicationRequestStore } from "./communicationRequestStore";
+import { useModelStore } from "./modelStore";
 
 export type User = {
   _id: string;
@@ -105,7 +105,7 @@ export const useAuthStore = create<AuthState>()(
       logout: () => {
         set({ ...get(), ...INITIAL_STATE });
         useAppStore.getState().clearAppData();
-        useCommunicationRequestStore.getState().clearAppData();
+        useModelStore.getState().clearAppData();
       },
 
       clearError: () => set({ error: null }),
