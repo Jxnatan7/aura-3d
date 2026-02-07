@@ -15,15 +15,22 @@ export class MeshyUpdateProcessor extends WorkerHost {
 
   async process(job: Job<MeshyTaskResponse, any, string>): Promise<any> {
     const payload = job.data;
-    console.log("🚀 ~ MeshyUpdateProcessor ~ process ~ payload:", payload);
 
     this.logger.log(
       `Processing job ${job.id}: Model update for ${payload.id} - Status: ${payload.status}`,
     );
 
+    const model3D = await this.model3DRepo.findByExternalId(payload.id);
+
+    if (!model3D) {
+      this.logger.error(`Model ${payload.id} not found.`);
+      return;
+    }
+
     try {
       const updateData: Partial<Model3D> = {
         ...payload,
+        name: model3D?.name,
         status: payload.status,
         modelUrls: payload.model_urls,
         textureUrls: payload.texture_urls,
