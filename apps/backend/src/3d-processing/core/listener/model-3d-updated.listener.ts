@@ -10,14 +10,24 @@ export class Model3dUpdatedListener {
 
   constructor(private readonly model3DRepo: Model3DRepository) {}
 
-  @OnEvent("3d.task.updated")
+  @OnEvent("3d.model.updated")
   async handleTaskUpdate(payload: MeshyTaskResponse) {
     this.logger.log(
-      `Recebendo atualização da Task: ${payload.id} - Status: ${payload.status}`,
+      `Received model updated event: ${payload.id} - Status: ${payload.status}`,
     );
 
+    const model3D = await this.model3DRepo.findByExternalId(payload.id);
+
+    if (!model3D) {
+      this.logger.error(`Model ${payload.id} not found.`);
+      return;
+    }
+
     const updateData: Partial<Model3D> = {
+      ...model3D,
       ...payload,
+      name: model3D?.name,
+      status: payload.status,
       modelUrls: payload.model_urls,
       textureUrls: payload.texture_urls,
       startedAt: payload.started_at,
@@ -31,13 +41,9 @@ export class Model3dUpdatedListener {
 
     try {
       await this.model3DRepo.updateByExternalId(payload.id, updateData);
-      this.logger.debug(
-        `Task ${payload.id} atualizada com sucesso no banco de dados.`,
-      );
+      this.logger.debug(`Model ${payload.id} updated in the database.`);
     } catch (error) {
-      this.logger.error(
-        `Erro ao atualizar Task ${payload.id} no banco: ${error.message}`,
-      );
+      this.logger.error(`Error updating model ${payload.id}: ${error.message}`);
     }
   }
 }

@@ -21,6 +21,16 @@ services:
     networks:
       - aura-3d-network
 
+  aura-3d-redis:
+    image: redis:alpine
+    container_name: aura-3d-redis
+    hostname: aura-3d-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - aura-3d-network
+
 networks:
   aura-3d-network:
     driver: bridge
