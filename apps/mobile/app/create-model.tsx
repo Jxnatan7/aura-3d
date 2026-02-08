@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, Alert, ActionSheetIOS, Platform } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-// IMPORTAÇÃO NOVA
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 
 import { Container } from "@/components/theme/Container";
@@ -12,9 +11,11 @@ import { useRouter } from "expo-router";
 import { TextInput } from "@/components/theme/TextInput";
 import useGenerateModel3D from "@/hooks/useGenerateModel3D";
 import { useModelStore } from "@/stores/modelStore";
+import { useRewardedAd } from "@/hooks/useRewardedAd";
 
 export default function CreateModel() {
   const { push } = useRouter();
+  const { showAd, isLoaded } = useRewardedAd();
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedImageBase64, setSelectedImageBase64] = useState<string | null>(
@@ -25,32 +26,72 @@ export default function CreateModel() {
   const { mutateAsync } = useGenerateModel3D();
   const { setModelId, setIsGenerating, setModelName } = useModelStore();
 
-  // --- NOVA FUNÇÃO DE PROCESSAMENTO (API ATUALIZADA) ---
-  const processImage = async (uri: string) => {
+  const callApiToGenerate = async () => {
+    if (!selectedImageBase64 || !name) return;
+
     try {
-      // 1. Cria o contexto de manipulação
-      const context = ImageManipulator.manipulate(uri);
+      setIsGenerating(true);
 
-      // 2. Redimensiona (Limita largura a 1024px, altura ajusta proporcionalmente)
-      // Isso reduz drasticamente o tamanho do arquivo
-      context.resize({ width: 600 });
-
-      // 3. Renderiza a imagem processada
-      const imageRef = await context.renderAsync();
-
-      // 4. Salva/Exporta com compressão e Base64
-      const result = await imageRef.saveAsync({
-        base64: true,
-        compress: 0.7, // 0.7 é um bom equilíbrio entre qualidade e tamanho
-        format: SaveFormat.JPEG, // JPEG é bem mais leve que PNG
+      const res = await mutateAsync({
+        name: name || "Modelo",
+        imageBase64: selectedImageBase64,
       });
 
-      // 5. Limpeza de memória (Crítico na nova API SharedObject)
-      // Como context e imageRef são objetos nativos compartilhados,
-      // precisamos liberá-los manualmente.
-      /* @ts-ignore: Dependendo da versão do TS/Expo, o release pode não estar tipado, mas existe */
+      setModelId(res._id);
+      setModelName(res.name);
+
+      push({
+        pathname: "/model-preview",
+        params: {
+          id: res._id,
+          name: res.name,
+        },
+      });
+    } catch (error) {
+      setIsGenerating(false);
+      Alert.alert("Erro", "Não foi possível gerar o modelo.");
+    }
+  };
+
+  const handleGeneratePress = async () => {
+    if (!selectedImageBase64 || !name) {
+      Alert.alert("Erro", "Imagem ou nome não preenchidos.");
+      return;
+    }
+    Alert.alert(
+      "Gerar Modelo 3D",
+      "Para gerar este modelo de alta qualidade, você precisa assistir a um breve anúncio.",
+      [
+        { text: "Cancelar", style: "cancel" },
+        {
+          text: "Assistir e Gerar",
+          onPress: async () => {
+            const userWatched = await showAd();
+
+            if (userWatched) {
+              await callApiToGenerate();
+            }
+          },
+        },
+      ],
+    );
+  };
+
+  const processImage = async (uri: string) => {
+    try {
+      const context = ImageManipulator.manipulate(uri);
+
+      context.resize({ width: 600 });
+
+      const imageRef = await context.renderAsync();
+
+      const result = await imageRef.saveAsync({
+        base64: true,
+        compress: 0.7,
+        format: SaveFormat.JPEG,
+      });
+
       if (context.release) context.release();
-      /* @ts-ignore */
       if (imageRef.release) imageRef.release();
 
       return result;
@@ -60,7 +101,6 @@ export default function CreateModel() {
       return null;
     }
   };
-  // -----------------------------------------------------
 
   const generateModel = async () => {
     if (!selectedImageBase64 || !name) {
@@ -103,16 +143,15 @@ export default function CreateModel() {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-      base64: false, // Não pedimos base64 aqui, geramos no processImage
+      base64: false,
     });
 
     if (!result.canceled && result.assets[0]) {
-      // Processa a imagem antes de salvar no estado
       const processed = await processImage(result.assets[0].uri);
       console.log("🚀 ~ takePhoto ~ processed:", processed?.base64?.length);
 
       if (processed) {
-        setSelectedImage(processed.uri); // Usa a URI da imagem comprimida
+        setSelectedImage(processed.uri);
         setSelectedImageBase64(processed.base64 || null);
       }
     }
@@ -130,12 +169,11 @@ export default function CreateModel() {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1, // Pode deixar 1 aqui, controlamos a compressão no processImage
+      quality: 1,
       base64: false,
     });
 
     if (!result.canceled && result.assets[0]) {
-      // Processa a imagem antes de salvar no estado
       const processed = await processImage(result.assets[0].uri);
       console.log("🚀 ~ takePhoto ~ processed:", processed?.base64?.length);
 
@@ -202,7 +240,7 @@ export default function CreateModel() {
           />
         </Box>
       )}
-
+      {/* 
       <Box style={styles.buttonContainer}>
         {selectedImage && (
           <Button
@@ -212,6 +250,31 @@ export default function CreateModel() {
             textProps={{ fontWeight: "bold" }}
             style={{ opacity: name ? 1 : 0.5 }}
             disabled={!name}
+          />
+        )}
+
+        <Button
+          text={selectedImage ? "Alterar imagem" : "Adicionar imagem"}
+          onPress={showImageOptions}
+        />
+      </Box> */}
+      <Box style={styles.buttonContainer}>
+        {selectedImage && (
+          <Button
+            text={
+              Platform.OS === "web"
+                ? "Gerar Modelo"
+                : isLoaded
+                  ? "Assistir Anúncio e Gerar"
+                  : "Carregando Anúncio..."
+            }
+            variant="success"
+            onPress={handleGeneratePress}
+            textProps={{ fontWeight: "bold" }}
+            style={{
+              opacity: name && (isLoaded || Platform.OS === "web") ? 1 : 0.5,
+            }}
+            disabled={!name || (!isLoaded && Platform.OS !== "web")}
           />
         )}
 

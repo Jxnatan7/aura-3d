@@ -82,6 +82,7 @@ const pallete = {
   black: "#121212",
   allBlack: "#000000",
   white: "#FFFFFF",
+  imageGray: "#1E1E1E",
 };
 
 export default pallete;

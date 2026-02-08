@@ -64,7 +64,6 @@ function RootLayoutNav() {
                 <Stack.Screen name="create-model" />
                 <Stack.Screen name="login" />
                 <Stack.Screen name="register" />
-                <Stack.Screen name="awaiting-validation" />
               </Stack>
             </ThemeProvider>
           </AuthProvider>

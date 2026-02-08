@@ -3,9 +3,9 @@ import pallete from "./pallete";
 
 const lightColors = {
   ...pallete,
-  mainBackground: pallete.backgroundLight,
+  mainBackground: pallete.black,
   mainTitle: pallete.titleLight,
-  mainText: pallete.textLight,
+  mainText: pallete.textDark,
   buttonBackground: pallete.buttonBackgroundLight,
   inputBackground: pallete.inputBackgroundLight,
   inputText: pallete.inputTextLight,
@@ -51,14 +51,8 @@ const theme = createTheme({
   },
   imageVariants: {
     model: {
-      width: {
-        smallPhone: 150,
-        phone: 150,
-      },
-      height: {
-        smallPhone: 150,
-        phone: 150,
-      },
+      width: 150,
+      height: 150,
     },
     default: {
       width: 40,
@@ -501,7 +495,7 @@ const theme = createTheme({
       borderRadius: 8,
     },
     model: {
-      backgroundColor: "allBlack",
+      backgroundColor: "imageGray",
       borderRadius: 8,
       marginHorizontal: "s",
       justifyContent: "center",
