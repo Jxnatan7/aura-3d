@@ -240,24 +240,7 @@ export default function CreateModel() {
           />
         </Box>
       )}
-      {/* 
-      <Box style={styles.buttonContainer}>
-        {selectedImage && (
-          <Button
-            text="Gerar Modelo 3D"
-            variant="success"
-            onPress={generateModel}
-            textProps={{ fontWeight: "bold" }}
-            style={{ opacity: name ? 1 : 0.5 }}
-            disabled={!name}
-          />
-        )}
 
-        <Button
-          text={selectedImage ? "Alterar imagem" : "Adicionar imagem"}
-          onPress={showImageOptions}
-        />
-      </Box> */}
       <Box style={styles.buttonContainer}>
         {selectedImage && (
           <Button

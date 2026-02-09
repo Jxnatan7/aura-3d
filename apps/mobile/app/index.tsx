@@ -11,6 +11,7 @@ import { useAuthActions, useUser } from "@/contexts/AuthProvider";
 import { ActionModal } from "@/components/theme/ActionModal";
 import { Model3DList } from "@/components/theme/Model3DList";
 import { Model3D } from "@/services/Model3DService";
+import { useModelStore } from "@/stores/modelStore";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -51,6 +52,7 @@ export default function DashboardScreen() {
   const { logout } = useAuthActions();
   const { push } = useRouter();
   const [openModal, setOpenModal] = useState(false);
+  const { isGenerating } = useModelStore();
 
   const renderItem = ({ item, index }: any) => (
     <ModelItem item={item} index={index} />
@@ -137,7 +139,7 @@ export default function DashboardScreen() {
       <IconButton
         variant="createModel"
         icon={<MaterialIcons name="add" size={50} color="#ffffff" />}
-        onPress={() => push("/create-model")}
+        onPress={() => push(isGenerating ? "/model-preview" : "/create-model")}
       />
     </RestyleContainer>
   );
