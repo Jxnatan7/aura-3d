@@ -96,8 +96,8 @@ const theme = createTheme({
     },
     screen: {
       flex: 1,
-      p: "m",
-      pt: "xl",
+      width: "100%",
+      padding: "none",
       backgroundColor: "mainBackground",
     },
   },
@@ -470,9 +470,8 @@ const theme = createTheme({
   cardVariants: {
     header: {
       width: "100%",
-      backgroundColor: "blue400",
-      borderRadius: 8,
-      p: "s",
+      paddingHorizontal: "s",
+      backgroundColor: "mainBackground",
     },
     default: {
       backgroundColor: "backgroundLight",
@@ -500,8 +499,14 @@ const theme = createTheme({
       marginHorizontal: "s",
       justifyContent: "center",
       alignItems: "center",
-      borderWidth: 2,
-      borderColor: "gray700",
+      shadowColor: "blue200",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
     },
   },
 });

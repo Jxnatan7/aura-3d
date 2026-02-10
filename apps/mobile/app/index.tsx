@@ -12,6 +12,7 @@ import { ActionModal } from "@/components/theme/ActionModal";
 import { Model3DList } from "@/components/theme/Model3DList";
 import { Model3D } from "@/services/Model3DService";
 import { useModelStore } from "@/stores/modelStore";
+import { SearchInput } from "@/components/theme/SearchInput";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -59,30 +60,30 @@ export default function DashboardScreen() {
   );
 
   return (
-    <RestyleContainer
-      variant="screen"
-      flex={1}
-      backgroundColor="mainBackground"
-    >
+    <RestyleContainer variant="screen" paddingHorizontal="m">
       <RestyleCard
         variant="header"
         flexDirection="row"
         alignItems="center"
         justifyContent="space-between"
-        marginTop="m"
-        paddingHorizontal="m"
+        marginBottom="l"
       >
-        <Box alignItems="flex-start">
+        <Box alignItems="flex-start" flexDirection="row">
           <Text
             variant="header"
             fontSize={22}
-            fontWeight="bold"
             color="mainText"
+            fontFamily="MulishFontBold"
           >
-            Aura3D
+            Aura
           </Text>
-          <Text variant="body" fontSize={12} color="gray100">
-            Create 3D Models
+          <Text
+            variant="header"
+            fontSize={22}
+            color="blue300"
+            fontFamily="MulishFontBold"
+          >
+            3D
           </Text>
         </Box>
         <IconButton
@@ -92,7 +93,7 @@ export default function DashboardScreen() {
               width={32}
               height={32}
               borderRadius={10}
-              backgroundColor="yellow900"
+              backgroundColor="blue300"
               alignItems="center"
               justifyContent="center"
               marginLeft="s"
@@ -102,24 +103,33 @@ export default function DashboardScreen() {
           }
         />
       </RestyleCard>
-      <Box flexDirection="row" justifyContent="flex-start" width="100%" mt="l">
-        <Text variant="subHeader" fontWeight="bold" color="gray100">
-          6{" "}
-        </Text>
-        <Text variant="body" color="gray100">
-          Models
-        </Text>
-      </Box>
+      <SearchInput
+        placeholderTextColor="#FFF"
+        containerProps={{
+          backgroundColor: "transparent",
+          borderBottomWidth: 2,
+          borderBottomColor: "blue300",
+          marginBottom: "l",
+        }}
+        backgroundColor="transparent"
+        iconContainerStyle={{ backgroundColor: "transparent", paddingLeft: 0 }}
+        iconProps={{ color: "#3DCDF3" }}
+        color="white"
+        style={{ fontFamily: "MulishFontSemiBold" }}
+        placeholder="Busque por um modelo"
+      />
       <Text
         variant="subHeader"
         fontSize={18}
-        fontWeight="bold"
         color="mainText"
-        alignSelf="center"
-        paddingBottom="m"
+        alignSelf="flex-start"
+        mt="s"
+        mb="m"
+        fontFamily="MulishFontSemiBold"
       >
-        Recent Creations
+        Recent Models
       </Text>
+
       <Model3DList
         keyExtractor={(item: any) => item._id.toString()}
         renderItem={renderItem}

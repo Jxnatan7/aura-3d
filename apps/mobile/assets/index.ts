@@ -1,12 +1,6 @@
 export const localImages = [];
 
-export const localAnimations = [
-  require("./animations/approve.json"),
-  require("./animations/error.json"),
-  require("./animations/loading.json"),
-  require("./animations/planet-light.json"),
-  require("./animations/planet-dark.json"),
-];
+export const localAnimations = [];
 
 export const localFonts = {
   MulishFont: require("./fonts/Mulish-Font.ttf"),

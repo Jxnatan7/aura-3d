@@ -29,7 +29,7 @@ export const TextInput = forwardRef<any, TextInputProps>(
       label,
       ...props
     }: TextInputProps,
-    ref: any
+    ref: any,
   ) => {
     const isRight = iconDirection === "right";
 
@@ -70,5 +70,5 @@ export const TextInput = forwardRef<any, TextInputProps>(
         </Box>
       </Box>
     );
-  }
+  },
 );
