@@ -8,9 +8,11 @@ import { UserModule } from "./user/user.module";
 import { IntegrationModule } from "./integration/integration.module";
 import { Processing3dModule } from "./3d-processing/3d-processing.module";
 import { BullModule } from "@nestjs/bullmq";
+import { ScheduleModule } from "@nestjs/schedule";
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     EventEmitterModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(process.env.DB_URL ?? "", { dbName: "aura-3d" }),

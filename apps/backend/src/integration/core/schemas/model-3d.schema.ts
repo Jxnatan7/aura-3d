@@ -83,6 +83,9 @@ export class Model3D extends Document {
 
   @Prop({ type: Object })
   rawMetadata?: any;
+
+  @Prop({ default: false, index: true })
+  isStoredLocally: boolean;
 }
 
 export const ModelSchema = SchemaFactory.createForClass(Model3D);

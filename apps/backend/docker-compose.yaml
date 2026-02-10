@@ -31,6 +31,56 @@ services:
     networks:
       - aura-3d-network
 
+  minio:
+    image: quay.io/minio/minio
+    container_name: aura-3d-minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=password123
+    volumes:
+      - ./data/minio:/data
+    networks:
+      - aura-3d-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  createbuckets:
+    image: minio/mc
+    container_name: aura-3d-mc
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add myminio http://minio:9000 admin password123;
+      /usr/bin/mc mb --ignore-existing myminio/models-3d;
+      /usr/bin/mc anonymous set download myminio/models-3d;
+      echo 'Bucket criado e permissões configuradas!';
+      exit 0;
+      "
+    networks:
+      - aura-3d-network
+
+  aura-3d-nginx:
+    image: nginx:latest
+    container_name: aura-3d-nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - minio
+    networks:
+      - aura-3d-network
+
 networks:
   aura-3d-network:
     driver: bridge

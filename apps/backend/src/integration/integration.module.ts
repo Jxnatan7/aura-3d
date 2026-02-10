@@ -7,6 +7,8 @@ import { Model3D, ModelSchema } from "./core/schemas/model-3d.schema";
 import { MeshyWebhookController } from "./webhooks/meshy-webhook.controller";
 import { BullModule } from "@nestjs/bullmq";
 import { MeshyUpdateProcessor } from "src/3d-processing/core/process/meshy-update.process";
+import { ModelArchiverService } from "./core/service/model-archiver.service";
+import { StorageService } from "./core/service/storage.service";
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { MeshyUpdateProcessor } from "src/3d-processing/core/process/meshy-updat
     Model3DRepository,
     MeshyUpdateProcessor,
     MeshyAIProvider,
+    ModelArchiverService,
+    StorageService,
     {
       provide: "AI_PROVIDER",
       useClass: MeshyAIProvider,
