@@ -79,10 +79,18 @@ const pallete = {
   gray700: "#616161",
   gray800: "#424242",
   gray900: "#212121",
-  black: "#121212",
   allBlack: "#000000",
   white: "#FFFFFF",
   imageGray: "#1E1E1E",
+
+  black: "#121212",
+  blue100: "#b3d4fc",
+  blue200: "#80b3ff",
+  blue400: "#003566",
+  blue600: "#001d3d",
+  blue900: "#001225ff",
+  yellow400: "#ffd60a",
+  yellow900: "#ffc300",
 };
 
 export default pallete;

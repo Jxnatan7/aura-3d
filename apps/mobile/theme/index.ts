@@ -144,12 +144,12 @@ const theme = createTheme({
   },
   buttonVariants: {
     createModel: {
-      width: 80,
-      height: 80,
+      width: 70,
+      height: 70,
       borderRadius: 50,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: "buttonBackgroundLight",
+      backgroundColor: "yellow900",
       position: "absolute",
       bottom: 30,
     },
@@ -470,7 +470,7 @@ const theme = createTheme({
   cardVariants: {
     header: {
       width: "100%",
-      backgroundColor: "gray600",
+      backgroundColor: "blue400",
       borderRadius: 8,
       p: "s",
     },
@@ -500,6 +500,8 @@ const theme = createTheme({
       marginHorizontal: "s",
       justifyContent: "center",
       alignItems: "center",
+      borderWidth: 2,
+      borderColor: "gray700",
     },
   },
 });

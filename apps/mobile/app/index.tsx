@@ -92,7 +92,7 @@ export default function DashboardScreen() {
               width={32}
               height={32}
               borderRadius={10}
-              backgroundColor="backgroundDark"
+              backgroundColor="yellow900"
               alignItems="center"
               justifyContent="center"
               marginLeft="s"

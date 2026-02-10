@@ -34,7 +34,7 @@ export default function Login() {
       variant="screen"
       containerHeaderProps={{ backButtonFallback: () => push("/") }}
     >
-      <Text variant="header" mt="xxxl">
+      <Text variant="containerHeader" mt="xxxl">
         Faça o seu Login
       </Text>
 

@@ -59,10 +59,16 @@ services:
         condition: service_healthy
     entrypoint: >
       /bin/sh -c "
-      /usr/bin/mc config host add myminio http://minio:9000 admin password123;
+      until /usr/bin/mc alias set myminio http://minio:9000 admin password123; do
+        echo 'MinIO não está pronto... aguardando 1 segundo.';
+        sleep 1;
+      done;
+
       /usr/bin/mc mb --ignore-existing myminio/models-3d;
+
       /usr/bin/mc anonymous set download myminio/models-3d;
-      echo 'Bucket criado e permissões configuradas!';
+
+      echo 'Bucket criado e permissões configuradas com sucesso!';
       exit 0;
       "
     networks:
