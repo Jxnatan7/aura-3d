@@ -4,6 +4,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Model3D, Model3DDocument } from "../schemas/model-3d.schema";
 import { StorageService } from "./storage.service";
+import { EventEmitter2 } from "@nestjs/event-emitter";
 
 @Injectable()
 export class ModelArchiverService {
@@ -12,6 +13,7 @@ export class ModelArchiverService {
   constructor(
     @InjectModel(Model3D.name) private model3dModel: Model<Model3DDocument>,
     private storageService: StorageService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   @Cron(CronExpression.EVERY_5_MINUTES)
@@ -103,4 +105,25 @@ export class ModelArchiverService {
       this.logger.error(`Falha ao arquivar modelo ${model.externalId}`, error);
     }
   }
+
+  //   @Cron(CronExpression.EVERY_10_SECONDS)
+  // async testCron() {
+  //   this.logger.log("Iniciando teste para envio de dados para client via sse");
+
+  //   let progress = 0;
+
+  //   setInterval(() => {
+  //     progress += 10;
+  //     if (progress > 100) return;
+  //     this.eventEmitter.emit("model.updated", {
+  //       id: "1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6",
+  //       name: "Modelo Novo",
+  //       status: progress >= 100 ? "SUCCEEDED" : "IN_PROGRESS",
+  //       isCompleted: progress >= 100,
+  //       isGenerating: progress < 100,
+  //       progress,
+  //       modelUrls: [],
+  //     });
+  //   }, 1000);
+  // }
 }

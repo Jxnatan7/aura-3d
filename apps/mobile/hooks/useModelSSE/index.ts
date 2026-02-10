@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import EventSource, { EventSourceListener } from "react-native-sse";
 import { useModelStore } from "@/stores/modelStore";
 
 const API_URL = `${process.env.EXPO_PUBLIC_API_URL}/api/v1`;
 
 export function useModelSSE(modelId: string | null) {
-  const { updateModelStatus, isCompleted } = useModelStore();
+  const { isCompleted } = useModelStore();
+  const [data, setData] = useState<any>({});
 
   useEffect(() => {
     if (!modelId || isCompleted) return;
@@ -23,7 +24,7 @@ export function useModelSSE(modelId: string | null) {
           const parsedData = JSON.parse(event.data || "");
           console.log("[SSE] Atualização recebida:", parsedData);
 
-          updateModelStatus(parsedData);
+          setData(parsedData);
         } catch (err) {
           console.error("[SSE] Erro ao parsear dados:", err);
         }
@@ -41,5 +42,9 @@ export function useModelSSE(modelId: string | null) {
       es.removeAllEventListeners();
       es.close();
     };
-  }, [modelId, isCompleted, updateModelStatus]);
+  }, [modelId, isCompleted]);
+
+  return {
+    data,
+  };
 }

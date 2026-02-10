@@ -1,7 +1,7 @@
 import { Controller, Sse, Param } from "@nestjs/common";
 import { EventEmitter2 } from "@nestjs/event-emitter";
 import { Observable, fromEvent } from "rxjs";
-import { map, filter } from "rxjs/operators";
+import { filter, map } from "rxjs/operators";
 
 const getId = (str: string) => {
   const regex = /'([^']+)'/;

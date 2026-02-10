@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Dimensions } from "react-native";
 import { useRouter } from "expo-router";
 import Svg, { Circle, G } from "react-native-svg";
@@ -13,7 +13,7 @@ import { Text, Box } from "@/components/restyle";
 import { Container } from "@/components/theme/Container";
 import { useModelStore } from "@/stores/modelStore";
 import { useModelSSE } from "@/hooks/useModelSSE";
-import Button from "@/components/theme/Button";
+import { ActivityIndicator } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
@@ -75,17 +75,17 @@ const ProgressRing = ({ progress }: { progress: number }) => {
 
 export default function ModelPreview() {
   const router = useRouter();
-  const {
-    modelId,
-    modelName,
-    isCompleted,
-    isGenerating,
-    progress,
-    clearAppData,
-    modelUrls,
-  } = useModelStore();
+  const { modelId, clearAppData } = useModelStore();
 
-  useModelSSE(modelId);
+  const { data } = useModelSSE(modelId);
+
+  const { id, name, status, isCompleted, isGenerating, progress, modelUrls } =
+    data;
+
+  const isLoading = useMemo(
+    () => (isGenerating && !isCompleted) ?? true,
+    [isGenerating, isCompleted],
+  );
 
   useEffect(() => {
     if (isCompleted && modelUrls?.glb) {
@@ -95,7 +95,7 @@ export default function ModelPreview() {
           params: {
             id: modelId,
             glb: modelUrls.glb,
-            name: modelName,
+            name: name,
           },
         });
       }, 500);
@@ -105,7 +105,7 @@ export default function ModelPreview() {
         clearAppData();
       };
     }
-  }, [isCompleted, modelUrls, modelId, modelName, router]);
+  }, [isCompleted, modelUrls, modelId, name, router]);
 
   return (
     <Container
@@ -119,24 +119,34 @@ export default function ModelPreview() {
         <Box
           flexDirection="row"
           alignItems="center"
-          backgroundColor={isGenerating ? "pending" : "success"}
+          backgroundColor={isLoading ? "pending" : "success"}
           paddingHorizontal="m"
           paddingVertical="s"
           borderRadius={20}
           mb="xl"
         >
-          <Feather
-            name={isGenerating ? "loader" : "check-circle"}
-            size={16}
-            color={isGenerating ? "#FFC107" : "#2ECC71"}
-          />
+          {isLoading ? (
+            <ActivityIndicator
+              size="small"
+              color="#FFF"
+              style={{ marginLeft: 5, maxWidth: 16 }}
+            />
+          ) : (
+            <Feather
+              name="check"
+              size={24}
+              color="#FFF"
+              style={{ marginLeft: 5, maxWidth: 16 }}
+            />
+          )}
+
           <Text
             ml="s"
             fontWeight="bold"
-            color={isGenerating ? "pending" : "success"}
-            style={{ color: isGenerating ? "#FFC107" : "#2ECC71" }}
+            color={isLoading ? "pending" : "success"}
+            style={{ color: "#FFF" }}
           >
-            {isGenerating ? "IA Trabalhando..." : "Concluído"}
+            {isLoading ? "IA Trabalhando..." : "Concluído"}
           </Text>
         </Box>
 
@@ -149,22 +159,12 @@ export default function ModelPreview() {
             color="white"
             fontSize={22}
           >
-            {modelName || "Sem nome"}
+            {name || "Sem nome"}
           </Text>
           <Text variant="body" color="gray400" fontSize={12}>
-            ID: {modelId}
+            ID: {id}
           </Text>
         </Box>
-      </Box>
-
-      <Box pb="xl" px="m">
-        <Button
-          variant="transparent"
-          text="Cancelar / Limpar"
-          onPress={clearAppData}
-          style={{ borderColor: "#FF5252" }}
-          textProps={{ color: "red" }}
-        />
       </Box>
     </Container>
   );
