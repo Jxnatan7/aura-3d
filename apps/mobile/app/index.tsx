@@ -13,7 +13,6 @@ import { Model3DList } from "@/components/theme/Model3DList";
 import { Model3D } from "@/services/Model3DService";
 import { useModelStore } from "@/stores/modelStore";
 import { SearchInput } from "@/components/theme/SearchInput";
-
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 const ModelItem = ({ item, index }: { item: Model3D; index: number }) => {
