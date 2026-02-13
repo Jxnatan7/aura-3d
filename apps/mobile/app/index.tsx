@@ -13,12 +13,14 @@ import { Model3DList } from "@/components/theme/Model3DList";
 import { Model3D } from "@/services/Model3DService";
 import { useModelStore } from "@/stores/modelStore";
 import { SearchInput } from "@/components/theme/SearchInput";
-import { Image } from "expo-image";
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 const ModelItem = ({ item, index }: { item: Model3D; index: number }) => {
   const { push } = useRouter();
   const CARD_WIDTH = (SCREEN_WIDTH - 56) / 2;
+  const host = process.env.EXPO_PUBLIC_MEDIA_HOSTNAME || "";
+  const mediaNeedHost =
+    item.isStoredLocally && !item.modelUrls?.glb?.startsWith("https");
 
   return (
     <RestyleCard
@@ -36,13 +38,19 @@ const ModelItem = ({ item, index }: { item: Model3D; index: number }) => {
               pathname: "/model-view",
               params: {
                 id: item._id,
-                glb: item.modelUrls?.glb,
+                glb: mediaNeedHost
+                  ? `${host}${item.modelUrls?.glb}`
+                  : item.modelUrls?.glb,
                 name: item.name,
               },
             });
           },
         }}
-        uri={item.thumbnailUrl ?? item.imageUrl}
+        uri={
+          mediaNeedHost
+            ? `${host}${item.thumbnailUrl ?? item.imageUrl}`
+            : (item.thumbnailUrl ?? item.imageUrl)
+        }
       />
     </RestyleCard>
   );
@@ -103,12 +111,6 @@ export default function DashboardScreen() {
           }
         />
       </RestyleCard>
-      <Image
-        source={{
-          uri: "https://aura-3d.app.br/models-3d/models/019c3fb1-1621-714e-9837-04898d7ac06a/thumbnail.png",
-        }}
-        style={{ width: 300, height: 300 }}
-      />
       <SearchInput
         placeholderTextColor="#FFF"
         containerProps={{

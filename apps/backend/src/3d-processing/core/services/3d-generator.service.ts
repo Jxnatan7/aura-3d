@@ -31,7 +31,6 @@ export class GeneratorService {
 
     return this.model3DRepository.create({
       externalId,
-      imageUrl: dto.imageBase64,
       userId: userId ? new Types.ObjectId(userId) : undefined,
       status: "PENDING",
       name: dto.name,

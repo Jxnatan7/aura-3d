@@ -54,6 +54,7 @@ export type Model3D = {
   rawMetadata?: any;
   createdAt?: string | Date;
   updatedAt?: string | Date;
+  isStoredLocally?: boolean;
 };
 
 export type FilterRequest = {
