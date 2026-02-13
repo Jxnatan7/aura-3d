@@ -13,6 +13,7 @@ import { Model3DList } from "@/components/theme/Model3DList";
 import { Model3D } from "@/services/Model3DService";
 import { useModelStore } from "@/stores/modelStore";
 import { SearchInput } from "@/components/theme/SearchInput";
+import { Image } from "expo-image";
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 const ModelItem = ({ item, index }: { item: Model3D; index: number }) => {
@@ -41,7 +42,7 @@ const ModelItem = ({ item, index }: { item: Model3D; index: number }) => {
             });
           },
         }}
-        uri={item.thumbnailUrl || item.imageUrl}
+        uri={item.thumbnailUrl ?? item.imageUrl}
       />
     </RestyleCard>
   );
@@ -102,6 +103,12 @@ export default function DashboardScreen() {
           }
         />
       </RestyleCard>
+      <Image
+        source={{
+          uri: "https://aura-3d.app.br/models-3d/models/019c3fb1-1621-714e-9837-04898d7ac06a/thumbnail.png",
+        }}
+        style={{ width: 300, height: 300 }}
+      />
       <SearchInput
         placeholderTextColor="#FFF"
         containerProps={{

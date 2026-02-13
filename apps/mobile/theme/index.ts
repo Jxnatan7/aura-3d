@@ -51,8 +51,9 @@ const theme = createTheme({
   },
   imageVariants: {
     model: {
-      width: 150,
-      height: 150,
+      flex: 1,
+      minWidth: "100%",
+      minHeight: "100%",
     },
     default: {
       width: 40,
@@ -495,11 +496,10 @@ const theme = createTheme({
     },
     model: {
       backgroundColor: "gray900",
-      borderRadius: 8,
+      // borderRadius: 8,
       marginHorizontal: "s",
       justifyContent: "center",
       alignItems: "center",
-      elevation: 5,
     },
   },
 });
