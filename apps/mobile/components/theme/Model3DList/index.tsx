@@ -8,11 +8,13 @@ import useModels3D from "@/hooks/useModels3D";
 import { Model3D } from "@/services/Model3DService";
 
 export type Model3DListProps = Partial<PaginatedFlashListProps<Model3D>> & {
+  listType: "ALL" | "MY";
   renderItem: any;
   search?: string;
 };
 
 export const Model3DList = ({
+  listType,
   renderItem,
   search,
   ...props

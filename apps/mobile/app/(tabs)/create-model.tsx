@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, StyleSheet, Switch } from "react-native";
+import { StyleSheet, Switch } from "react-native";
 import { Container } from "@/components/theme/Container";
 import { Box, Text } from "@/components/restyle";
 import { TextInput } from "@/components/theme/TextInput";
@@ -13,6 +13,7 @@ import { Image } from "@/components/theme/Image";
 import { useAuthStore } from "@/stores/authStore";
 import { Redirect, useRouter } from "expo-router";
 import { useModelContext } from "@/contexts/ModelContext";
+import useLoginModal from "@/hooks/useLoginModal";
 
 export default function CreateModel() {
   const { isAuthenticated } = useAuthStore();
@@ -31,25 +32,15 @@ export default function CreateModel() {
     pickImageFromGallery,
     reset,
   } = useCreateModel();
+  const { showModal } = useLoginModal(
+    "Para criar um modelo público, vocé precisa estar logado.",
+  );
 
   const [isPublic, setIsPublic] = useState(true);
 
   const onChangePublicSwitch = () => {
     if (!isAuthenticated) {
-      Alert.alert(
-        "Fazer login",
-        "Para criar um modelo público, vocé precisa estar logado.",
-        [
-          {
-            text: "Cancelar",
-            style: "cancel",
-          },
-          {
-            text: "Entrar",
-            onPress: () => push("/login"),
-          },
-        ],
-      );
+      showModal();
       return;
     }
     setIsPublic((prev) => !prev);
@@ -60,7 +51,7 @@ export default function CreateModel() {
   }
 
   return (
-    <Container variant="screen" style={styles.contentContainer}>
+    <Container variant="screen" style={styles.contentContainer} hideHeader>
       <Text variant="containerHeader" mt="xxxl" mb="xxxl" fontSize={20}>
         Novo Modelo
       </Text>

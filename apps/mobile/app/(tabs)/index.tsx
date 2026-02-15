@@ -3,16 +3,16 @@ import { Dimensions } from "react-native";
 import { RestyleContainer } from "@/components/restyle/Container";
 import { Box, Text } from "@/components/restyle";
 import { RestyleCard } from "@/components/restyle/Card";
-import { IconButton } from "@/components/theme/IconButton";
-import { MaterialIcons } from "@expo/vector-icons";
 import { ModelImage } from "@/components/theme/ModelImage";
 import { useRouter } from "expo-router";
-import { useAuthActions, useUser } from "@/contexts/AuthProvider";
+import { useAuthActions } from "@/contexts/AuthProvider";
 import { ActionModal } from "@/components/theme/ActionModal";
 import { Model3DList } from "@/components/theme/Model3DList";
 import { Model3D } from "@/services/Model3DService";
 import { useModelStore } from "@/stores/modelStore";
-import { SearchInput } from "@/components/theme/SearchInput";
+import Button from "@/components/theme/Button";
+import { useAuthStore } from "@/stores/authStore";
+import useLoginModal from "@/hooks/useLoginModal";
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 const ModelItem = ({ item, index }: { item: Model3D; index: number }) => {
@@ -57,11 +57,15 @@ const ModelItem = ({ item, index }: { item: Model3D; index: number }) => {
 };
 
 export default function DashboardScreen() {
-  const user = useUser();
+  const { isAuthenticated } = useAuthStore();
   const { logout } = useAuthActions();
   const { push } = useRouter();
-  const [openModal, setOpenModal] = useState(false);
   const { isGenerating } = useModelStore();
+  const { showModal } = useLoginModal(
+    "Para ver seus modelos, você precisa estar logado.",
+  );
+  const [openModal, setOpenModal] = useState(false);
+  const [listType, setListType] = useState<"ALL" | "MY">("ALL");
 
   const renderItem = ({ item, index }: any) => (
     <ModelItem item={item} index={index} />
@@ -71,12 +75,15 @@ export default function DashboardScreen() {
     <RestyleContainer variant="screen" paddingHorizontal="m">
       <RestyleCard
         variant="header"
+        width={SCREEN_WIDTH}
         flexDirection="row"
         alignItems="center"
         justifyContent="space-between"
-        marginBottom="l"
+        marginBottom="m"
+        borderBottomWidth={1}
+        borderBottomColor="gray900"
       >
-        <Box alignItems="flex-start" flexDirection="row">
+        <Box alignItems="flex-start" flexDirection="row" padding="m">
           <Text
             variant="header"
             fontSize={22}
@@ -94,51 +101,56 @@ export default function DashboardScreen() {
             3D
           </Text>
         </Box>
-        <IconButton
-          onPress={() => (user ? setOpenModal(true) : push("/login"))}
-          icon={
-            <Box
-              width={32}
-              height={32}
-              borderRadius={10}
-              backgroundColor="blue300"
-              alignItems="center"
-              justifyContent="center"
-              marginLeft="s"
-            >
-              <MaterialIcons name="person" size={20} color="#fff" />
-            </Box>
-          }
-        />
       </RestyleCard>
-      <SearchInput
-        placeholderTextColor="#FFF"
-        containerProps={{
-          backgroundColor: "transparent",
-          borderBottomWidth: 2,
-          borderBottomColor: "blue300",
-          marginBottom: "l",
-        }}
-        backgroundColor="transparent"
-        iconContainerStyle={{ backgroundColor: "transparent", paddingLeft: 0 }}
-        iconProps={{ color: "#3DCDF3" }}
-        color="white"
-        style={{ fontFamily: "MulishFontSemiBold" }}
-        placeholder="Busque por um modelo"
-      />
+
+      <Box
+        width="100%"
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="flex-start"
+        gap="m"
+        marginBottom="m"
+      >
+        <Button
+          variant={listType === "ALL" ? "chipActive" : "chip"}
+          onPress={() => setListType("ALL")}
+          text="Recentes"
+          textProps={{
+            fontSize: 16,
+            color: listType === "ALL" ? "blue300" : "mainText",
+          }}
+        />
+        <Button
+          variant={
+            isAuthenticated
+              ? listType === "MY"
+                ? "chipActive"
+                : "chip"
+              : "chipDisabled"
+          }
+          onPress={isAuthenticated ? () => setListType("MY") : showModal}
+          text="Meus Modelos"
+          textProps={{
+            fontSize: 16,
+            color: listType === "MY" ? "blue300" : "mainText",
+          }}
+        />
+      </Box>
+
       <Text
         variant="subHeader"
         fontSize={18}
         color="mainText"
         alignSelf="flex-start"
-        mt="s"
+        mt="m"
         mb="m"
         fontFamily="MulishFontSemiBold"
       >
-        Recent Models
+        {listType === "ALL" ? "Recentes" : "Meus Modelos"}
       </Text>
 
       <Model3DList
+        listType={listType}
         keyExtractor={(item: any) => item._id.toString()}
         renderItem={renderItem}
       />
