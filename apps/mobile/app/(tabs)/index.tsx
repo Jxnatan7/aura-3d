@@ -1,74 +1,122 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { Dimensions } from "react-native";
+import { useRouter } from "expo-router";
 import { RestyleContainer } from "@/components/restyle/Container";
 import { Box, Text } from "@/components/restyle";
 import { RestyleCard } from "@/components/restyle/Card";
 import { ModelImage } from "@/components/theme/ModelImage";
-import { useRouter } from "expo-router";
-import { useAuthActions } from "@/contexts/AuthProvider";
-import { ActionModal } from "@/components/theme/ActionModal";
-import { Model3DList } from "@/components/theme/Model3DList";
-import { Model3D } from "@/services/Model3DService";
-import { useModelStore } from "@/stores/modelStore";
 import Button from "@/components/theme/Button";
+import { Model3D } from "@/services/Model3DService";
 import { useAuthStore } from "@/stores/authStore";
+import { useAuthActions } from "@/contexts/AuthProvider";
 import useLoginModal from "@/hooks/useLoginModal";
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
+import { Model3DList } from "@/components/theme/Model3DList";
 
-const ModelItem = ({ item, index }: { item: Model3D; index: number }) => {
-  const { push } = useRouter();
-  const CARD_WIDTH = (SCREEN_WIDTH - 56) / 2;
-  const host = process.env.EXPO_PUBLIC_MEDIA_HOSTNAME || "";
-  const mediaNeedHost =
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
+const CARD_WIDTH = (SCREEN_WIDTH - 56) / 2;
+const HOST = process.env.EXPO_PUBLIC_MEDIA_HOSTNAME || "";
+
+type ListType = "ALL" | "MY";
+
+const formatMediaUrl = (
+  item: Model3D,
+  type: "image" | "glb",
+): string | undefined => {
+  const needsHost =
     item.isStoredLocally && !item.modelUrls?.glb?.startsWith("https");
 
-  return (
-    <RestyleCard
-      key={item._id?.toString()}
-      variant="model"
-      width={CARD_WIDTH}
-      height={CARD_WIDTH}
-      marginTop={index % 2 === 0 ? "l" : "none"}
-      marginBottom="minus"
-    >
-      <ModelImage
-        motiProps={{
-          onPress: () => {
-            push({
-              pathname: "/model-view",
-              params: {
-                id: item._id,
-                glb: mediaNeedHost
-                  ? `${host}${item.modelUrls?.glb}`
-                  : item.modelUrls?.glb,
-                name: item.name,
-              },
-            });
-          },
-        }}
-        uri={
-          mediaNeedHost
-            ? `${host}${item.thumbnailUrl ?? item.imageUrl}`
-            : (item.thumbnailUrl ?? item.imageUrl)
-        }
-      />
-    </RestyleCard>
-  );
+  if (type === "glb") {
+    return needsHost ? `${HOST}${item.modelUrls?.glb}` : item.modelUrls?.glb;
+  }
+
+  const imageUrl = item.thumbnailUrl ?? item.imageUrl;
+  return needsHost ? `${HOST}${imageUrl}` : imageUrl;
 };
 
+interface ModelItemProps {
+  item: Model3D;
+  index: number;
+  onPress: (item: Model3D, glbUrl?: string) => void;
+}
+
+const ModelItem = React.memo(
+  ({ item, index, onPress }: ModelItemProps) => {
+    const glbUrl = formatMediaUrl(item, "glb");
+    const imageUrl = formatMediaUrl(item, "image");
+
+    return (
+      <RestyleCard
+        variant="model"
+        width={CARD_WIDTH}
+        height={CARD_WIDTH}
+        marginTop={index % 2 === 0 ? "l" : "none"}
+        marginBottom="minus"
+      >
+        <ModelImage
+          uri={imageUrl ?? ""}
+          motiProps={{
+            onPress: () => onPress(item, glbUrl),
+          }}
+        />
+      </RestyleCard>
+    );
+  },
+  (prevProps, nextProps) => prevProps.item._id === nextProps.item._id,
+);
+
 export default function DashboardScreen() {
-  const { isAuthenticated } = useAuthStore();
-  const { logout } = useAuthActions();
   const { push } = useRouter();
-  const { isGenerating } = useModelStore();
+  const { logout } = useAuthActions();
+  const { isAuthenticated } = useAuthStore();
+
   const { showModal } = useLoginModal(
     "Para ver seus modelos, você precisa estar logado.",
   );
-  const [openModal, setOpenModal] = useState(false);
-  const [listType, setListType] = useState<"ALL" | "MY">("ALL");
 
-  const renderItem = ({ item, index }: any) => (
-    <ModelItem item={item} index={index} />
+  const [listType, setListType] = useState<ListType>("ALL");
+
+  const handleLogout = useCallback(() => {
+    logout();
+    push("/login");
+  }, [logout, push]);
+
+  const handleModelPress = useCallback(
+    (item: Model3D, glbUrl?: string) => {
+      push({
+        pathname: "/model-view",
+        params: {
+          id: item._id,
+          glb: glbUrl,
+          name: item.name,
+        },
+      });
+    },
+    [push],
+  );
+
+  const handleTabChange = useCallback(
+    (type: ListType) => {
+      if (type === "MY" && !isAuthenticated) {
+        showModal();
+        return;
+      }
+      setListType(type);
+    },
+    [isAuthenticated, showModal],
+  );
+
+  const renderItem = useCallback(
+    ({ item, index }: any) => (
+      <ModelItem item={item} index={index} onPress={handleModelPress} />
+    ),
+    [handleModelPress],
+  );
+
+  const keyExtractor = useCallback((item: any) => item._id.toString(), []);
+
+  const listTitle = useMemo(
+    () => (listType === "ALL" ? "Recentes" : "Meus Modelos"),
+    [listType],
   );
 
   return (
@@ -113,7 +161,8 @@ export default function DashboardScreen() {
       >
         <Button
           variant={listType === "ALL" ? "chipActive" : "chip"}
-          onPress={() => setListType("ALL")}
+          // onPress={() => handleTabChange("ALL")}
+          onPress={handleLogout}
           text="Recentes"
           textProps={{
             fontSize: 16,
@@ -128,7 +177,7 @@ export default function DashboardScreen() {
                 : "chip"
               : "chipDisabled"
           }
-          onPress={isAuthenticated ? () => setListType("MY") : showModal}
+          onPress={() => handleTabChange("MY")}
           text="Meus Modelos"
           textProps={{
             fontSize: 16,
@@ -146,25 +195,13 @@ export default function DashboardScreen() {
         mb="m"
         fontFamily="MulishFontSemiBold"
       >
-        {listType === "ALL" ? "Recentes" : "Meus Modelos"}
+        {listTitle}
       </Text>
 
       <Model3DList
         listType={listType}
-        keyExtractor={(item: any) => item._id.toString()}
+        keyExtractor={keyExtractor}
         renderItem={renderItem}
-      />
-      <ActionModal
-        visible={openModal}
-        onClose={() => setOpenModal(false)}
-        title="Aura3D"
-        description="Deseja realmente encerrar a sessão?"
-        onConfirm={() => {
-          logout();
-          setOpenModal(false);
-          push("/login");
-        }}
-        confirmText="Sair da conta"
       />
     </RestyleContainer>
   );

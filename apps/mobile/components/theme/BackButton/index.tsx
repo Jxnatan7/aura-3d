@@ -9,7 +9,7 @@ export const BackButton = ({ fallback }: { fallback?: () => void }) => {
   const { canGoBack, back } = useRouter();
   return (
     <IconButton
-      onPress={() => (canGoBack() ? back() : fallback?.())}
+      onPress={() => (fallback ? fallback() : canGoBack() && back())}
       icon={
         <MaterialIcons
           name="keyboard-arrow-left"

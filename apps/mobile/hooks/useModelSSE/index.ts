@@ -1,15 +1,25 @@
 import { useEffect, useState } from "react";
 import EventSource, { EventSourceListener } from "react-native-sse";
 import { useModelStore } from "@/stores/modelStore";
+import { Model3D } from "@/services/Model3DService";
 
 const API_URL = `${process.env.EXPO_PUBLIC_API_URL}/api/v1`;
 
-export function useModelSSE(modelId: string | null) {
-  const { isCompleted } = useModelStore();
-  const [data, setData] = useState<any>({});
+export type ModelUpdatedPayload = {
+  modelId: string;
+  status: string;
+  progress: number;
+  data: Model3D;
+};
+
+export function useModelSSE(
+  modelId: string | null,
+): ModelUpdatedPayload | undefined {
+  const { updateModelStatus } = useModelStore();
+  const [data, setData] = useState<ModelUpdatedPayload>();
 
   useEffect(() => {
-    if (!modelId || isCompleted) return;
+    if (!modelId) return;
 
     console.log(`[SSE] Conectando ao stream do modelo: ${modelId}`);
     const es = new EventSource(`${API_URL}/sse/model/${modelId}`, {
@@ -17,17 +27,16 @@ export function useModelSSE(modelId: string | null) {
     });
 
     const listener: EventSourceListener = (event) => {
+      console.log("🚀 ~ listener ~ event:", event);
       if (event.type === "open") {
         console.log("[SSE] Conexão aberta");
       } else if (event.type === "message") {
         try {
-          const parsedData = JSON.parse(event.data || "");
+          const parsedData: ModelUpdatedPayload = JSON.parse(event.data || "");
           console.log("[SSE] Atualização recebida:", parsedData);
 
-          setData({
-            ...parsedData.data,
-            id: parsedData.data._id,
-          });
+          updateModelStatus(parsedData);
+          setData(parsedData);
         } catch (err) {
           console.error("[SSE] Erro ao parsear dados:", err);
         }
@@ -45,7 +54,7 @@ export function useModelSSE(modelId: string | null) {
       es.removeAllEventListeners();
       es.close();
     };
-  }, [modelId, isCompleted]);
+  }, [modelId]);
 
   return data;
 }

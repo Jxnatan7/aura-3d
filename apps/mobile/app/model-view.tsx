@@ -21,6 +21,7 @@ export default function ModelView() {
   return (
     <Container
       variant="screen"
+      backgroundColor="allBlack"
       containerHeaderProps={{ backButtonFallback: () => push("/") }}
     >
       <ModelViewer id={id} name={name} formats={modelFormats}>

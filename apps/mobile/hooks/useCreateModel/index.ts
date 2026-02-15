@@ -86,11 +86,12 @@ export function useCreateModel() {
       return;
     }
     try {
-      setIsGenerating(true);
       const res = await mutateAsync({
         name: name,
         imageBase64: selectedImageBase64,
       });
+      if (!res) return;
+      setIsGenerating(true);
       setModelId(res._id);
       setModelName(res.name);
       onSuccess && onSuccess();

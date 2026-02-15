@@ -51,7 +51,7 @@ function RootLayoutNav() {
           <AuthProvider>
             <ModelContextProvider>
               <ThemeProvider theme={currentTheme}>
-                <StatusBar style="inverted" />
+                <StatusBar style="light" />
                 <Stack
                   initialRouteName="(tabs)"
                   screenOptions={{

@@ -100,7 +100,7 @@ const theme = createTheme({
       flex: 1,
       width: "100%",
       padding: "none",
-      backgroundColor: "mainBackground",
+      backgroundColor: "extraBlack",
     },
   },
   boxVariants: {
@@ -504,7 +504,7 @@ const theme = createTheme({
     header: {
       width: "100%",
       paddingHorizontal: "s",
-      backgroundColor: "mainBackground",
+      backgroundColor: "extraBlack",
     },
     default: {
       backgroundColor: "backgroundLight",

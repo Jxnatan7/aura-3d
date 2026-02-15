@@ -1,6 +1,5 @@
 import React, { Suspense, useState } from "react";
 import {
-  ActivityIndicator,
   StyleSheet,
   Alert,
   Modal,
@@ -12,15 +11,11 @@ import { Center, Environment } from "@react-three/drei/native";
 import { Box, Text } from "@/components/restyle";
 import { useViewerController } from "../useViewerController";
 import { InteractiveStage } from "../InteractiveStage";
-import Button from "../Button";
 import * as MediaLibrary from "expo-media-library";
 import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
 import { GifRecorder } from "../GifRecorder";
-import { DirectionalPad } from "../ControlButton";
 import * as THREE from "three";
-import { GestureDetector } from "react-native-gesture-handler";
-import { Feather } from "@expo/vector-icons";
 
 export type ModelFormats = {
   glb?: string;
@@ -66,9 +61,13 @@ export const ModelViewer = ({
   initialRotation = [0, 0],
   autoRotate = true,
   showControls = true,
-  backgroundColor = "#121212",
+  backgroundColor = "#000",
 }: ModelViewerProps) => {
-  const controller = useViewerController({ initialRotation, autoRotate });
+  const controller = useViewerController({
+    initialRotation,
+    autoRotate,
+    initialZoom: 1.5,
+  });
 
   const [isRecording, setIsRecording] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -181,7 +180,7 @@ export const ModelViewer = ({
         </Suspense>
       </Canvas>
 
-      {(isRecording || isDownloading) && (
+      {/* {(isRecording || isDownloading) && (
         <Box
           position="absolute"
           top={0}
@@ -198,9 +197,9 @@ export const ModelViewer = ({
             {isRecording ? "Gerando GIF..." : "Salvando arquivo..."}
           </Text>
         </Box>
-      )}
+      )} */}
 
-      {availableFormats.length > 0 && (
+      {/* {availableFormats.length > 0 && (
         <Button
           variant="icon"
           style={[
@@ -225,9 +224,9 @@ export const ModelViewer = ({
         >
           <Feather name="download" size={18} color="white" />
         </Button>
-      )}
+      )} */}
 
-      <Box
+      {/* <Box
         position="absolute"
         top={100}
         alignSelf="center"
@@ -243,20 +242,20 @@ export const ModelViewer = ({
           width="auto"
           padding="m"
         />
-      </Box>
-
+      </Box> */}
+      {/* 
       <Box position="absolute" top={200} alignSelf="center" zIndex={10}>
         <Text variant="infoTitle" alignSelf="center" mb="s">
           {name}
         </Text>
         <Text variant="infoSubtitle">{id}</Text>
-      </Box>
+      </Box> */}
 
-      <GestureDetector gesture={controller.gestures}>
+      {/* <GestureDetector gesture={controller.gestures}>
         <Box pointerEvents="auto" style={StyleSheet.absoluteFill} />
-      </GestureDetector>
+      </GestureDetector> */}
 
-      {showControls && <DirectionalPad controller={controller} />}
+      {/* {showControls && <DirectionalPad controller={controller} />} */}
 
       <Modal
         visible={showDownloadModal}
