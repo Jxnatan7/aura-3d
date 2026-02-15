@@ -42,7 +42,7 @@ export class Model3D extends Document {
   @Prop()
   type?: string;
 
-  @Prop({ required: true })
+  @Prop()
   imageUrl: string;
 
   @Prop()

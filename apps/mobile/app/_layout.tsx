@@ -12,12 +12,13 @@ import useAssets from "@/hooks/useAssets";
 import { useAppStore } from "@/stores/appStore";
 import { useDeviceTheme } from "@/hooks/useDeviceTheme";
 import theme, { darkTheme } from "@/theme";
+import { ModelContextProvider } from "@/contexts/ModelContext";
 
 export { ErrorBoundary } from "expo-router";
 const queryClient = new QueryClient();
 
 export const unstable_settings = {
-  initialRouteName: "dash",
+  initialRouteName: "(tabs)",
 };
 
 SplashScreen.preventAutoHideAsync();
@@ -48,24 +49,25 @@ function RootLayoutNav() {
       <QueryClientProvider client={queryClient}>
         <KeyboardProvider>
           <AuthProvider>
-            <ThemeProvider theme={currentTheme}>
-              <StatusBar style="inverted" />
-              <Stack
-                initialRouteName="index"
-                screenOptions={{
-                  headerShown: false,
-                  animation: "flip",
-                  animationDuration: 300,
-                }}
-              >
-                <Stack.Screen name="index" />
-                <Stack.Screen name="model-view" />
-                <Stack.Screen name="model-preview" />
-                <Stack.Screen name="create-model" />
-                <Stack.Screen name="login" />
-                <Stack.Screen name="register" />
-              </Stack>
-            </ThemeProvider>
+            <ModelContextProvider>
+              <ThemeProvider theme={currentTheme}>
+                <StatusBar style="inverted" />
+                <Stack
+                  initialRouteName="(tabs)"
+                  screenOptions={{
+                    headerShown: false,
+                    animation: "flip",
+                    animationDuration: 300,
+                  }}
+                >
+                  <Stack.Screen name="(tabs)" />
+                  <Stack.Screen name="model-view" />
+                  <Stack.Screen name="model-preview" />
+                  <Stack.Screen name="login" />
+                  <Stack.Screen name="register" />
+                </Stack>
+              </ThemeProvider>
+            </ModelContextProvider>
           </AuthProvider>
         </KeyboardProvider>
       </QueryClientProvider>

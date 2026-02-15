@@ -1,16 +1,13 @@
-import {
-  RestyleTouchableOpacity,
-  RestyleTouchableOpacityProps,
-} from "@/components/restyle";
+import Button, { ButtonProps } from "../Button";
 
 export type IconButtonProps = {
   icon: React.ReactNode;
-} & RestyleTouchableOpacityProps;
+} & ButtonProps;
 
 export const IconButton = ({ icon, ...props }: IconButtonProps) => {
   return (
-    <RestyleTouchableOpacity variant="icon" {...props}>
+    <Button variant="icon" {...props}>
       {icon}
-    </RestyleTouchableOpacity>
+    </Button>
   );
 };

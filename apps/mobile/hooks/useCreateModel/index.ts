@@ -17,6 +17,12 @@ export function useCreateModel() {
   const { mutateAsync } = useGenerateModel3D();
   const { setModelId, setIsGenerating, setModelName } = useModelStore();
 
+  const reset = () => {
+    setSelectedImage(null);
+    setSelectedImageBase64(null);
+    setName(null);
+  };
+
   const handleImageResult = async (result: ImagePicker.ImagePickerResult) => {
     if (!result.canceled && result.assets[0]) {
       const processed = await processImage(result.assets[0].uri);
@@ -74,7 +80,7 @@ export function useCreateModel() {
     }
   };
 
-  const submitModel = async () => {
+  const submitModel = async (onSuccess?: () => void) => {
     if (!selectedImageBase64 || !name) {
       Alert.alert("Erro", "Imagem ou nome não preenchidos.");
       return;
@@ -87,6 +93,7 @@ export function useCreateModel() {
       });
       setModelId(res._id);
       setModelName(res.name);
+      onSuccess && onSuccess();
       push({
         pathname: "/model-preview",
         params: { id: res._id, name: res.name },
@@ -106,5 +113,8 @@ export function useCreateModel() {
     handleGeneratePress: submitModel,
     isAdLoaded: true,
     isButtonDisabled: !name || !selectedImageBase64,
+    takePhoto,
+    pickImageFromGallery,
+    reset,
   };
 }

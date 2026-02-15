@@ -40,7 +40,18 @@ export const ContainerHeader = ({
     >
       {!hideBackButton && <BackButton fallback={backButtonFallback} />}
       {title && (
-        <Text variant="containerHeader" flex={1} {...titleProps}>
+        <Text
+          variant="containerHeader"
+          flex={1}
+          textAlign="center"
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: insets.top + 10,
+          }}
+          {...titleProps}
+        >
           {title}
         </Text>
       )}

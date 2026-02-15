@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo } from "react";
-import { Dimensions } from "react-native";
-import { useRouter } from "expo-router";
+import React, { useEffect, useMemo, useState } from "react";
+import { Dimensions, ActivityIndicator } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import Svg, { Circle, G } from "react-native-svg";
 import Animated, {
   useAnimatedProps,
@@ -8,13 +8,12 @@ import Animated, {
   Easing,
   useDerivedValue,
 } from "react-native-reanimated";
+import { Feather } from "@expo/vector-icons";
 
 import { Text, Box } from "@/components/restyle";
 import { Container } from "@/components/theme/Container";
 import { useModelStore } from "@/stores/modelStore";
 import { useModelSSE } from "@/hooks/useModelSSE";
-import { ActivityIndicator } from "react-native";
-import { Feather } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
 const CIRCLE_LENGTH = 800;
@@ -76,11 +75,39 @@ const ProgressRing = ({ progress }: { progress: number }) => {
 export default function ModelPreview() {
   const router = useRouter();
   const { modelId, clearAppData } = useModelStore();
+  const { name: modelName } = useLocalSearchParams<{ name: string }>();
 
-  const { data } = useModelSSE(modelId);
+  const data: any = useModelSSE(modelId);
 
-  const { id, name, status, isCompleted, isGenerating, progress, modelUrls } =
-    data;
+  const { id, name, status, isGenerating, progress, modelUrls } = data;
+
+  const isCompleted = useMemo(
+    () => progress >= 100 || status === "SUCCEEDED",
+    [progress, status],
+  );
+
+  const [displayProgress, setDisplayProgress] = useState(0);
+
+  useEffect(() => {
+    const realProgress = progress || 0;
+
+    setDisplayProgress((prev) => Math.max(prev, realProgress));
+
+    if (realProgress >= 100) return;
+
+    const maxFakeProgress = realProgress >= 50 ? 99 : 49;
+
+    const timer = setInterval(() => {
+      setDisplayProgress((prev) => {
+        if (prev >= maxFakeProgress) return prev;
+
+        const step = Math.floor(Math.random() * 3) + 1;
+        return Math.min(prev + step, maxFakeProgress);
+      });
+    }, 1600);
+
+    return () => clearInterval(timer);
+  }, [progress]);
 
   const isLoading = useMemo(
     () => (isGenerating && !isCompleted) ?? true,
@@ -105,16 +132,13 @@ export default function ModelPreview() {
         clearAppData();
       };
     }
-  }, [isCompleted, modelUrls, modelId, name, router]);
+  }, [isCompleted]);
 
   return (
-    <Container
-      variant="screen"
-      containerHeaderProps={{
-        title: "Gerando Modelo",
-        titleProps: { textAlign: "center" },
-      }}
-    >
+    <Container variant="screen">
+      <Text variant="containerHeader" mt="xxxl" mb="xxxl" fontSize={20}>
+        Gerando Modelo
+      </Text>
       <Box flex={1} alignItems="center" justifyContent="center" px="m">
         <Box
           flexDirection="row"
@@ -150,7 +174,7 @@ export default function ModelPreview() {
           </Text>
         </Box>
 
-        <ProgressRing progress={progress || 0} />
+        <ProgressRing progress={displayProgress} />
 
         <Box width="100%" alignItems="center" gap="s">
           <Text
@@ -159,10 +183,10 @@ export default function ModelPreview() {
             color="white"
             fontSize={22}
           >
-            {name || "Sem nome"}
+            {name || modelName || "Sem nome"}
           </Text>
           <Text variant="body" color="gray400" fontSize={12}>
-            ID: {id}
+            ID: {id || modelId}
           </Text>
         </Box>
       </Box>

@@ -54,6 +54,7 @@ const theme = createTheme({
       flex: 1,
       minWidth: "100%",
       minHeight: "100%",
+      borderRadius: 8,
     },
     default: {
       width: 40,
@@ -144,6 +145,16 @@ const theme = createTheme({
     },
   },
   buttonVariants: {
+    imageOption: {
+      backgroundColor: "extraBlack",
+      borderRadius: 28,
+      width: 200,
+      height: 200,
+      alignItems: "center",
+      justifyContent: "center",
+      borderColor: "gray900",
+      borderWidth: 1,
+    },
     createModel: {
       width: 70,
       height: 70,
@@ -496,7 +507,6 @@ const theme = createTheme({
     },
     model: {
       backgroundColor: "gray900",
-      // borderRadius: 8,
       marginHorizontal: "s",
       justifyContent: "center",
       alignItems: "center",

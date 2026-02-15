@@ -24,7 +24,10 @@ export function useModelSSE(modelId: string | null) {
           const parsedData = JSON.parse(event.data || "");
           console.log("[SSE] Atualização recebida:", parsedData);
 
-          setData(parsedData);
+          setData({
+            ...parsedData.data,
+            id: parsedData.data._id,
+          });
         } catch (err) {
           console.error("[SSE] Erro ao parsear dados:", err);
         }
@@ -44,7 +47,5 @@ export function useModelSSE(modelId: string | null) {
     };
   }, [modelId, isCompleted]);
 
-  return {
-    data,
-  };
+  return data;
 }

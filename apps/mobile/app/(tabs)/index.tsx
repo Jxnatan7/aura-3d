@@ -154,12 +154,6 @@ export default function DashboardScreen() {
         }}
         confirmText="Sair da conta"
       />
-      <IconButton
-        variant="createModel"
-        icon={<MaterialIcons name="add" size={50} color="#ffffff" />}
-        // onPress={() => push("/model-preview")}
-        onPress={() => push(isGenerating ? "/model-preview" : "/create-model")}
-      />
     </RestyleContainer>
   );
 }
