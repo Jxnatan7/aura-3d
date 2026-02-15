@@ -5,6 +5,7 @@ import { MeshyTaskResponse } from "src/integration/core/interfaces/meshy-types";
 import { Model3DRepository } from "src/integration/core/repositories/model-3d.repository";
 import { Model3D } from "src/integration/core/schemas/model-3d.schema";
 import { EventEmitter2 } from "@nestjs/event-emitter";
+import { RedisPubSubService } from "src/integration/core/service/redis-pubsub.service";
 
 @Processor("meshy-processing")
 export class MeshyUpdateProcessor extends WorkerHost {
@@ -13,6 +14,7 @@ export class MeshyUpdateProcessor extends WorkerHost {
   constructor(
     private readonly model3DRepo: Model3DRepository,
     private readonly eventEmitter: EventEmitter2,
+    private readonly redisPubSub: RedisPubSubService,
   ) {
     super();
   }
@@ -54,14 +56,21 @@ export class MeshyUpdateProcessor extends WorkerHost {
       );
       this.logger.debug(`Model ${payload.id} successfully updated.`);
 
-      this.eventEmitter.emit("model.updated", {
-        modelId: payload.id,
-        status: payload.status,
-        progress: payload.progress,
+      // this.eventEmitter.emit("model.updated", {
+      //   modelId: payload.id,
+      //   status: payload.status,
+      //   progress: payload.progress,
+      //   data: updatedModel,
+      // });
+
+      await this.redisPubSub.publish(`sse:model.updated.${updatedModel._id}`, {
+        modelId: updatedModel._id,
+        status: updatedModel.status,
+        progress: updatedModel.progress,
         data: updatedModel,
       });
 
-      this.logger.debug(`Event emitted for model ${payload.id}.`);
+      this.logger.debug(`Event emitted for model ${updatedModel._id}.`);
 
       return { success: true, id: payload.id };
     } catch (error) {

@@ -9,6 +9,7 @@ import { BullModule } from "@nestjs/bullmq";
 import { MeshyUpdateProcessor } from "src/3d-processing/core/process/meshy-update.process";
 import { ModelArchiverService } from "./core/service/model-archiver.service";
 import { StorageService } from "./core/service/storage.service";
+import { RedisPubSubService } from "./core/service/redis-pubsub.service";
 
 @Module({
   imports: [
@@ -24,12 +25,13 @@ import { StorageService } from "./core/service/storage.service";
     MeshyAIProvider,
     ModelArchiverService,
     StorageService,
+    RedisPubSubService,
     {
       provide: "AI_PROVIDER",
       useClass: MeshyAIProvider,
     },
   ],
   controllers: [MeshyWebhookController],
-  exports: [Model3DRepository, "AI_PROVIDER", BullModule],
+  exports: [Model3DRepository, "AI_PROVIDER", BullModule, RedisPubSubService],
 })
 export class IntegrationModule {}

@@ -1,34 +1,37 @@
 import { Controller, Sse, Param } from "@nestjs/common";
-import { EventEmitter2 } from "@nestjs/event-emitter";
-import { Observable, fromEvent } from "rxjs";
+import { Observable } from "rxjs";
 import { filter, map } from "rxjs/operators";
+import { Model3D } from "src/integration/core/schemas/model-3d.schema";
+import { RedisPubSubService } from "src/integration/core/service/redis-pubsub.service";
 
-const getId = (str: string) => {
-  const regex = /'([^']+)'/;
-  const match = str.match(regex);
-
-  if (match) {
-    const id = match[1];
-    return id;
-  }
+export type ModelUpdatedPayload = {
+  modelId: string;
+  status: string;
+  progress: number;
+  data: Model3D;
 };
 
 @Controller("api/v1/sse")
 export class SseController {
-  constructor(private eventEmitter: EventEmitter2) {}
+  constructor(private readonly redisPubSub: RedisPubSubService) {}
 
   @Sse("model/:id")
   sse(@Param("id") id: string): Observable<MessageEvent> {
-    return fromEvent(this.eventEmitter, "model.updated").pipe(
-      filter((payload: any) => {
-        return String(payload.data?._id) === id;
+    const targetChannel = `sse:model.updated.${id}`;
+
+    return this.redisPubSub.events.pipe(
+      filter((event) => event.channel === targetChannel),
+      map((event) => {
+        const payload = event.payload as ModelUpdatedPayload;
+        return {
+          data: {
+            modelId: payload.modelId,
+            status: payload.status,
+            progress: payload.progress,
+            data: payload.data,
+          },
+        } as MessageEvent;
       }),
-      map(
-        (payload) =>
-          ({
-            data: payload,
-          }) as MessageEvent,
-      ),
     );
   }
 }

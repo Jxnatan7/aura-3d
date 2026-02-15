@@ -16,7 +16,7 @@ export class ModelArchiverService {
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  @Cron(CronExpression.EVERY_5_MINUTES)
+  @Cron(CronExpression.EVERY_10_MINUTES)
   async handleCron() {
     this.logger.log(
       "Iniciando verificação de modelos para arquivamento local...",
@@ -24,7 +24,10 @@ export class ModelArchiverService {
     const modelsToProcess = await this.model3dModel
       .find({
         status: "SUCCEEDED",
-        isStoredLocally: { $ne: true },
+        $or: [
+          { isStoredLocally: false },
+          { isStoredLocally: { $exists: false } },
+        ],
       })
       .limit(10)
       .exec();
