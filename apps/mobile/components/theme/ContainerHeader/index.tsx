@@ -10,6 +10,7 @@ export type ContainerHeaderProps = {
   children?: React.ReactNode;
   hideBackButton?: boolean;
   backButtonFallback?: () => void;
+  backButtonCallback?: () => void;
 } & BoxProps;
 
 const HEADER_HEIGHT = 60;
@@ -19,6 +20,7 @@ export const ContainerHeader = ({
   hideBackButton = false,
   children,
   backButtonFallback,
+  backButtonCallback,
   titleProps,
   ...props
 }: ContainerHeaderProps) => {
@@ -38,7 +40,12 @@ export const ContainerHeader = ({
       justifyContent="space-between"
       {...props}
     >
-      {!hideBackButton && <BackButton fallback={backButtonFallback} />}
+      {!hideBackButton && (
+        <BackButton
+          callback={backButtonCallback}
+          fallback={backButtonFallback}
+        />
+      )}
       {title && (
         <Text
           variant="containerHeader"

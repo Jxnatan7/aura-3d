@@ -11,6 +11,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useAuthActions } from "@/contexts/AuthProvider";
 import useLoginModal from "@/hooks/useLoginModal";
 import { Model3DList } from "@/components/theme/Model3DList";
+import { usePreventGoBack } from "@/hooks/usePreventGoBack";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const CARD_WIDTH = (SCREEN_WIDTH - 56) / 2;
@@ -69,6 +70,7 @@ export default function DashboardScreen() {
   const { push } = useRouter();
   const { logout } = useAuthActions();
   const { isAuthenticated } = useAuthStore();
+  usePreventGoBack(true);
 
   const { showModal } = useLoginModal(
     "Para ver seus modelos, você precisa estar logado.",

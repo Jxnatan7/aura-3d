@@ -22,6 +22,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
   runOnJS,
+  Easing,
 } from "react-native-reanimated";
 
 export type ModelFormats = {
@@ -79,18 +80,21 @@ export const ModelViewer = ({
   const [isRecording, setIsRecording] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
-
   const [uiHidden, setUiHidden] = useState(false);
-
   const [status, requestPermission] = MediaLibrary.usePermissions();
-  const uiOpacity = useSharedValue(1);
+
+  const uiOffset = useSharedValue(0);
 
   useEffect(() => {
-    uiOpacity.value = withTiming(uiHidden ? 0 : 1, { duration: 400 });
+    uiOffset.value = withTiming(uiHidden ? 300 : 0, {
+      duration: 1500,
+      easing: Easing.out(Easing.exp),
+    });
   }, [uiHidden]);
+
   const animatedUiStyle = useAnimatedStyle(() => {
     return {
-      opacity: uiOpacity.value,
+      transform: [{ translateY: uiOffset.value }],
     };
   });
 
@@ -99,6 +103,7 @@ export const ModelViewer = ({
       setUiHidden(false);
     }
   };
+
   const tapGesture = Gesture.Tap().onEnd(() => {
     runOnJS(showUi)();
   });
@@ -112,10 +117,7 @@ export const ModelViewer = ({
     setShowDownloadModal(false);
     try {
       setIsDownloading(true);
-      Alert.alert(
-        "Sucesso",
-        "Simulação de download (copie sua lógica original aqui)",
-      );
+      Alert.alert("Sucesso", "Simulação de download...");
     } catch (e) {
       console.error(e);
     } finally {

@@ -4,12 +4,18 @@ import { IconButton } from "../IconButton";
 import { Theme } from "@/theme";
 import { useTheme } from "@shopify/restyle";
 
-export const BackButton = ({ fallback }: { fallback?: () => void }) => {
+export const BackButton = ({
+  fallback,
+  callback,
+}: {
+  fallback?: () => void;
+  callback?: () => void;
+}) => {
   const theme = useTheme<Theme>();
   const { canGoBack, back } = useRouter();
   return (
     <IconButton
-      onPress={() => (fallback ? fallback() : canGoBack() && back())}
+      onPress={callback ? callback : canGoBack() ? back : fallback}
       icon={
         <MaterialIcons
           name="keyboard-arrow-left"

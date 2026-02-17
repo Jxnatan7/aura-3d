@@ -81,9 +81,10 @@ export default function CreateModel() {
         <IconButton
           variant="imageOption"
           text="Enviar"
+          // onPress={() => push("/model-preview")}
           onPress={pickImageFromGallery}
           icon={
-            <Box borderColor="blue300">
+            <Box borderColor="blue300" marginBottom="s">
               <FontAwesome
                 name="photo"
                 size={40}
@@ -99,7 +100,7 @@ export default function CreateModel() {
           text="Tirar Foto"
           onPress={takePhoto}
           icon={
-            <Box borderColor="blue300">
+            <Box borderColor="blue300" marginBottom="s">
               <FontAwesome
                 name="camera"
                 size={40}
