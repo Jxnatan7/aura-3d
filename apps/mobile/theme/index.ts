@@ -527,7 +527,7 @@ const theme = createTheme({
       borderRadius: 8,
     },
     model: {
-      backgroundColor: "gray900",
+      backgroundColor: "imageGray",
       marginHorizontal: "s",
       justifyContent: "center",
       alignItems: "center",

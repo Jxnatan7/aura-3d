@@ -51,6 +51,7 @@ const ModelItem = React.memo(
         height={CARD_WIDTH}
         marginTop={index % 2 === 0 ? "l" : "none"}
         marginBottom="minus"
+        overflow="hidden"
       >
         <ModelImage
           uri={imageUrl ?? ""}

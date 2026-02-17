@@ -15,6 +15,7 @@ export default function TabLayout() {
         animation: "fade",
         tabBarStyle: {
           backgroundColor: theme.colors.extraBlack,
+          borderBlockColor: theme.colors.gray900,
         },
         tabBarActiveTintColor: theme.colors.blue300,
         tabBarInactiveTintColor: theme.colors.mainText,
@@ -44,7 +45,7 @@ export default function TabLayout() {
               color={focused ? theme.colors.blue300 : theme.colors.mainText}
             />
           ),
-          tabBarLabel: "Criar Modelo",
+          tabBarLabel: "Criar ",
         }}
       />
       <Tabs.Screen

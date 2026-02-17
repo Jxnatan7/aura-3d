@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { StyleSheet, Switch } from "react-native";
-import { Redirect } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
 import { useTheme } from "@shopify/restyle";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Container } from "@/components/theme/Container";
@@ -13,8 +13,10 @@ import { useAuthStore } from "@/stores/authStore";
 import { useModelContext } from "@/contexts/ModelContext";
 import useLoginModal from "@/hooks/useLoginModal";
 import { Theme } from "@/theme";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function CreateModel() {
+  const { push } = useRouter();
   const theme = useTheme<Theme>();
   const { isAuthenticated } = useAuthStore();
   const { isGenerating } = useModelContext();
@@ -114,80 +116,100 @@ export default function CreateModel() {
   const renderFormState = () => (
     <Box alignItems="center" width="100%">
       <Box style={styles.imageContainer}>
+        <LinearGradient
+          colors={["rgba(8, 8, 8, 1)", "rgba(8, 8, 8, 0)"]}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 0, y: 0 }}
+          style={styles.gradient}
+        />
         <Image
           source={{ uri: selectedImage! }}
-          width={300}
-          height={300}
+          width="100%"
+          height="100%"
           contentFit="cover"
-          style={styles.imageBorder}
         />
       </Box>
 
-      <Box style={styles.inputContainer}>
+      <Box width="100%" padding="m">
         <TextInput
           placeholder="Nome do Modelo"
           value={name || ""}
           onChangeText={setName}
+          placeholderTextColor="#FFF"
+          containerProps={{
+            backgroundColor: "transparent",
+            borderBottomWidth: 2,
+            borderBottomColor: "blue300",
+            marginBottom: "m",
+          }}
+          backgroundColor="transparent"
+          color="white"
+          style={{ fontFamily: "MulishFontSemiBold" }}
+        />
+
+        <Box
+          style={styles.inputContainer}
+          flexDirection="row"
+          alignItems="center"
+          gap="m"
+        >
+          <Switch value={isPublic} onValueChange={handlePublicToggle} />
+          <Text variant="body">Público (visível para todos)</Text>
+        </Box>
+
+        <IconButton
+          icon={
+            <MaterialCommunityIcons name="creation" size={24} color="black" />
+          }
+          width="100%"
+          marginBottom="m"
+          onPress={onGenerate}
+          disabled={isButtonDisabled}
+          flexDirection="row-reverse"
+          gap="m"
+          borderRadius={10}
+          maxWidth={500}
+          backgroundColor="blue300"
+          text="Gerar Modelo 3D"
+          textProps={{
+            color: "extraBlack",
+            fontFamily: "MulishFontBold",
+            fontSize: 18,
+          }}
+          style={{ opacity: isButtonDisabled ? 0.5 : 1 }}
+        />
+
+        <IconButton
+          icon={<MaterialCommunityIcons name="image" size={24} color="black" />}
+          width="100%"
+          onPress={reset}
+          flexDirection="row-reverse"
+          gap="m"
+          borderRadius={10}
+          maxWidth={500}
+          backgroundColor="yellow100"
+          text="Escolher outra imagem"
+          textProps={{
+            color: "extraBlack",
+            fontFamily: "MulishFontBold",
+            fontSize: 18,
+          }}
         />
       </Box>
-
-      <Box
-        style={styles.inputContainer}
-        flexDirection="row"
-        alignItems="center"
-        gap="m"
-      >
-        <Switch value={isPublic} onValueChange={handlePublicToggle} />
-        <Text variant="body">Público (visível para todos)</Text>
-      </Box>
-
-      <IconButton
-        icon={
-          <MaterialCommunityIcons name="creation" size={24} color="black" />
-        }
-        width="100%"
-        marginBottom="s"
-        onPress={onGenerate}
-        disabled={isButtonDisabled}
-        flexDirection="row-reverse"
-        gap="m"
-        borderRadius={10}
-        maxWidth={300}
-        backgroundColor="blue300"
-        text="Gerar Modelo 3D"
-        textProps={{
-          color: "extraBlack",
-          fontFamily: "MulishFontBold",
-          fontSize: 18,
-        }}
-        style={{ opacity: isButtonDisabled ? 0.5 : 1 }}
-      />
-
-      <IconButton
-        icon={<MaterialCommunityIcons name="cancel" size={24} color="black" />}
-        width="100%"
-        onPress={reset}
-        flexDirection="row-reverse"
-        gap="m"
-        borderRadius={10}
-        maxWidth={300}
-        backgroundColor="red100"
-        text="Cancelar"
-        textProps={{
-          color: "extraBlack",
-          fontFamily: "MulishFontBold",
-          fontSize: 18,
-        }}
-      />
     </Box>
   );
 
   return (
-    <Container variant="screen" style={styles.contentContainer} hideHeader>
-      <Text variant="containerHeader" mt="xxxl" mb="xxxl" fontSize={20}>
-        Novo Modelo
-      </Text>
-
+    <Container
+      variant="screen"
+      style={[
+        styles.contentContainer,
+        selectedImage
+          ? { justifyContent: "flex-start" }
+          : { justifyContent: "center" },
+      ]}
+      hideHeader
+    >
       {selectedImage ? renderFormState() : renderEmptyState()}
     </Container>
   );
@@ -198,19 +220,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imageContainer: {
-    marginBottom: 30,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 10,
-    overflow: "hidden",
+    width: "100%",
+    height: 350,
   },
-  imageBorder: {
-    borderRadius: 10,
+  gradient: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: "60%",
+    zIndex: 1,
   },
   inputContainer: {
     width: "100%",
-    maxWidth: 300,
+    maxWidth: 500,
     marginBottom: 20,
+    marginTop: 20,
   },
   buttonContainer: {
     width: "100%",

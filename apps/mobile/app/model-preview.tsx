@@ -75,7 +75,6 @@ export default function ModelPreview() {
     <Container
       variant="screen"
       containerHeaderProps={{
-        // hideBackButton: true,
         backButtonFallback: () => router.push("/(tabs)"),
       }}
     >
