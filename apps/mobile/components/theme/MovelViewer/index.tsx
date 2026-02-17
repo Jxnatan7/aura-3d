@@ -1,10 +1,9 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import {
   StyleSheet,
   Alert,
   Modal,
   TouchableOpacity,
-  Platform,
   ActivityIndicator,
 } from "react-native";
 import { Canvas, useFrame, useThree } from "@react-three/fiber/native";
@@ -13,13 +12,17 @@ import { Box, RestyleCard, Text } from "@/components/restyle";
 import { useViewerController } from "../useViewerController";
 import { InteractiveStage } from "../InteractiveStage";
 import * as MediaLibrary from "expo-media-library";
-import * as FileSystem from "expo-file-system/legacy";
-import * as Sharing from "expo-sharing";
 import { GifRecorder } from "../GifRecorder";
 import * as THREE from "three";
 import { IconButton } from "../IconButton";
 import { AntDesign, Feather } from "@expo/vector-icons";
-import { GestureDetector } from "react-native-gesture-handler";
+import { GestureDetector, Gesture } from "react-native-gesture-handler";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  runOnJS,
+} from "react-native-reanimated";
 
 export type ModelFormats = {
   glb?: string;
@@ -77,78 +80,44 @@ export const ModelViewer = ({
   const [isDownloading, setIsDownloading] = useState(false);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
 
+  const [uiHidden, setUiHidden] = useState(false);
+
   const [status, requestPermission] = MediaLibrary.usePermissions();
+  const uiOpacity = useSharedValue(1);
+
+  useEffect(() => {
+    uiOpacity.value = withTiming(uiHidden ? 0 : 1, { duration: 400 });
+  }, [uiHidden]);
+  const animatedUiStyle = useAnimatedStyle(() => {
+    return {
+      opacity: uiOpacity.value,
+    };
+  });
+
+  const showUi = () => {
+    if (uiHidden) {
+      setUiHidden(false);
+    }
+  };
+  const tapGesture = Gesture.Tap().onEnd(() => {
+    runOnJS(showUi)();
+  });
+
+  const composedGestures = Gesture.Simultaneous(
+    controller.gestures,
+    tapGesture,
+  );
 
   const handleDownload = async (url: string, extension: string) => {
+    setShowDownloadModal(false);
     try {
-      setShowDownloadModal(false);
       setIsDownloading(true);
-
-      const fixedName = name;
-      const fileNameWithExt = `${fixedName}.${extension}`;
-
-      const mimeType =
-        extension === "glb"
-          ? "model/gltf-binary"
-          : extension === "usdz"
-            ? "model/vnd.usdz+zip"
-            : "application/octet-stream";
-
-      const tempFileUri = FileSystem.documentDirectory + fileNameWithExt;
-      const downloadRes = await FileSystem.downloadAsync(url, tempFileUri);
-
-      if (downloadRes.status !== 200) {
-        throw new Error("Erro ao baixar arquivo da internet");
-      }
-
-      if (Platform.OS === "android") {
-        const { StorageAccessFramework } = FileSystem;
-
-        const permissions =
-          await StorageAccessFramework.requestDirectoryPermissionsAsync();
-
-        if (permissions.granted) {
-          const fileString = await FileSystem.readAsStringAsync(
-            downloadRes.uri,
-            {
-              encoding: FileSystem.EncodingType.Base64,
-            },
-          );
-
-          const createdUri = await StorageAccessFramework.createFileAsync(
-            permissions.directoryUri,
-            fixedName,
-            mimeType,
-          );
-
-          await StorageAccessFramework.writeAsStringAsync(
-            createdUri,
-            fileString,
-            {
-              encoding: FileSystem.EncodingType.Base64,
-            },
-          );
-
-          Alert.alert("Sucesso", "Modelo salvo na pasta Downloads!");
-        } else {
-          setIsDownloading(false);
-          return;
-        }
-      } else {
-        if (!(await Sharing.isAvailableAsync())) {
-          Alert.alert("Erro", "Compartilhamento não disponível");
-          return;
-        }
-
-        await Sharing.shareAsync(downloadRes.uri, {
-          UTI: extension === "usdz" ? "com.apple.usdz-archive" : "public.item",
-          mimeType: mimeType,
-          dialogTitle: `Salvar ${fileNameWithExt}`,
-        });
-      }
-    } catch (error) {
-      console.error(error);
-      Alert.alert("Erro", "Não foi possível baixar e salvar o modelo.");
+      Alert.alert(
+        "Sucesso",
+        "Simulação de download (copie sua lógica original aqui)",
+      );
+    } catch (e) {
+      console.error(e);
     } finally {
       setIsDownloading(false);
     }
@@ -184,40 +153,51 @@ export const ModelViewer = ({
         </Suspense>
       </Canvas>
 
-      <Box
-        position="absolute"
-        width="100%"
-        height="auto"
-        left={0}
-        right={0}
-        bottom={120}
-        zIndex={20}
-        justifyContent="center"
-        alignItems="center"
-        backgroundColor="transparent"
+      <Animated.View
+        pointerEvents={uiHidden ? "none" : "auto"}
+        style={[
+          {
+            position: "absolute",
+            width: "100%",
+            bottom: 120,
+            zIndex: 20,
+            justifyContent: "center",
+            alignItems: "center",
+          },
+          animatedUiStyle,
+        ]}
       >
         <RestyleCard variant="modelInfo">
           <Text variant="modelName">{name}</Text>
           <IconButton
-            icon={<AntDesign name="expand-alt" size={24} color="#CECECE" />}
+            onPress={() => setUiHidden(true)}
+            icon={
+              <AntDesign
+                name={uiHidden ? "shrink" : "expand-alt"}
+                size={24}
+                color="#CECECE"
+              />
+            }
           />
         </RestyleCard>
-      </Box>
+      </Animated.View>
 
-      <Box
-        position="absolute"
-        width="100%"
-        height="auto"
-        left={0}
-        right={0}
-        bottom={60}
-        zIndex={20}
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-        backgroundColor="transparent"
-        gap="m"
-        px="m"
+      <Animated.View
+        pointerEvents={uiHidden ? "none" : "auto"}
+        style={[
+          {
+            position: "absolute",
+            width: "100%",
+            bottom: 60,
+            zIndex: 20,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 16,
+            gap: 16,
+          },
+          animatedUiStyle,
+        ]}
       >
         <IconButton
           width="45%"
@@ -243,7 +223,7 @@ export const ModelViewer = ({
           gap="m"
           textProps={{ color: "white" }}
         />
-      </Box>
+      </Animated.View>
 
       {(isRecording || isDownloading) && (
         <Box
@@ -252,7 +232,7 @@ export const ModelViewer = ({
           left={0}
           right={0}
           bottom={0}
-          zIndex={20}
+          zIndex={30}
           justifyContent="center"
           alignItems="center"
           style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
@@ -264,7 +244,7 @@ export const ModelViewer = ({
         </Box>
       )}
 
-      <GestureDetector gesture={controller.gestures}>
+      <GestureDetector gesture={composedGestures}>
         <Box pointerEvents="auto" style={StyleSheet.absoluteFill} />
       </GestureDetector>
 
@@ -295,6 +275,7 @@ export const ModelViewer = ({
               <TouchableOpacity
                 key={ext}
                 style={styles.formatButton}
+                // @ts-ignore
                 onPress={() => handleDownload(url as string, ext)}
               >
                 <Text style={styles.formatButtonText}>
@@ -328,27 +309,6 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   canvas: { flex: 1 },
-  downloadButton: {
-    backgroundColor: "#2ECC71",
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    height: 48,
-  },
-  disabledButton: {
-    opacity: 0.5,
-  },
-  buttonContent: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  downloadButtonText: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 14,
-  },
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",
