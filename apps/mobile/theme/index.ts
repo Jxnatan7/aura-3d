@@ -282,6 +282,11 @@ const theme = createTheme({
     },
   },
   textVariants: {
+    modelName: {
+      color: "mainText",
+      fontFamily: "MulishFontBold",
+      fontSize: 20,
+    },
     subHeader: {
       color: "mainText",
       fontFamily: "MulishFontMedium",
@@ -531,6 +536,20 @@ const theme = createTheme({
       marginHorizontal: "s",
       justifyContent: "center",
       alignItems: "center",
+    },
+    modelInfo: {
+      width: "100%",
+      height: 70,
+      backgroundColor: "allBlack",
+      marginHorizontal: "s",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      padding: "m",
+      alignItems: "center",
+      borderWidth: 1,
+      borderColor: "black",
+      overflow: "hidden",
+      borderRadius: 12,
     },
   },
 });

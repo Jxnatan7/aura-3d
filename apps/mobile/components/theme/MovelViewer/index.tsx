@@ -5,10 +5,11 @@ import {
   Modal,
   TouchableOpacity,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import { Canvas, useFrame, useThree } from "@react-three/fiber/native";
 import { Center, Environment } from "@react-three/drei/native";
-import { Box, Text } from "@/components/restyle";
+import { Box, RestyleCard, Text } from "@/components/restyle";
 import { useViewerController } from "../useViewerController";
 import { InteractiveStage } from "../InteractiveStage";
 import * as MediaLibrary from "expo-media-library";
@@ -16,6 +17,9 @@ import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
 import { GifRecorder } from "../GifRecorder";
 import * as THREE from "three";
+import { IconButton } from "../IconButton";
+import { AntDesign, Feather } from "@expo/vector-icons";
+import { GestureDetector } from "react-native-gesture-handler";
 
 export type ModelFormats = {
   glb?: string;
@@ -180,7 +184,68 @@ export const ModelViewer = ({
         </Suspense>
       </Canvas>
 
-      {/* {(isRecording || isDownloading) && (
+      <Box
+        position="absolute"
+        width="100%"
+        height="auto"
+        left={0}
+        right={0}
+        bottom={120}
+        zIndex={20}
+        justifyContent="center"
+        alignItems="center"
+        backgroundColor="transparent"
+      >
+        <RestyleCard variant="modelInfo">
+          <Text variant="modelName">{name}</Text>
+          <IconButton
+            icon={<AntDesign name="expand-alt" size={24} color="#CECECE" />}
+          />
+        </RestyleCard>
+      </Box>
+
+      <Box
+        position="absolute"
+        width="100%"
+        height="auto"
+        left={0}
+        right={0}
+        bottom={60}
+        zIndex={20}
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+        backgroundColor="transparent"
+        gap="m"
+        px="m"
+      >
+        <IconButton
+          width="45%"
+          flex={1}
+          height={40}
+          backgroundColor="white"
+          icon={<Feather name="download" size={20} color="#121212" />}
+          onPress={() => setShowDownloadModal(true)}
+          text="Baixar"
+          flexDirection="row-reverse"
+          gap="m"
+          textProps={{ color: "black" }}
+        />
+        <IconButton
+          width="45%"
+          flex={1}
+          height={40}
+          backgroundColor="black"
+          onPress={handleRecord}
+          icon={<Feather name="camera" size={20} color="#CECECE" />}
+          text="GIF"
+          flexDirection="row-reverse"
+          gap="m"
+          textProps={{ color: "white" }}
+        />
+      </Box>
+
+      {(isRecording || isDownloading) && (
         <Box
           position="absolute"
           top={0}
@@ -197,65 +262,11 @@ export const ModelViewer = ({
             {isRecording ? "Gerando GIF..." : "Salvando arquivo..."}
           </Text>
         </Box>
-      )} */}
+      )}
 
-      {/* {availableFormats.length > 0 && (
-        <Button
-          variant="icon"
-          style={[
-            {
-              position: "absolute",
-              right: 10,
-              top: 0,
-              zIndex: 9999,
-              elevation: 9999,
-              width: 40,
-              height: 40,
-              borderRadius: 4,
-              backgroundColor: "#2ECC71",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            },
-            (isRecording || isDownloading) && styles.disabledButton,
-          ]}
-          onPress={() => setShowDownloadModal(true)}
-          disabled={isRecording || isDownloading}
-        >
-          <Feather name="download" size={18} color="white" />
-        </Button>
-      )} */}
-
-      {/* <Box
-        position="absolute"
-        top={100}
-        alignSelf="center"
-        zIndex={10}
-        gap="s"
-        alignItems="center"
-      >
-        <Button
-          variant="default"
-          text="Criar GIF"
-          onPress={handleRecord}
-          disabled={isRecording || isDownloading}
-          width="auto"
-          padding="m"
-        />
-      </Box> */}
-      {/* 
-      <Box position="absolute" top={200} alignSelf="center" zIndex={10}>
-        <Text variant="infoTitle" alignSelf="center" mb="s">
-          {name}
-        </Text>
-        <Text variant="infoSubtitle">{id}</Text>
-      </Box> */}
-
-      {/* <GestureDetector gesture={controller.gestures}>
+      <GestureDetector gesture={controller.gestures}>
         <Box pointerEvents="auto" style={StyleSheet.absoluteFill} />
-      </GestureDetector> */}
-
-      {/* {showControls && <DirectionalPad controller={controller} />} */}
+      </GestureDetector>
 
       <Modal
         visible={showDownloadModal}
