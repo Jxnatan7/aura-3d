@@ -39,14 +39,19 @@ export const Model3DList = ({
 
   return (
     <PaginatedFlashList<Model3D>
+      variant="models"
       {...props}
-      style={{ alignSelf: "center", backgroundColor: "transparent" }}
+      style={{
+        alignSelf: "center",
+        backgroundColor: "transparent",
+      }}
       renderItem={renderItem}
       fetchData={fetchRequests}
       pageSize={10}
       horizontal={false}
       numColumns={2}
       contentContainerStyle={{
+        backgroundColor: "transparent",
         alignItems: "center",
         justifyContent: "center",
         paddingHorizontal: 16,

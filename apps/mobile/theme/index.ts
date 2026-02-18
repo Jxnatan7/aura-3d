@@ -482,9 +482,9 @@ const theme = createTheme({
     },
     models: {
       flex: 1,
+      marginTop: "m",
       maxWidth: "100%",
       backgroundColor: "transparent",
-      marginTop: "m",
     },
   },
   cameraVariants: {

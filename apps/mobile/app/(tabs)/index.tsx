@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from "react";
-import { Dimensions } from "react-native";
+import { Dimensions, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import { RestyleContainer } from "@/components/restyle/Container";
 import { Box, Text } from "@/components/restyle";
@@ -14,7 +14,10 @@ import { Model3DList } from "@/components/theme/Model3DList";
 import { usePreventGoBack } from "@/hooks/usePreventGoBack";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
-const CARD_WIDTH = (SCREEN_WIDTH - 56) / 2;
+const CARD_WIDTH = Platform.select({
+  web: (SCREEN_WIDTH - 56) / 6,
+  default: (SCREEN_WIDTH - 56) / 2,
+});
 const HOST = process.env.EXPO_PUBLIC_MEDIA_HOSTNAME || "";
 
 type ListType = "ALL" | "MY";
@@ -44,6 +47,7 @@ const ModelItem = React.memo(
   ({ item, index, onPress }: ModelItemProps) => {
     const glbUrl = formatMediaUrl(item, "glb");
     const imageUrl = formatMediaUrl(item, "image");
+    console.log("🚀 ~ imageUrl:", imageUrl);
 
     return (
       <RestyleCard
