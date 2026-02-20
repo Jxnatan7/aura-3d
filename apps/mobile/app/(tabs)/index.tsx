@@ -12,6 +12,7 @@ import { useAuthActions } from "@/contexts/AuthProvider";
 import useLoginModal from "@/hooks/useLoginModal";
 import { Model3DList } from "@/components/theme/Model3DList";
 import { usePreventGoBack } from "@/hooks/usePreventGoBack";
+import { Image } from "@/components/theme/Image";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const CARD_WIDTH = Platform.select({
@@ -47,7 +48,6 @@ const ModelItem = React.memo(
   ({ item, index, onPress }: ModelItemProps) => {
     const glbUrl = formatMediaUrl(item, "glb");
     const imageUrl = formatMediaUrl(item, "image");
-    console.log("🚀 ~ imageUrl:", imageUrl);
 
     return (
       <RestyleCard
@@ -138,7 +138,7 @@ export default function DashboardScreen() {
         borderBottomWidth={1}
         borderBottomColor="gray900"
       >
-        <Box alignItems="flex-start" flexDirection="row" padding="m">
+        <Box alignItems="center" flexDirection="row" padding="m">
           <Text
             variant="header"
             fontSize={22}
@@ -156,8 +156,12 @@ export default function DashboardScreen() {
             3D
           </Text>
         </Box>
+        <Image
+          width={50}
+          height={50}
+          source={require("@/assets/images/aura3d.png")}
+        />
       </RestyleCard>
-
       <Box
         width="100%"
         flexDirection="row"
