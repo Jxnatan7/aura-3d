@@ -1,19 +1,19 @@
 import { Container } from "@/components/theme/Container";
 import Model from "@/components/theme/Model";
 import { ModelViewer } from "@/components/theme/MovelViewer";
-
 import { useLocalSearchParams, useRouter } from "expo-router";
 
 export default function ModelView() {
   const { push } = useRouter();
 
-  const { glb, fbx, obj, usdz, name, id } = useLocalSearchParams<{
+  const { glb, fbx, obj, usdz, name, id, imageUrl } = useLocalSearchParams<{
     id: string;
     name: string;
     glb?: string;
     fbx?: string;
     obj?: string;
     usdz?: string;
+    imageUrl?: string;
   }>();
 
   const modelFormats = { glb, fbx, obj, usdz };
@@ -24,7 +24,13 @@ export default function ModelView() {
       backgroundColor="allBlack"
       containerHeaderProps={{ backButtonFallback: () => push("/") }}
     >
-      <ModelViewer id={id} name={name} formats={modelFormats}>
+      <ModelViewer
+        id={id}
+        name={name}
+        formats={modelFormats}
+        imageUrl={imageUrl}
+        sharedTransitionTag={`image-${id}`}
+      >
         <Model url={glb} />
       </ModelViewer>
     </Container>

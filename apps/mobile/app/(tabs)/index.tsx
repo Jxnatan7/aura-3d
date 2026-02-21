@@ -60,6 +60,7 @@ const ModelItem = React.memo(
       >
         <ModelImage
           uri={imageUrl ?? ""}
+          sharedTransitionTag={`image-${item._id}`}
           motiProps={{
             onPress: () => onPress(item, glbUrl),
           }}
@@ -95,6 +96,7 @@ export default function DashboardScreen() {
           id: item._id,
           glb: glbUrl,
           name: item.name,
+          imageUrl: item.thumbnailUrl ?? item.imageUrl,
         },
       });
     },

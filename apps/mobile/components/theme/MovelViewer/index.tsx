@@ -1,4 +1,4 @@
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   Alert,
@@ -23,6 +23,7 @@ import Animated, {
   withTiming,
   runOnJS,
   Easing,
+  withDelay,
 } from "react-native-reanimated";
 
 export type ModelFormats = {
@@ -41,6 +42,8 @@ export type ModelViewerProps = {
   autoRotate?: boolean;
   showControls?: boolean;
   backgroundColor?: string;
+  imageUrl?: string;
+  sharedTransitionTag?: string;
 };
 
 const GL_CONFIG = {
@@ -70,6 +73,8 @@ export const ModelViewer = ({
   autoRotate = true,
   showControls = true,
   backgroundColor = "#000",
+  imageUrl,
+  sharedTransitionTag,
 }: ModelViewerProps) => {
   const controller = useViewerController({
     initialRotation,
@@ -82,6 +87,8 @@ export const ModelViewer = ({
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [uiHidden, setUiHidden] = useState(false);
   const [status, requestPermission] = MediaLibrary.usePermissions();
+  const imageOpacity = useSharedValue(1);
+  const [isImageVisible, setIsImageVisible] = useState(true);
 
   const uiOffset = useSharedValue(0);
 
@@ -96,6 +103,30 @@ export const ModelViewer = ({
     return {
       transform: [{ translateY: uiOffset.value }],
     };
+  });
+
+  const handleModelLoaded = useCallback(() => {
+    imageOpacity.value = withDelay(
+      300,
+      withTiming(0, { duration: 500 }, (finished) => {
+        if (finished) {
+          runOnJS(setIsImageVisible)(false);
+        }
+      }),
+    );
+  }, []);
+
+  const animatedImageStyle = useAnimatedStyle(() => {
+    return {
+      opacity: imageOpacity.value,
+    };
+  });
+
+  const childrenWithProps = React.Children.map(children, (child) => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child, { onLoad: handleModelLoaded } as any);
+    }
+    return child;
   });
 
   const showUi = () => {
@@ -136,6 +167,20 @@ export const ModelViewer = ({
 
   return (
     <Box style={[styles.container, { backgroundColor }]}>
+      {imageUrl && isImageVisible && (
+        <Animated.Image
+          source={{ uri: imageUrl }}
+          // @ts-ignore
+          sharedTransitionTag={sharedTransitionTag}
+          style={[
+            StyleSheet.absoluteFillObject,
+            { zIndex: 10 },
+            animatedImageStyle,
+          ]}
+          resizeMode="contain"
+        />
+      )}
+
       <Canvas
         frameloop="always"
         style={styles.canvas}
@@ -146,7 +191,7 @@ export const ModelViewer = ({
           <CameraZoom zoom={controller.zoom} />
           <Environment preset="dawn" />
           <InteractiveStage controller={controller}>
-            <Center>{children}</Center>
+            <Center>{childrenWithProps}</Center>
           </InteractiveStage>
           <GifRecorder
             recording={isRecording}
@@ -310,7 +355,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  canvas: { flex: 1 },
+  canvas: { flex: 1, zIndex: 5 },
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",

@@ -2,7 +2,13 @@ import { useGLTF } from "@react-three/drei/native";
 import { Asset } from "expo-asset";
 import { useEffect } from "react";
 
-export default function Model({ url }: { url?: string }) {
+export default function Model({
+  url,
+  onLoad,
+}: {
+  url?: string;
+  onLoad?: () => void;
+}) {
   const { scene } = useGLTF(url || "") as any;
 
   useEffect(() => {
@@ -11,6 +17,14 @@ export default function Model({ url }: { url?: string }) {
       useGLTF.preload(url);
     }
   }, [url]);
+
+  useEffect(() => {
+    if (onLoad) {
+      requestAnimationFrame(() => {
+        onLoad();
+      });
+    }
+  }, [onLoad]);
 
   return <primitive object={scene} />;
 }

@@ -56,7 +56,7 @@ export class ModelArchiverService {
       if (
         model.thumbnailUrl &&
         typeof model.thumbnailUrl === "string" &&
-        model.thumbnailUrl.startsWith("http")
+        !model.thumbnailUrl.startsWith("https://aura-3d")
       ) {
         try {
           const localThumb = await this.storageService.saveFileFromUrl(
@@ -76,12 +76,7 @@ export class ModelArchiverService {
         for (const format of Object.keys(urlsObj)) {
           const url = urlsObj[format];
 
-          if (
-            typeof url === "string" &&
-            url.startsWith("http") &&
-            !url.includes("localhost") &&
-            !url.includes("minio")
-          ) {
+          if (typeof url === "string" && !url.startsWith("https://aura3d")) {
             try {
               const localUrl = await this.storageService.saveFileFromUrl(
                 url,

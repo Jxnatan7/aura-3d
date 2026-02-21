@@ -12,7 +12,6 @@ export default function TabLayout() {
         headerShown: false,
         tabBarShowLabel: true,
         tabBarHideOnKeyboard: true,
-        animation: "fade",
         tabBarStyle: {
           backgroundColor: theme.colors.extraBlack,
           borderBlockColor: theme.colors.gray900,

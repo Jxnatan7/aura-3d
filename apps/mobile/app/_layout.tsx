@@ -56,8 +56,6 @@ function RootLayoutNav() {
                   initialRouteName="(tabs)"
                   screenOptions={{
                     headerShown: false,
-                    animation: "flip",
-                    animationDuration: 300,
                   }}
                 >
                   <Stack.Screen name="(tabs)" />
