@@ -4,8 +4,8 @@ import { Logger } from "@nestjs/common";
 import { MeshyTaskResponse } from "src/integration/core/interfaces/meshy-types";
 import { Model3DRepository } from "src/integration/core/repositories/model-3d.repository";
 import { Model3D } from "src/integration/core/schemas/model-3d.schema";
-import { EventEmitter2 } from "@nestjs/event-emitter";
 import { RedisPubSubService } from "src/integration/core/service/redis-pubsub.service";
+import { ModelProcessor } from "src/integration/core/service/model-archiver.service";
 
 @Processor("meshy-processing")
 export class MeshyUpdateProcessor extends WorkerHost {
@@ -13,8 +13,8 @@ export class MeshyUpdateProcessor extends WorkerHost {
 
   constructor(
     private readonly model3DRepo: Model3DRepository,
-    private readonly eventEmitter: EventEmitter2,
     private readonly redisPubSub: RedisPubSubService,
+    private readonly modelProcessor: ModelProcessor,
   ) {
     super();
   }
@@ -36,6 +36,7 @@ export class MeshyUpdateProcessor extends WorkerHost {
     try {
       const updateData: Partial<Model3D> = {
         ...payload,
+        externalId: payload.id,
         name: model3D?.name,
         userId: model3D?.userId,
         status: payload.status,
@@ -50,18 +51,17 @@ export class MeshyUpdateProcessor extends WorkerHost {
         rawMetadata: payload,
       };
 
+      if (updateData.status === "SUCCEEDED") {
+        const downloadedFiles = await this.downloadFiles(updateData);
+        updateData.modelUrls = downloadedFiles.modelUrls;
+        updateData.thumbnailUrl = downloadedFiles.thumbnailUrl;
+      }
+
       const updatedModel = await this.model3DRepo.updateByExternalId(
         payload.id,
         updateData,
       );
       this.logger.debug(`Model ${payload.id} successfully updated.`);
-
-      // this.eventEmitter.emit("model.updated", {
-      //   modelId: payload.id,
-      //   status: payload.status,
-      //   progress: payload.progress,
-      //   data: updatedModel,
-      // });
 
       await this.redisPubSub.publish(`sse:model.updated.${updatedModel._id}`, {
         modelId: updatedModel._id,
@@ -77,5 +77,12 @@ export class MeshyUpdateProcessor extends WorkerHost {
       this.logger.error(`Failed to process job ${job.id}: ${error.message}`);
       throw error;
     }
+  }
+
+  async downloadFiles(payload: Partial<Model3D>) {
+    const response = await this.modelProcessor.process(payload);
+    const { modelUrls, thumbnailUrl } = response;
+
+    return { modelUrls, thumbnailUrl };
   }
 }

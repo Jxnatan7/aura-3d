@@ -18,7 +18,7 @@ class TaskError {
 }
 
 @Schema({ _id: false })
-class ModelUrls {
+export class ModelUrls {
   @Prop() glb?: string;
   @Prop() fbx?: string;
   @Prop() obj?: string;

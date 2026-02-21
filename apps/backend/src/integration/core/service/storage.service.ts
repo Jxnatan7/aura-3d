@@ -1,56 +1,48 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import axios from "axios";
+import { FileDownloaderService } from "./file-downloader.service";
+import { S3UploaderService } from "./s3-uploader.service";
+
+export class FilePayload {
+  constructor(
+    public readonly buffer: Buffer,
+    public readonly contentType: string,
+  ) {}
+}
+
+export class StorageEnvironment {
+  public readonly region = "us-east-1";
+  public readonly endpoint = process.env.BUCKET_ENDPOINT || "http://minio:9000";
+  public readonly accessKeyId = process.env.BUCKET_ACCESS_KEY || "admin";
+  public readonly secretAccessKey = process.env.BUCKET_ACCESS_SECRET || "admin";
+  public readonly bucketName = process.env.BUCKET_NAME || "models-3d";
+  public readonly publicEndpoint =
+    process.env.BUCKET_ENDPOINT || "http://localhost:9000";
+  public readonly meshyApiKey = process.env.MESHY_API_KEY || "";
+}
 
 @Injectable()
 export class StorageService {
-  private s3Client: S3Client;
-  private readonly logger = new Logger(StorageService.name);
-  private readonly BUCKET_NAME = process.env.BUCKET_NAME || "models-3d";
-
-  private readonly PUBLIC_ENDPOINT =
-    process.env.BUCKET_ENDPOINT || "http://localhost:9000";
-
-  constructor() {
-    this.s3Client = new S3Client({
-      region: "us-east-1",
-      endpoint: process.env.BUCKET_ENDPOINT || "http://minio:9000",
-      forcePathStyle: true,
-      credentials: {
-        accessKeyId: process.env.BUCKET_ACCESS_KEY || "admin",
-        secretAccessKey: process.env.BUCKET_ACCESS_SECRET || "admin",
-      },
-    });
-  }
+  constructor(
+    private readonly downloader: FileDownloaderService,
+    private readonly uploader: S3UploaderService,
+  ) {}
 
   async saveFileFromUrl(url: string, path: string): Promise<string> {
     try {
-      const apiKey = process.env.MESHY_API_KEY;
-
-      const response = await axios.get(url, {
-        responseType: "arraybuffer",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-        },
-      });
-      const buffer = Buffer.from(response.data);
-
-      const contentType =
-        response.headers["content-type"] || "application/octet-stream";
-
-      await this.s3Client.send(
-        new PutObjectCommand({
-          Bucket: this.BUCKET_NAME,
-          Key: path,
-          Body: buffer,
-          ContentType: contentType,
-        }),
-      );
-
-      return `${this.PUBLIC_ENDPOINT}/${this.BUCKET_NAME}/${path}`;
+      return await this.processFile(url, path);
     } catch (error) {
-      this.logger.error(`Erro ao salvar arquivo ${url}: ${error.message}`);
-      throw error;
+      this.handleError(url, error as Error);
     }
+  }
+
+  private async processFile(url: string, path: string): Promise<string> {
+    const payload = await this.downloader.download(url);
+    return this.uploader.upload(path, payload);
+  }
+
+  private handleError(url: string, error: Error): never {
+    const logger = new Logger(StorageService.name);
+    logger.error(`Erro ao salvar arquivo ${url}: ${error.message}`);
+    throw error;
   }
 }
