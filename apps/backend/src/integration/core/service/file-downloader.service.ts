@@ -1,5 +1,4 @@
 import { Injectable } from "@nestjs/common";
-import { StorageEnvironment } from "./storage.service";
 import axios, { AxiosResponse } from "axios";
 
 export class FilePayload {
@@ -11,8 +10,6 @@ export class FilePayload {
 
 @Injectable()
 export class FileDownloaderService {
-  constructor(private readonly env: StorageEnvironment) {}
-
   async download(url: string): Promise<FilePayload> {
     const response = await this.fetchData(url);
     return this.buildPayload(response);
@@ -21,7 +18,7 @@ export class FileDownloaderService {
   private async fetchData(url: string): Promise<AxiosResponse> {
     return axios.get(url, {
       responseType: "arraybuffer",
-      headers: { Authorization: `Bearer ${this.env.meshyApiKey}` },
+      headers: { Authorization: `Bearer ${process.env.MESHY_API_KEY}` },
     });
   }
 

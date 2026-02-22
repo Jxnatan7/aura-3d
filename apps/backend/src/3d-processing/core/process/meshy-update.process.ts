@@ -5,7 +5,7 @@ import { MeshyTaskResponse } from "src/integration/core/interfaces/meshy-types";
 import { Model3DRepository } from "src/integration/core/repositories/model-3d.repository";
 import { Model3D } from "src/integration/core/schemas/model-3d.schema";
 import { RedisPubSubService } from "src/integration/core/service/redis-pubsub.service";
-import { ModelProcessor } from "src/integration/core/service/model-archiver.service";
+import { ModelProcessorService } from "src/integration/core/service/model-processor.service";
 
 @Processor("meshy-processing")
 export class MeshyUpdateProcessor extends WorkerHost {
@@ -14,7 +14,7 @@ export class MeshyUpdateProcessor extends WorkerHost {
   constructor(
     private readonly model3DRepo: Model3DRepository,
     private readonly redisPubSub: RedisPubSubService,
-    private readonly modelProcessor: ModelProcessor,
+    private readonly modelProcessor: ModelProcessorService,
   ) {
     super();
   }

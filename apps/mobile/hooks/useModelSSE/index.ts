@@ -33,7 +33,7 @@ export function useModelSSE(
       } else if (event.type === "message") {
         try {
           const parsedData: ModelUpdatedPayload = JSON.parse(event.data || "");
-          console.log("[SSE] Atualização recebida:", parsedData);
+          // console.log("[SSE] Atualização recebida:", parsedData);
 
           updateModelStatus(parsedData);
           setData(parsedData);

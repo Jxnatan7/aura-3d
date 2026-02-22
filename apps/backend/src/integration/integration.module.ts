@@ -10,6 +10,10 @@ import { MeshyUpdateProcessor } from "src/3d-processing/core/process/meshy-updat
 import { ModelArchiverService } from "./core/service/model-archiver.service";
 import { StorageService } from "./core/service/storage.service";
 import { RedisPubSubService } from "./core/service/redis-pubsub.service";
+import { S3UploaderService } from "./core/service/s3-uploader.service";
+import { ModelProcessorService } from "./core/service/model-processor.service";
+import { AssetMigratorService } from "./core/service/asset-migrator.service";
+import { FileDownloaderService } from "./core/service/file-downloader.service";
 
 @Module({
   imports: [
@@ -26,6 +30,10 @@ import { RedisPubSubService } from "./core/service/redis-pubsub.service";
     ModelArchiverService,
     StorageService,
     RedisPubSubService,
+    S3UploaderService,
+    ModelProcessorService,
+    AssetMigratorService,
+    FileDownloaderService,
     {
       provide: "AI_PROVIDER",
       useClass: MeshyAIProvider,

@@ -82,7 +82,6 @@ const pallete = {
   allBlack: "#000000",
   white: "#FFFFFF",
   imageGray: "#1E1E1E",
-
   black: "#121212",
   extraBlack: "#080808ff",
   blue100: "#b3d4fc",

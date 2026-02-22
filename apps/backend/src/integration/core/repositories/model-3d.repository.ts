@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { Model3D, Model3DDocument } from "../schemas/model-3d.schema";
+import { ModelUpdatePayload } from "../service/model-processor.service";
 
 @Injectable()
 export class Model3DRepository {
@@ -44,5 +45,22 @@ export class Model3DRepository {
 
   getModel() {
     return this.model3DModel;
+  }
+
+  async findPending(limit: number): Promise<Model3DDocument[]> {
+    return this.model3DModel
+      .find({
+        status: "SUCCEEDED",
+        $or: [
+          { isStoredLocally: false },
+          { isStoredLocally: { $exists: false } },
+        ],
+      })
+      .limit(limit)
+      .exec();
+  }
+
+  async markAsStored(id: string, payload: ModelUpdatePayload): Promise<void> {
+    await this.model3DModel.updateOne({ _id: id }, { $set: payload });
   }
 }
