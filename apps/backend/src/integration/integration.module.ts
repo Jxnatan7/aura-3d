@@ -14,6 +14,7 @@ import { S3UploaderService } from "./core/service/s3-uploader.service";
 import { ModelProcessorService } from "./core/service/model-processor.service";
 import { AssetMigratorService } from "./core/service/asset-migrator.service";
 import { FileDownloaderService } from "./core/service/file-downloader.service";
+import { ImageProcessingService } from "./core/service/image-processing.service";
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { FileDownloaderService } from "./core/service/file-downloader.service";
     ModelProcessorService,
     AssetMigratorService,
     FileDownloaderService,
+    ImageProcessingService,
     {
       provide: "AI_PROVIDER",
       useClass: MeshyAIProvider,

@@ -1,6 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { FileDownloaderService } from "./file-downloader.service";
 import { S3UploaderService } from "./s3-uploader.service";
+import { ImageProcessingService } from "./image-processing.service";
 
 export class FilePayload {
   constructor(
@@ -19,12 +20,12 @@ export class StorageEnvironment {
     process.env.BUCKET_ENDPOINT || "http://localhost:9000";
   public readonly meshyApiKey = process.env.MESHY_API_KEY || "";
 }
-
 @Injectable()
 export class StorageService {
   constructor(
     private readonly downloader: FileDownloaderService,
     private readonly uploader: S3UploaderService,
+    private readonly imageProcessor: ImageProcessingService,
   ) {}
 
   async saveFileFromUrl(url: string, path: string): Promise<string> {
@@ -36,7 +37,17 @@ export class StorageService {
   }
 
   private async processFile(url: string, path: string): Promise<string> {
-    const payload = await this.downloader.download(url);
+    let payload = await this.downloader.download(url);
+
+    const isThumbnail = path.includes(".png");
+
+    if (isThumbnail) {
+      const processedBuffer = await this.imageProcessor.removeBackground(
+        payload.buffer,
+      );
+      payload = new FilePayload(processedBuffer, "image/png");
+    }
+
     return this.uploader.upload(path, payload);
   }
 

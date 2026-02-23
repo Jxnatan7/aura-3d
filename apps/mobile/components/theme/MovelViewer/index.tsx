@@ -25,6 +25,7 @@ import Animated, {
   Easing,
   withDelay,
 } from "react-native-reanimated";
+import Model3DService from "@/services/Model3DService";
 
 export type ModelFormats = {
   glb?: string;
@@ -163,6 +164,10 @@ export const ModelViewer = ({
     setIsRecording(true);
   };
 
+  const handleDownloadImage = async (id: string) => {
+    await Model3DService.processImage(id);
+  };
+
   const availableFormats = Object.entries(formats).filter(([_, url]) => !!url);
 
   return (
@@ -207,7 +212,7 @@ export const ModelViewer = ({
             position: "absolute",
             width: "100%",
             bottom: 120,
-            zIndex: 20,
+            zIndex: 21,
             justifyContent: "center",
             alignItems: "center",
           },
@@ -236,7 +241,7 @@ export const ModelViewer = ({
             position: "absolute",
             width: "100%",
             bottom: 60,
-            zIndex: 20,
+            zIndex: 21,
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
@@ -262,6 +267,18 @@ export const ModelViewer = ({
           width="45%"
           flex={1}
           height={40}
+          backgroundColor="white"
+          icon={<Feather name="download" size={20} color="#121212" />}
+          onPress={() => handleDownloadImage(id)}
+          text="Baixar"
+          flexDirection="row-reverse"
+          gap="m"
+          textProps={{ color: "black" }}
+        />
+        {/* <IconButton
+          width="45%"
+          flex={1}
+          height={40}
           backgroundColor="black"
           onPress={handleRecord}
           icon={<Feather name="camera" size={20} color="#CECECE" />}
@@ -269,7 +286,7 @@ export const ModelViewer = ({
           flexDirection="row-reverse"
           gap="m"
           textProps={{ color: "white" }}
-        />
+        /> */}
       </Animated.View>
 
       {(isRecording || isDownloading) && (
@@ -292,7 +309,10 @@ export const ModelViewer = ({
       )}
 
       <GestureDetector gesture={composedGestures}>
-        <Box pointerEvents="auto" style={StyleSheet.absoluteFill} />
+        <Box
+          pointerEvents="auto"
+          style={[StyleSheet.absoluteFill, { zIndex: 20 }]}
+        />
       </GestureDetector>
 
       <Modal

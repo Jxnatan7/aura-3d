@@ -63,4 +63,8 @@ export class Model3DRepository {
   async markAsStored(id: string, payload: ModelUpdatePayload): Promise<void> {
     await this.model3DModel.updateOne({ _id: id }, { $set: payload });
   }
+
+  async findById(id: string): Promise<Model3DDocument | null> {
+    return this.model3DModel.findById(id).exec();
+  }
 }

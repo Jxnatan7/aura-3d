@@ -72,8 +72,13 @@ const Model3DService = {
     const { data } = await axiosClient.post("/3d-generation/", request);
     return data;
   },
-  search(filterRequest: FilterRequest) {
+  async search(filterRequest: FilterRequest) {
     return axiosClient.post(`/3d-generation/search`, filterRequest);
+  },
+  async processImage(id: string) {
+    return axiosClient.post(`/webhooks/meshy/test/${id}`, {
+      baseURL: "http://localhost:3001",
+    });
   },
 };
 
