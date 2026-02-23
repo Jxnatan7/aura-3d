@@ -1,10 +1,8 @@
 import React, { useState, useCallback, useMemo } from "react";
-import { Dimensions, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import { RestyleContainer } from "@/components/restyle/Container";
 import { Box, Text } from "@/components/restyle";
 import { RestyleCard } from "@/components/restyle/Card";
-import { ModelImage } from "@/components/theme/ModelImage";
 import Button from "@/components/theme/Button";
 import { Model3D } from "@/services/Model3DService";
 import { useAuthStore } from "@/stores/authStore";
@@ -13,63 +11,10 @@ import useLoginModal from "@/hooks/useLoginModal";
 import { Model3DList } from "@/components/theme/Model3DList";
 import { usePreventGoBack } from "@/hooks/usePreventGoBack";
 import { Image } from "@/components/theme/Image";
+import { ModelItem } from "@/components/theme/ModelItem";
+import { SCREEN_WIDTH } from "@/constants";
 
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
-const CARD_WIDTH = Platform.select({
-  web: (SCREEN_WIDTH - 56) / 6,
-  default: (SCREEN_WIDTH - 56) / 2,
-});
-const HOST = process.env.EXPO_PUBLIC_MEDIA_HOSTNAME || "";
-
-type ListType = "ALL" | "MY";
-
-const formatMediaUrl = (
-  item: Model3D,
-  type: "image" | "glb",
-): string | undefined => {
-  const needsHost =
-    item.isStoredLocally && !item.modelUrls?.glb?.startsWith("https");
-
-  if (type === "glb") {
-    return needsHost ? `${HOST}${item.modelUrls?.glb}` : item.modelUrls?.glb;
-  }
-
-  const imageUrl = item.thumbnailUrl ?? item.imageUrl;
-  return needsHost ? `${HOST}${imageUrl}` : imageUrl;
-};
-
-interface ModelItemProps {
-  item: Model3D;
-  index: number;
-  onPress: (item: Model3D, glbUrl?: string) => void;
-}
-
-const ModelItem = React.memo(
-  ({ item, index, onPress }: ModelItemProps) => {
-    const glbUrl = formatMediaUrl(item, "glb");
-    const imageUrl = formatMediaUrl(item, "image");
-
-    return (
-      <RestyleCard
-        variant="model"
-        width={CARD_WIDTH}
-        height={CARD_WIDTH}
-        marginTop={index % 2 === 0 ? "l" : "none"}
-        marginBottom="minus"
-        overflow="hidden"
-      >
-        <ModelImage
-          uri={imageUrl ?? ""}
-          sharedTransitionTag={`image-${item._id}`}
-          motiProps={{
-            onPress: () => onPress(item, glbUrl),
-          }}
-        />
-      </RestyleCard>
-    );
-  },
-  (prevProps, nextProps) => prevProps.item._id === nextProps.item._id,
-);
+export type ListType = "ALL" | "MY";
 
 export default function DashboardScreen() {
   const { push } = useRouter();

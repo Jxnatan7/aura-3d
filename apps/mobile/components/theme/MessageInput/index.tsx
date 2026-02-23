@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Platform,
-  KeyboardAvoidingView,
-  Dimensions,
-  Keyboard,
-} from "react-native";
+import { Platform, KeyboardAvoidingView, Keyboard } from "react-native";
 import {
   Box,
   RestyleTextInputProps,
@@ -23,6 +18,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { SCREEN_WIDTH } from "@/constants";
 
 export type MessageInputProps = RestyleTextInputProps & {
   onSend: (content: string) => Promise<void>;
@@ -83,7 +79,7 @@ export const MessageInput = ({ onSend, ...props }: MessageInputProps) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
-      style={{ width: Dimensions.get("window").width }}
+      style={{ width: SCREEN_WIDTH }}
     >
       <GestureDetector gesture={panGesture}>
         <Animated.View style={rStyle}>

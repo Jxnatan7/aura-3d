@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Dimensions } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -9,8 +8,9 @@ import Animated, {
 } from "react-native-reanimated";
 import Svg, { Circle, G } from "react-native-svg";
 import { Box, Text } from "@/components/restyle";
+import { SCREEN_WIDTH } from "@/constants";
 
-const { width } = Dimensions.get("window");
+const width = SCREEN_WIDTH;
 const CIRCLE_LENGTH = 800;
 const R = CIRCLE_LENGTH / (2 * Math.PI);
 

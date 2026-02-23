@@ -263,19 +263,8 @@ export const ModelViewer = ({
           gap="m"
           textProps={{ color: "black" }}
         />
+
         <IconButton
-          width="45%"
-          flex={1}
-          height={40}
-          backgroundColor="white"
-          icon={<Feather name="download" size={20} color="#121212" />}
-          onPress={() => handleDownloadImage(id)}
-          text="Baixar"
-          flexDirection="row-reverse"
-          gap="m"
-          textProps={{ color: "black" }}
-        />
-        {/* <IconButton
           width="45%"
           flex={1}
           height={40}
@@ -286,7 +275,7 @@ export const ModelViewer = ({
           flexDirection="row-reverse"
           gap="m"
           textProps={{ color: "white" }}
-        /> */}
+        />
       </Animated.View>
 
       {(isRecording || isDownloading) && (
