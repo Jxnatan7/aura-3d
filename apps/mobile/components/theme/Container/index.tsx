@@ -18,7 +18,7 @@ export const Container = ({
   hideHeader,
   containerHeaderProps,
   containerHeaderChildren,
-  gradient,
+  gradient = true,
   ...props
 }: ContainerProps) => {
   const theme = useTheme<Theme>();

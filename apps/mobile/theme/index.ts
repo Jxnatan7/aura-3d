@@ -52,8 +52,8 @@ const theme = createTheme({
   imageVariants: {
     model: {
       flex: 1,
-      minWidth: 360,
-      minHeight: 360,
+      minWidth: 350,
+      minHeight: 350,
       borderRadius: 8,
     },
     default: {
@@ -94,7 +94,7 @@ const theme = createTheme({
       pt: "xl",
       pb: "none",
       alignItems: "center",
-      backgroundColor: "transparent",
+      backgroundColor: "allBlack",
     },
     screen: {
       flex: 1,
@@ -542,8 +542,8 @@ const theme = createTheme({
       marginHorizontal: "s",
       justifyContent: "center",
       alignItems: "center",
-      width: 300,
-      height: 300,
+      width: 350,
+      height: 350,
     },
     "model-vertical": {
       backgroundColor: "transparent",

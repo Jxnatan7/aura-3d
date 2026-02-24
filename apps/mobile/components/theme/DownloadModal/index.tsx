@@ -36,7 +36,9 @@ export const DownloadModal = ({
               style={styles.formatButton}
               onPress={() => onDownload(url, name, ext)}
             >
-              <Text style={styles.formatButtonText}>.{ext.toUpperCase()}</Text>
+              <Text style={styles.formatButtonText}>
+                {String(name).toUpperCase()}.{ext.toUpperCase()}
+              </Text>
             </TouchableOpacity>
           ))}
           <TouchableOpacity

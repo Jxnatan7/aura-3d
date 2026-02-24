@@ -38,7 +38,6 @@ export const ModelViewer = ({
   formats,
   initialRotation = [0, 0],
   autoRotate = true,
-  backgroundColor = "#000",
   imageUrl,
   sharedTransitionTag,
 }: ModelViewerProps) => {
@@ -78,7 +77,7 @@ export const ModelViewer = ({
   );
 
   return (
-    <Box style={[styles.container, { backgroundColor }]}>
+    <Box style={[styles.container]}>
       {imageUrl && isImageVisible && (
         <Animated.Image
           source={{ uri: imageUrl }}

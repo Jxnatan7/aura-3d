@@ -11,4 +11,5 @@ export const localFonts = {
   MulishExtraLight: require("./fonts/Mulish-ExtraLight.ttf"),
   MulishFontLight: require("./fonts/Mulish-Light.ttf"),
   MulishBlack: require("./fonts/Mulish-Black.ttf"),
+  "Sekuya-Regular": require("./fonts/Sekuya-Regular.ttf"),
 };
