@@ -5,7 +5,7 @@ import { MeshyStatus } from "../interfaces/meshy-types";
 export type Model3DDocument = Model3D & Document;
 
 @Schema({ _id: false })
-class TextureMaps {
+export class TextureMaps {
   @Prop() baseColor?: string;
   @Prop() metallic?: string;
   @Prop() normal?: string;

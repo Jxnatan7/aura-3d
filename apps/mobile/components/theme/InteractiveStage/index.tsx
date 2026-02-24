@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ViewerController } from "../useViewerController";
+import { ViewerController } from "../../../hooks/useViewerController";
 import { useFrame } from "@react-three/fiber/native";
 import { Platform } from "react-native";
 

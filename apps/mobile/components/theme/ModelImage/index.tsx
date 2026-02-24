@@ -22,7 +22,7 @@ export const ModelImage = ({
       animate={({ hovered, pressed }) => {
         "worklet";
         return {
-          scale: hovered || pressed ? 1.05 : 1,
+          scale: hovered || pressed ? 1.1 : 1,
         };
       }}
       transition={{

@@ -1,18 +1,16 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { useRouter } from "expo-router";
-import { RestyleContainer } from "@/components/restyle/Container";
 import { Box, Text } from "@/components/restyle";
 import { RestyleCard } from "@/components/restyle/Card";
 import Button from "@/components/theme/Button";
-import { Model3D } from "@/services/Model3DService";
 import { useAuthStore } from "@/stores/authStore";
 import { useAuthActions } from "@/contexts/AuthProvider";
 import useLoginModal from "@/hooks/useLoginModal";
 import { Model3DList } from "@/components/theme/Model3DList";
 import { usePreventGoBack } from "@/hooks/usePreventGoBack";
 import { Image } from "@/components/theme/Image";
-import { ModelItem } from "@/components/theme/ModelItem";
 import { SCREEN_WIDTH } from "@/constants";
+import { Container } from "@/components/theme/Container";
 
 export type ListType = "ALL" | "MY";
 
@@ -33,21 +31,6 @@ export default function DashboardScreen() {
     push("/login");
   }, [logout, push]);
 
-  const handleModelPress = useCallback(
-    (item: Model3D, glbUrl?: string) => {
-      push({
-        pathname: "/model-view",
-        params: {
-          id: item._id,
-          glb: glbUrl,
-          name: item.name,
-          imageUrl: item.thumbnailUrl ?? item.imageUrl,
-        },
-      });
-    },
-    [push],
-  );
-
   const handleTabChange = useCallback(
     (type: ListType) => {
       if (type === "MY" && !isAuthenticated) {
@@ -59,13 +42,6 @@ export default function DashboardScreen() {
     [isAuthenticated, showModal],
   );
 
-  const renderItem = useCallback(
-    ({ item, index }: any) => (
-      <ModelItem item={item} index={index} onPress={handleModelPress} />
-    ),
-    [handleModelPress],
-  );
-
   const keyExtractor = useCallback((item: any) => item._id.toString(), []);
 
   const listTitle = useMemo(
@@ -74,7 +50,7 @@ export default function DashboardScreen() {
   );
 
   return (
-    <RestyleContainer variant="screen" paddingHorizontal="m">
+    <Container variant="screen" paddingHorizontal="m" hideHeader>
       <RestyleCard
         variant="header"
         width={SCREEN_WIDTH}
@@ -156,11 +132,7 @@ export default function DashboardScreen() {
         {listTitle}
       </Text>
 
-      <Model3DList
-        listType={listType}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-      />
-    </RestyleContainer>
+      <Model3DList listType={listType} keyExtractor={keyExtractor} horizontal />
+    </Container>
   );
 }

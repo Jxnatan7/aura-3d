@@ -4,8 +4,6 @@ import {
   Controller,
   HttpCode,
   Logger,
-  NotFoundException,
-  Param,
   Post,
 } from "@nestjs/common";
 import { InjectQueue } from "@nestjs/bullmq";
@@ -38,14 +36,5 @@ export class MeshyWebhookController {
     });
 
     return { received: true };
-  }
-
-  @Post("/test/:id")
-  @HttpCode(200)
-  async test(@Param("id") id: string) {
-    console.log("🚀 ~ MeshyWebhookController ~ test ~ id:", id);
-    const model = await this.modelRepository.findById(id);
-    if (!model) throw new NotFoundException("Model not found");
-    this.modelProcessorService.process(model);
   }
 }

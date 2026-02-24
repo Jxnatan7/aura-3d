@@ -52,8 +52,8 @@ const theme = createTheme({
   imageVariants: {
     model: {
       flex: 1,
-      minWidth: "100%",
-      minHeight: "100%",
+      minWidth: 360,
+      minHeight: 360,
       borderRadius: 8,
     },
     default: {
@@ -100,7 +100,7 @@ const theme = createTheme({
       flex: 1,
       width: "100%",
       padding: "none",
-      backgroundColor: "extraBlack",
+      backgroundColor: "allBlack",
     },
   },
   boxVariants: {
@@ -480,10 +480,16 @@ const theme = createTheme({
       height: 40,
       maxHeight: 40,
     },
-    models: {
+    "models-vertical": {
       flex: 1,
       marginTop: "m",
       maxWidth: "100%",
+      backgroundColor: "transparent",
+    },
+    "models-horizontal": {
+      maxWidth: 400,
+      maxHeight: 350,
+      overflow: "auto",
       backgroundColor: "transparent",
     },
   },
@@ -509,7 +515,7 @@ const theme = createTheme({
     header: {
       width: "100%",
       paddingHorizontal: "s",
-      backgroundColor: "extraBlack",
+      backgroundColor: "transparent",
     },
     default: {
       backgroundColor: "backgroundLight",
@@ -531,8 +537,16 @@ const theme = createTheme({
       backgroundColor: "buttonGradientSecondary1",
       borderRadius: 8,
     },
-    model: {
-      backgroundColor: "allBlack",
+    "model-horizontal": {
+      backgroundColor: "transparent",
+      marginHorizontal: "s",
+      justifyContent: "center",
+      alignItems: "center",
+      width: 300,
+      height: 300,
+    },
+    "model-vertical": {
+      backgroundColor: "transparent",
       marginHorizontal: "s",
       justifyContent: "center",
       alignItems: "center",

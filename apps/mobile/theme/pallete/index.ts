@@ -61,8 +61,10 @@ const pallete = {
   accepted: "#0053e3ff",
   rejected: "#FF0000",
 
-  gradientDark1: "#020101",
-  gradientDark0: "#666666",
+  // gradientDark1: "#05262F",
+  // gradientDark0: "#0B3B49",
+  gradientDark1: "#080808ff",
+  gradientDark0: "#010821ff",
   gradientLight1: "#999999",
   gradientLight0: "#FFFFFF",
 
@@ -128,3 +130,7 @@ const pallete = {
 };
 
 export default pallete;
+// rosa: #ED67CB;
+// azul esverdeado: #64F3DB
+// azul medio: #0B3B49
+// azul escuro: #05262F

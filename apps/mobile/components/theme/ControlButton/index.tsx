@@ -1,6 +1,6 @@
 import { Box, RestyleTouchableOpacityProps, Text } from "@/components/restyle";
 import React, { useState } from "react";
-import { ViewerController } from "../useViewerController";
+import { ViewerController } from "../../../hooks/useViewerController";
 import {
   LayoutAnimation,
   Platform,

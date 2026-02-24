@@ -24,8 +24,10 @@ export class GeneratorService {
     const { result: externalId } = await this.aiProvider.createImageTo3D({
       image_url: `data:image/png;base64,${dto.imageBase64}`,
       model_type: dto.modelType ?? "standard",
-      target_polycount: 100000,
+      enable_pbr: true,
       should_texture: true,
+      texture_image_url: `data:image/png;base64,${dto.imageBase64}`,
+      target_polycount: 100000,
       should_remesh: true,
     });
 

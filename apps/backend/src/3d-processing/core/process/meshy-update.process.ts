@@ -55,6 +55,7 @@ export class MeshyUpdateProcessor extends WorkerHost {
         const downloadedFiles = await this.downloadFiles(updateData);
         updateData.modelUrls = downloadedFiles.modelUrls;
         updateData.thumbnailUrl = downloadedFiles.thumbnailUrl;
+        updateData.textureUrls = downloadedFiles.textureUrls;
       }
 
       const updatedModel = await this.model3DRepo.updateByExternalId(
@@ -81,8 +82,8 @@ export class MeshyUpdateProcessor extends WorkerHost {
 
   async downloadFiles(payload: Partial<Model3D>) {
     const response = await this.modelProcessor.process(payload);
-    const { modelUrls, thumbnailUrl } = response;
+    const { modelUrls, thumbnailUrl, textureUrls } = response;
 
-    return { modelUrls, thumbnailUrl };
+    return { modelUrls, thumbnailUrl, textureUrls };
   }
 }
