@@ -1,13 +1,13 @@
 import React from "react";
-import { Box } from "@/components/restyle";
+import { Box, Text } from "@/components/restyle";
 import { Container } from "@/components/theme/Container";
-import ProgressRing from "@/components/theme/ProgressRing";
-import ProgressBar from "@/components/theme/ProgressBar";
-import { useModelPreviewLogic } from "@/hooks/useModelPreviewLogic";
+import { Model3DList } from "@/components/theme/Model3DList";
+import { useRouter } from "expo-router";
+import { ModelLoadingAnimation } from "@/components/theme/ModelLoadingAnimation";
 
 export default function ModelPreview() {
-  const { isLoading, displayProgress, displayName, displayId, goBack } =
-    useModelPreviewLogic();
+  const router = useRouter();
+  const goBack = () => router.push("/(tabs)");
 
   return (
     <Container
@@ -19,12 +19,21 @@ export default function ModelPreview() {
       <Box
         flex={1}
         width="100%"
-        alignItems="center"
-        justifyContent="center"
-        px="m"
+        height="100%"
+        mt="xl"
+        justifyContent="space-between"
+        paddingHorizontal="m"
       >
-        <ProgressRing />
-        <ProgressBar progress={displayProgress} />
+        <Box flex={1} alignItems="center">
+          <ModelLoadingAnimation />
+        </Box>
+
+        <Box mb="xl" width="100%">
+          <Text variant="infoTitle" alignSelf="flex-start">
+            Enquanto isso, explore nossos modelos:
+          </Text>
+          <Model3DList listType="ALL" horizontal />
+        </Box>
       </Box>
     </Container>
   );

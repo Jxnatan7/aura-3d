@@ -34,11 +34,11 @@ const ProgressRing = () => {
   });
 
   return (
-    <Box alignItems="center" justifyContent="center" mb="xl">
+    <Box alignItems="center" justifyContent="center" mb="m">
       <Animated.View style={animatedStyles}>
         <Svg
-          width={width * 0.7}
-          height={width * 0.7}
+          width={width * 0.5}
+          height={width * 0.5}
           viewBox={`0 0 ${width} ${width}`}
         >
           <G origin={`${width / 2}, ${width / 2}`}>

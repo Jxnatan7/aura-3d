@@ -52,8 +52,8 @@ const theme = createTheme({
   imageVariants: {
     model: {
       flex: 1,
-      minWidth: 350,
-      minHeight: 350,
+      minWidth: "100%",
+      minHeight: "100%",
       borderRadius: 8,
     },
     default: {
@@ -100,7 +100,7 @@ const theme = createTheme({
       flex: 1,
       width: "100%",
       padding: "none",
-      backgroundColor: "allBlack",
+      backgroundColor: "extraBlack",
     },
   },
   boxVariants: {
@@ -284,7 +284,7 @@ const theme = createTheme({
   textVariants: {
     modelName: {
       color: "mainText",
-      fontFamily: "MulishFontBold",
+      fontFamily: "Sekuya-Regular",
       fontSize: 20,
     },
     subHeader: {
@@ -487,8 +487,6 @@ const theme = createTheme({
       backgroundColor: "transparent",
     },
     "models-horizontal": {
-      maxWidth: 400,
-      maxHeight: 350,
       overflow: "auto",
       backgroundColor: "transparent",
     },
@@ -542,11 +540,11 @@ const theme = createTheme({
       marginHorizontal: "s",
       justifyContent: "center",
       alignItems: "center",
-      width: 350,
-      height: 350,
+      width: 200,
+      height: 200,
     },
     "model-vertical": {
-      backgroundColor: "transparent",
+      backgroundColor: "allBlack",
       marginHorizontal: "s",
       justifyContent: "center",
       alignItems: "center",

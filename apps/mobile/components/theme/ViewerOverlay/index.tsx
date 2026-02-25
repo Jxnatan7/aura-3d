@@ -19,7 +19,7 @@ export const ViewerOverlay = ({
       style={[styles.topOverlay, animatedUiStyle]}
     >
       <RestyleCard variant="modelInfo">
-        <Text variant="modelName">{name}</Text>
+        <Text variant="modelName">{String(name).toUpperCase()}</Text>
         <IconButton
           onPress={() => setUiHidden(true)}
           icon={

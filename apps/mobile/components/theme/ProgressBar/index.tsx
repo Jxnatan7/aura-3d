@@ -39,9 +39,9 @@ const ProgressBar = ({ progress }: ProgressBarProps) => {
         {Math.round(progress)}%
       </Text>
       <Box
-        width="80%"
+        width="100%"
         height={10}
-        backgroundColor="gray300"
+        backgroundColor="extraBlack"
         borderRadius={10}
         overflow="hidden"
       >
@@ -49,7 +49,7 @@ const ProgressBar = ({ progress }: ProgressBarProps) => {
           style={[
             {
               height: "100%",
-              backgroundColor: "#3DCDF3",
+              backgroundColor: "#FFF",
               borderRadius: 10,
             },
             animatedStyle,

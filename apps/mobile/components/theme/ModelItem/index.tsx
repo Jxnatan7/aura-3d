@@ -10,10 +10,10 @@ import { Platform, StyleSheet } from "react-native";
 import { ModelImage } from "../ModelImage";
 import { SCREEN_WIDTH } from "@/constants";
 import { formatMediaUrl } from "@/utils/formatMediaUrl";
-import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
 import { IconButton } from "../IconButton";
 import { Feather } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 
 export type ModelItemProps = {
   item: Model3D;
@@ -59,7 +59,7 @@ export const ModelItem = memo(
 
         <Box style={styles.glowContainer} pointerEvents="none">
           <LinearGradient
-            colors={["#000000", "#424242"]}
+            colors={["#000000", "#001427"]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={{ flex: 1, width: "100%", height: "100%", borderRadius: 16 }}
@@ -89,56 +89,43 @@ export const ModelItem = memo(
           backgroundColor="transparent"
           style={{
             position: "absolute",
-            bottom: 12,
+            bottom: 10,
             zIndex: 12,
-            width: 330,
-            height: 70,
+            width: "95%",
+            height: "15%",
             alignItems: "flex-start",
             borderRadius: 20,
             overflow: "hidden",
           }}
         >
           <BlurView
-            intensity={50}
+            intensity={20}
             tint="light"
             style={{
               width: "100%",
               height: "100%",
               flexDirection: "row",
               justifyContent: "space-between",
-              alignItems: "flex-start",
-              padding: 8,
+              alignItems: "center",
+              padding: 4,
+              paddingHorizontal: 8,
               overflow: "hidden",
             }}
           >
-            <Box maxWidth="60%">
+            <Box flex={1} maxWidth="90%">
               <Text
                 fontFamily="Sekuya-Regular"
-                fontSize={24}
+                fontSize={14}
                 color="white"
                 numberOfLines={1}
               >
                 {String(item.name).toUpperCase()}
               </Text>
-              <Box flexDirection="row">
-                <Text
-                  fontFamily="MulishFontSemiBold"
-                  fontSize={16}
-                  color="white"
-                >
-                  by{" "}
-                </Text>
-                <Text
-                  fontFamily="MulishFontSemiBold"
-                  fontSize={16}
-                  color="blue300"
-                >
-                  Aura3D
-                </Text>
-              </Box>
             </Box>
             <IconButton
-              icon={<Feather name="arrow-right" size={24} color="white" />}
+              width={30}
+              height={30}
+              icon={<Feather name="arrow-right" size={18} color="white" />}
             />
           </BlurView>
         </RestyleTouchableOpacity>

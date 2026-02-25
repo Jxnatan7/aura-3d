@@ -132,7 +132,7 @@ export default function DashboardScreen() {
         {listTitle}
       </Text>
 
-      <Model3DList listType={listType} keyExtractor={keyExtractor} horizontal />
+      <Model3DList listType={listType} keyExtractor={keyExtractor} />
     </Container>
   );
 }

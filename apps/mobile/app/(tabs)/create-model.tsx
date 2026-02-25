@@ -81,8 +81,8 @@ export default function CreateModel() {
         <IconButton
           variant="imageOption"
           text="Enviar"
-          // onPress={() => push("/model-preview")}
-          onPress={pickImageFromGallery}
+          onPress={() => push("/model-preview")}
+          // onPress={pickImageFromGallery}
           icon={
             <Box borderColor="blue300" marginBottom="s">
               <FontAwesome
