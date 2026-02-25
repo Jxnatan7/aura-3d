@@ -39,7 +39,7 @@ export class StorageService {
   private async processFile(url: string, path: string): Promise<string> {
     let payload = await this.downloader.download(url);
 
-    const isThumbnail = path.includes(".png");
+    const isThumbnail = url.includes("preview.png");
 
     if (isThumbnail) {
       const processedBuffer = await this.imageProcessor.removeBackground(

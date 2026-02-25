@@ -11,6 +11,7 @@ type ModelState = {
   isGenerating: boolean;
   modelUrls: ModelUrls | null;
   progress: number | null;
+  fakeProgress: number;
   error: string | null;
   clearAppData: () => void;
   setModelId: (modelId: string) => void;
@@ -20,12 +21,14 @@ type ModelState = {
   setIsGenerating: (isGenerating: boolean) => void;
   setModelUrls: (modelUrls: ModelUrls) => void;
   setProgress: (progress: number) => void;
+  setFakeProgress: (progress: number) => void;
   updateModelStatus: (data: any) => void;
   setError: (error: string) => void;
 };
 
 const INITIAL_STATE: Partial<ModelState> = {
   isGenerating: false,
+  fakeProgress: 0,
 };
 
 export const useModelStore = create<ModelState>()(
@@ -38,6 +41,7 @@ export const useModelStore = create<ModelState>()(
       isCompleted: false,
       isGenerating: false,
       progress: null,
+      fakeProgress: 0,
       error: null,
       setModelId: (modelId) => set({ modelId }),
       setModelName: (modelName) => set({ modelName }),
@@ -46,6 +50,7 @@ export const useModelStore = create<ModelState>()(
       setModelStatus: (modelStatus) => set({ modelStatus }),
       setModelUrls: (modelUrls) => set({ modelUrls }),
       setProgress: (progress) => set({ progress }),
+      setFakeProgress: (fakeProgress) => set({ fakeProgress }),
       updateModelStatus: (data) => {
         set({
           modelStatus: data.status,

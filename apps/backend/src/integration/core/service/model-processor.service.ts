@@ -34,7 +34,17 @@ export class ModelProcessorService {
       basePath,
     );
 
-    return new ModelUpdatePayload(true, thumbnailUrl, modelUrls, textureUrls);
+    const isStoredLocally =
+      (thumbnailUrl?.startsWith("https://aura-3d.app.br") &&
+        modelUrls?.glb?.startsWith("https://aura-3d.app.br")) ??
+      false;
+
+    return new ModelUpdatePayload(
+      isStoredLocally,
+      thumbnailUrl,
+      modelUrls,
+      textureUrls,
+    );
   }
 
   private async processThumbnail(

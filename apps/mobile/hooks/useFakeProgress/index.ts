@@ -1,24 +1,31 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useModelStore } from "@/stores/modelStore";
 
 export const useFakeProgress = (realProgress: number = 0) => {
-  const [displayProgress, setDisplayProgress] = useState(0);
+  const fakeProgress = useModelStore((state) => state.fakeProgress);
 
   useEffect(() => {
-    setDisplayProgress((prev) => Math.max(prev, realProgress));
+    if (realProgress > fakeProgress) {
+      useModelStore.getState().setFakeProgress(realProgress);
+    }
 
     if (realProgress >= 100) return;
+
     const maxFakeProgress = realProgress >= 50 ? 99 : 49;
 
     const timer = setInterval(() => {
-      setDisplayProgress((prev) => {
-        if (prev >= maxFakeProgress) return prev;
-        const step = Math.floor(Math.random() * 2) + 1;
-        return Math.min(prev + step, maxFakeProgress);
-      });
+      const currentFake = useModelStore.getState().fakeProgress;
+
+      if (currentFake >= maxFakeProgress) return;
+
+      const step = Math.floor(Math.random() * 2) + 1;
+      useModelStore
+        .getState()
+        .setFakeProgress(Math.min(currentFake + step, maxFakeProgress));
     }, 1500);
 
     return () => clearInterval(timer);
-  }, [realProgress]);
+  }, [realProgress, fakeProgress]);
 
-  return displayProgress;
+  return fakeProgress;
 };

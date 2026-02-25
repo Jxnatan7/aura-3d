@@ -3,42 +3,53 @@ import { Animated } from "react-native";
 import { Box, Text } from "@/components/restyle";
 import LottieView from "lottie-react-native";
 import { ProgressController } from "../ProgressController";
+import { useModelStore } from "@/stores/modelStore";
 
-const LOADING_MESSAGES = [
-  "Lendo imagem...",
-  "Processando geometria...",
-  "Criando modelo...",
-  "Refinando texturas...",
-  "Ajustando iluminação...",
-  "Finalizando detalhes...",
-];
+const LOADING_MESSAGES: Record<number, string> = {
+  0: "Lendo imagem...",
+  10: "Analisando formas e contornos...",
+  20: "Processando geometria...",
+  30: "Calculando profundidade...",
+  40: "Criando malha 3D...",
+  50: "Aplicando texturas base...",
+  60: "Refinando materiais...",
+  70: "Ajustando iluminação e sombras...",
+  80: "Otimizando polígonos...",
+  90: "Finalizando detalhes, quase pronto...",
+};
+
+const getMessageForProgress = (progress: number) => {
+  return LOADING_MESSAGES[progress] || "";
+};
 
 export function ModelLoadingAnimation() {
-  const [messageIndex, setMessageIndex] = useState(0);
-  const duration = 400;
+  const fakeProgress = useModelStore((state) => state.fakeProgress);
+
+  const [displayedMessage, setDisplayedMessage] = useState(() =>
+    getMessageForProgress(fakeProgress),
+  );
+
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const nextMessage = getMessageForProgress(fakeProgress);
+
+    if (nextMessage !== displayedMessage) {
       Animated.timing(fadeAnim, {
         toValue: 0,
-        duration: duration,
+        duration: 300,
         useNativeDriver: true,
       }).start(() => {
-        setMessageIndex(
-          (prevIndex) => (prevIndex + 1) % LOADING_MESSAGES.length,
-        );
+        setDisplayedMessage(nextMessage);
 
         Animated.timing(fadeAnim, {
           toValue: 1,
-          duration: duration,
+          duration: 300,
           useNativeDriver: true,
         }).start();
       });
-    }, 15000);
-
-    return () => clearInterval(interval);
-  }, [fadeAnim]);
+    }
+  }, [fakeProgress, displayedMessage, fadeAnim]);
 
   return (
     <Box
@@ -48,9 +59,11 @@ export function ModelLoadingAnimation() {
       justifyContent="center"
       padding="m"
     >
-      <Animated.View style={{ opacity: fadeAnim }}>
+      <Animated.View
+        style={{ opacity: fadeAnim, minHeight: 40, justifyContent: "center" }}
+      >
         <Text variant="infoTitle" textAlign="center">
-          {LOADING_MESSAGES[messageIndex]}
+          {displayedMessage}
         </Text>
       </Animated.View>
       <LottieView
