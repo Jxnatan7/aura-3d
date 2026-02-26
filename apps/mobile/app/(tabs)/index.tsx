@@ -66,7 +66,7 @@ export default function DashboardScreen() {
             variant="header"
             fontSize={22}
             color="mainText"
-            fontFamily="MulishFontBold"
+            fontFamily="Sekuya-Regular"
           >
             Aura
           </Text>
@@ -74,7 +74,7 @@ export default function DashboardScreen() {
             variant="header"
             fontSize={22}
             color="blue300"
-            fontFamily="MulishFontBold"
+            fontFamily="Sekuya-Regular"
           >
             3D
           </Text>
@@ -100,7 +100,7 @@ export default function DashboardScreen() {
           text="Recentes"
           textProps={{
             fontSize: 16,
-            color: listType === "ALL" ? "blue300" : "mainText",
+            color: listType === "ALL" ? "white" : "mainText",
           }}
         />
         <Button
@@ -115,22 +115,10 @@ export default function DashboardScreen() {
           text="Meus Modelos"
           textProps={{
             fontSize: 16,
-            color: listType === "MY" ? "blue300" : "mainText",
+            color: listType === "MY" ? "white" : "mainText",
           }}
         />
       </Box>
-
-      <Text
-        variant="subHeader"
-        fontSize={18}
-        color="mainText"
-        alignSelf="flex-start"
-        mt="m"
-        mb="m"
-        fontFamily="MulishFontSemiBold"
-      >
-        {listTitle}
-      </Text>
 
       <Model3DList listType={listType} keyExtractor={keyExtractor} />
     </Container>

@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from "react";
-import { StyleSheet, Switch } from "react-native";
-import { Redirect, useRouter } from "expo-router";
+import React, { useState, useCallback, useRef } from "react";
+import { StyleSheet, Switch, TextInput as RNTextInput } from "react-native";
+import { Redirect } from "expo-router";
 import { useTheme } from "@shopify/restyle";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Container } from "@/components/theme/Container";
@@ -16,10 +16,10 @@ import { Theme } from "@/theme";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function CreateModel() {
-  const { push } = useRouter();
   const theme = useTheme<Theme>();
   const { isAuthenticated } = useAuthStore();
   const { isGenerating } = useModelContext();
+  const inputRef = useRef<RNTextInput>(null);
 
   const {
     name,
@@ -81,8 +81,8 @@ export default function CreateModel() {
         <IconButton
           variant="imageOption"
           text="Enviar"
-          onPress={() => push("/model-preview")}
-          // onPress={pickImageFromGallery}
+          // onPress={() => push("/model-preview")}
+          onPress={pickImageFromGallery}
           icon={
             <Box borderColor="blue300" marginBottom="s">
               <FontAwesome
@@ -117,25 +117,30 @@ export default function CreateModel() {
   const renderFormState = () => (
     <Box alignItems="center" width="100%">
       <Box style={styles.imageContainer}>
-        <LinearGradient
-          colors={["rgba(8, 8, 8, 1)", "rgba(8, 8, 8, 0)"]}
-          start={{ x: 0, y: 1 }}
-          end={{ x: 0, y: 0 }}
-          style={styles.gradient}
-        />
         <Image
           source={{ uri: selectedImage! }}
           width="100%"
           height="100%"
           contentFit="cover"
+          paddingBottom="l"
+        />
+        <LinearGradient
+          colors={["#080808ff", "rgba(8, 8, 8, 0)"]}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 0, y: 0 }}
+          style={styles.gradient}
         />
       </Box>
 
       <Box width="100%" padding="m">
         <TextInput
+          ref={inputRef}
           placeholder="Nome do Modelo"
-          value={name || ""}
-          onChangeText={setName}
+          value={name ? name : undefined}
+          onChangeText={() => {
+            if (!inputRef.current?.props?.value) return;
+            setName(inputRef.current?.props?.value);
+          }}
           placeholderTextColor="#FFF"
           containerProps={{
             backgroundColor: "transparent",
@@ -222,7 +227,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: "100%",
-    height: 350,
+    height: 500,
   },
   gradient: {
     position: "absolute",

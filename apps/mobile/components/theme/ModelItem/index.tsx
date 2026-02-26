@@ -10,10 +10,8 @@ import { Platform, StyleSheet } from "react-native";
 import { ModelImage } from "../ModelImage";
 import { SCREEN_WIDTH } from "@/constants";
 import { formatMediaUrl } from "@/utils/formatMediaUrl";
-import { BlurView } from "expo-blur";
-import { IconButton } from "../IconButton";
 import { Feather } from "@expo/vector-icons";
-import { LinearGradient } from "expo-linear-gradient";
+import { LiquidGlassView } from "../LiquidGlassView";
 
 export type ModelItemProps = {
   item: Model3D;
@@ -23,7 +21,7 @@ export type ModelItemProps = {
 };
 
 const CARD_WIDTH = Platform.select({
-  web: (SCREEN_WIDTH - 56) / 6,
+  web: (SCREEN_WIDTH - 56) / 2,
   default: (SCREEN_WIDTH - 56) / 2,
 });
 
@@ -42,33 +40,18 @@ export const ModelItem = memo(
         borderRadius={16}
         style={styles.cardWrapper}
       >
-        <BlurView
-          intensity={5}
+        <LiquidGlassView
+          intensity={15}
           tint="dark"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            width: "100%",
-            height: "100%",
-            zIndex: 10,
-            borderRadius: 16,
-          }}
+          borderRadius={16}
+          style={StyleSheet.absoluteFillObject}
         />
-
-        <Box style={styles.glowContainer} pointerEvents="none">
-          <LinearGradient
-            colors={["#000000", "#001427"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={{ flex: 1, width: "100%", height: "100%", borderRadius: 16 }}
-          />
-        </Box>
 
         <Box
           style={{
             flex: 1,
+            width: "100%",
+            height: "100%",
             justifyContent: "center",
             alignItems: "center",
             zIndex: 11,
@@ -83,51 +66,56 @@ export const ModelItem = memo(
           />
         </Box>
 
+        <Box flex={1} maxWidth="90%" position="absolute" top={10} left={10}>
+          <Text
+            fontFamily="StackSansNotch-Bold"
+            fontSize={24}
+            color="white"
+            numberOfLines={2}
+            style={{
+              textShadowColor: "rgba(0, 0, 0, 0.3)",
+              textShadowOffset: { width: 0, height: 1 },
+              textShadowRadius: 2,
+            }}
+          >
+            {String(item.name).toUpperCase()}
+          </Text>
+        </Box>
+
         <RestyleTouchableOpacity
           activeOpacity={0.7}
           onPress={() => onPress(item, glbUrl)}
           backgroundColor="transparent"
           style={{
-            position: "absolute",
+            width: 40,
+            height: 40,
             bottom: 10,
+            right: 10,
+            position: "absolute",
+            alignSelf: "flex-end",
             zIndex: 12,
-            width: "95%",
-            height: "15%",
-            alignItems: "flex-start",
-            borderRadius: 20,
-            overflow: "hidden",
+            borderRadius: 999,
           }}
         >
-          <BlurView
-            intensity={20}
+          <LiquidGlassView
+            intensity={15}
             tint="light"
+            borderRadius={999}
             style={{
+              flex: 1,
               width: "100%",
               height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            contentContainerStyle={{
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
-              padding: 4,
-              paddingHorizontal: 8,
-              overflow: "hidden",
             }}
           >
-            <Box flex={1} maxWidth="90%">
-              <Text
-                fontFamily="Sekuya-Regular"
-                fontSize={14}
-                color="white"
-                numberOfLines={1}
-              >
-                {String(item.name).toUpperCase()}
-              </Text>
-            </Box>
-            <IconButton
-              width={30}
-              height={30}
-              icon={<Feather name="arrow-right" size={18} color="white" />}
-            />
-          </BlurView>
+            <Feather name="arrow-right" size={20} color="white" />
+          </LiquidGlassView>
         </RestyleTouchableOpacity>
       </RestyleCard>
     );
@@ -136,18 +124,11 @@ export const ModelItem = memo(
 );
 
 const styles = StyleSheet.create({
-  cardWrapper: {
-    // overflow: "hidden",
-  },
+  cardWrapper: {},
   glowContainer: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: "center",
     alignItems: "center",
-  },
-  circleGradient: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    opacity: 0.5,
+    zIndex: 1,
   },
 });

@@ -111,7 +111,7 @@ const theme = createTheme({
   },
   pressableVariants: {
     input: {
-      fontFamily: "MulishFont",
+      fontFamily: "Sekuya-Regular",
       backgroundColor: "inputBackgroundLight",
       color: "inputBackground",
       flex: 1,
@@ -134,7 +134,7 @@ const theme = createTheme({
       justifyContent: "center",
       p: "s",
       borderRadius: 4,
-      backgroundColor: "mainBackground",
+      backgroundColor: "transparent",
       mr: "s",
     },
     default: {
@@ -183,7 +183,6 @@ const theme = createTheme({
       height: 40,
       alignItems: "center",
       justifyContent: "center",
-      p: "xs",
       paddingHorizontal: "m",
       borderRadius: 20,
       backgroundColor: "gray900",
@@ -198,7 +197,6 @@ const theme = createTheme({
       height: 40,
       alignItems: "center",
       justifyContent: "center",
-      p: "xs",
       paddingHorizontal: "m",
       borderRadius: 20,
       backgroundColor: "gray900",
@@ -212,14 +210,9 @@ const theme = createTheme({
       height: 40,
       alignItems: "center",
       justifyContent: "center",
-      p: "xs",
       paddingHorizontal: "m",
-
       borderRadius: 20,
-      backgroundColor: "gray900",
-      color: "buttonTextLight",
-      borderWidth: 1,
-      borderColor: "blue300",
+      backgroundColor: "transparent",
     },
     icon: {
       backgroundColor: "transparent",
@@ -289,43 +282,43 @@ const theme = createTheme({
     },
     subHeader: {
       color: "mainText",
-      fontFamily: "MulishFontMedium",
+      fontFamily: "StackSansNotch-Medium",
       fontSize: 18,
     },
     "label-error": {
       width: "100%",
-      fontFamily: "MulishFont",
+      fontFamily: "Sekuya-Regular",
       fontSize: 14,
       color: "error",
     },
     label: {
       color: "mainText",
-      fontFamily: "MulishFontMedium",
+      fontFamily: "StackSansNotch-Medium",
       fontSize: 14,
     },
     header2: {
       color: "mainText",
-      fontFamily: "MulishFontMedium",
+      fontFamily: "StackSansNotch-Medium",
       fontSize: 16,
       lineHeight: 24,
       textAlign: "center",
     },
     messageTime: {
-      fontFamily: "MulishFontMedium",
+      fontFamily: "StackSansNotch-Medium",
       fontSize: 12,
     },
     message: {
-      fontFamily: "MulishFontMedium",
+      fontFamily: "StackSansNotch-Medium",
       fontSize: 16,
       lineHeight: 24,
     },
     containerHeader: {
       color: "mainText",
-      fontFamily: "MulishFontBold",
+      fontFamily: "StackSansNotch-Bold",
       fontSize: 24,
     },
     button: {
-      fontFamily: "MulishFontMedium",
+      fontFamily: "StackSansNotch-Medium",
       fontSize: {
         smallPhone: 16,
         phone: 18,
@@ -334,7 +327,7 @@ const theme = createTheme({
     },
     header: {
       color: "mainText",
-      fontFamily: "MulishFontBold",
+      fontFamily: "StackSansNotch-Bold",
       fontSize: {
         smallPhone: 20,
         phone: 30,
@@ -343,7 +336,7 @@ const theme = createTheme({
     },
     "sub-header": {
       color: "mainText",
-      fontFamily: "MulishFontBold",
+      fontFamily: "StackSansNotch-Bold",
       fontSize: {
         smallPhone: 18,
         phone: 24,
@@ -351,7 +344,7 @@ const theme = createTheme({
       textAlign: "center",
     },
     body: {
-      fontFamily: "MulishFontMedium",
+      fontFamily: "StackSansNotch-Medium",
       color: "mainText",
       fontSize: {
         smallPhone: 14,
@@ -360,7 +353,7 @@ const theme = createTheme({
       lineHeight: 24,
     },
     messageOption: {
-      fontFamily: "MulishFontMedium",
+      fontFamily: "StackSansNotch-Medium",
       color: "textLight",
       fontSize: {
         smallPhone: 14,
@@ -371,23 +364,23 @@ const theme = createTheme({
     defaults: {},
     infoTitle: {
       color: "mainText",
-      fontFamily: "MulishFontBold",
+      fontFamily: "StackSansNotch-Bold",
       fontSize: 16,
     },
     listItemTitle: {
       color: "textLight",
-      fontFamily: "MulishFontBold",
+      fontFamily: "StackSansNotch-Bold",
       fontSize: 16,
     },
     infoSubtitle: {
-      fontFamily: "MulishFont",
+      fontFamily: "Sekuya-Regular",
       fontSize: 14,
       color: "textGray",
     },
   },
   textInputVariants: {
     iconRigth: {
-      fontFamily: "MulishFont",
+      fontFamily: "Sekuya-Regular",
       backgroundColor: "inputBackgroundLight",
       color: "inputTextLight",
       flex: 1,
@@ -401,7 +394,7 @@ const theme = createTheme({
       fontSize: 16,
     },
     iconLeft: {
-      fontFamily: "MulishFont",
+      fontFamily: "Sekuya-Regular",
       backgroundColor: "inputBackgroundLight",
       color: "inputTextLight",
       flex: 1,
@@ -415,7 +408,7 @@ const theme = createTheme({
       fontSize: 16,
     },
     default: {
-      fontFamily: "MulishFontMedium",
+      fontFamily: "StackSansNotch-Medium",
       backgroundColor: "inputBackgroundLight",
       color: "inputTextLight",
       flex: 1,
@@ -426,19 +419,19 @@ const theme = createTheme({
       fontSize: 16,
     },
     primary: {
-      fontFamily: "MulishFont",
+      fontFamily: "Sekuya-Regular",
 
       backgroundColor: "inputBackgroundLight",
       color: "inputTextLight",
     },
     secondary: {
-      fontFamily: "MulishFont",
+      fontFamily: "Sekuya-Regular",
 
       backgroundColor: "inputBackgroundDark",
       color: "inputTextDark",
     },
     code: {
-      fontFamily: "MulishFontBold",
+      fontFamily: "StackSansNotch-Bold",
       backgroundColor: "inputBackgroundLight",
       color: "inputText",
       width: {
