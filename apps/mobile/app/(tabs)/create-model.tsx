@@ -50,8 +50,8 @@ export default function CreateModel() {
   );
 
   const onGenerate = useCallback(() => {
-    handleGeneratePress(reset);
-  }, [handleGeneratePress, reset]);
+    handleGeneratePress();
+  }, [handleGeneratePress]);
 
   if (isGenerating) {
     return <Redirect href="/model-preview" />;
@@ -68,8 +68,8 @@ export default function CreateModel() {
         Tire uma foto ou {"\n"} escolha uma da galeria
       </Text>
       <Text
-        fontFamily="MulishFontRegular"
-        color="gray600"
+        fontFamily="MulishFont"
+        color="gray300"
         mt="m"
         fontSize={16}
         textAlign="center"
@@ -134,12 +134,10 @@ export default function CreateModel() {
 
       <Box width="100%" padding="m">
         <TextInput
-          ref={inputRef}
           placeholder="Nome do Modelo"
           value={name ? name : undefined}
-          onChangeText={() => {
-            if (!inputRef.current?.props?.value) return;
-            setName(inputRef.current?.props?.value);
+          onEndEditing={(event) => {
+            setName(event.nativeEvent.text);
           }}
           placeholderTextColor="#FFF"
           containerProps={{

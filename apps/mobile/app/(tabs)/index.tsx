@@ -8,7 +8,6 @@ import { useAuthActions } from "@/contexts/AuthProvider";
 import useLoginModal from "@/hooks/useLoginModal";
 import { Model3DList } from "@/components/theme/Model3DList";
 import { usePreventGoBack } from "@/hooks/usePreventGoBack";
-import { Image } from "@/components/theme/Image";
 import { SCREEN_WIDTH } from "@/constants";
 import { Container } from "@/components/theme/Container";
 
@@ -57,14 +56,20 @@ export default function DashboardScreen() {
         flexDirection="row"
         alignItems="center"
         justifyContent="space-between"
-        marginBottom="m"
-        borderBottomWidth={1}
-        borderBottomColor="gray900"
+        style={{
+          shadowColor: "#272727",
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+        }}
       >
         <Box alignItems="center" flexDirection="row" padding="m">
           <Text
             variant="header"
-            fontSize={22}
+            fontSize={20}
             color="mainText"
             fontFamily="Sekuya-Regular"
           >
@@ -72,18 +77,13 @@ export default function DashboardScreen() {
           </Text>
           <Text
             variant="header"
-            fontSize={22}
+            fontSize={20}
             color="blue300"
             fontFamily="Sekuya-Regular"
           >
             3D
           </Text>
         </Box>
-        <Image
-          width={50}
-          height={50}
-          source={require("@/assets/images/aura3d.png")}
-        />
       </RestyleCard>
       <Box
         width="100%"
@@ -92,6 +92,7 @@ export default function DashboardScreen() {
         justifyContent="flex-start"
         gap="m"
         marginBottom="m"
+        backgroundColor="transparent"
       >
         <Button
           variant={listType === "ALL" ? "chipActive" : "chip"}

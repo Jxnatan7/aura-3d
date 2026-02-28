@@ -62,7 +62,7 @@ const pallete = {
   rejected: "#FF0000",
 
   gradientDark1: "#080808ff",
-  gradientDark0: "#010821ff",
+  gradientDark0: "#545454ff",
   gradientLight1: "#999999",
   gradientLight0: "#FFFFFF",
 
@@ -86,7 +86,7 @@ const pallete = {
   extraBlack: "#080808ff",
   blue100: "#b3d4fc",
   blue200: "#80b3ff",
-  blue300: "#3DCDF3",
+  blue300: "#d1d1d1ff",
   blue400: "#003566",
   blue600: "#001d3d",
   blue900: "#001225ff",

@@ -20,10 +20,13 @@ export type ModelItemProps = {
   horizontal: boolean | null | undefined;
 };
 
-const CARD_WIDTH = Platform.select({
-  web: (SCREEN_WIDTH - 56) / 2,
-  default: (SCREEN_WIDTH - 56) / 2,
-});
+const CARD_WIDTH = Math.min(
+  Platform.select({
+    web: (SCREEN_WIDTH - 56) / 2,
+    default: (SCREEN_WIDTH - 56) / 2,
+  }),
+  400,
+);
 
 export const ModelItem = memo(
   ({ item, index, onPress, horizontal }: ModelItemProps) => {

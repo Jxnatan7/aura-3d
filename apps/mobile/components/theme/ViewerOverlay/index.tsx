@@ -4,6 +4,7 @@ import { RestyleCard, Text } from "@/components/restyle";
 import { IconButton } from "../IconButton";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
+import { LiquidGlassView } from "../LiquidGlassView";
 
 export const ViewerOverlay = ({
   name,
@@ -18,19 +19,21 @@ export const ViewerOverlay = ({
       pointerEvents={uiHidden ? "none" : "auto"}
       style={[styles.topOverlay, animatedUiStyle]}
     >
-      <RestyleCard variant="modelInfo">
-        <Text variant="modelName">{String(name).toUpperCase()}</Text>
-        <IconButton
-          onPress={() => setUiHidden(true)}
-          icon={
-            <AntDesign
-              name={uiHidden ? "shrink" : "expand-alt"}
-              size={24}
-              color="#CECECE"
-            />
-          }
-        />
-      </RestyleCard>
+      <LiquidGlassView style={{ flex: 1, width: "100%" }}>
+        <RestyleCard variant="modelInfo">
+          <Text variant="modelName">{String(name).toUpperCase()}</Text>
+          <IconButton
+            onPress={() => setUiHidden(true)}
+            icon={
+              <AntDesign
+                name={uiHidden ? "shrink" : "expand-alt"}
+                size={24}
+                color="#CECECE"
+              />
+            }
+          />
+        </RestyleCard>
+      </LiquidGlassView>
     </Animated.View>
 
     <Animated.View
@@ -42,12 +45,15 @@ export const ViewerOverlay = ({
         flex={1}
         height={40}
         backgroundColor="white"
+        flexDirection="row-reverse"
+        gap="m"
         icon={<Feather name="download" size={20} color="#121212" />}
         onPress={() => setShowDownloadModal(true)}
         text="Baixar"
-        flexDirection="row-reverse"
-        gap="m"
         textProps={{ color: "black" }}
+        style={{
+          gap: 10,
+        }}
       />
       <IconButton
         width="45%"
@@ -60,6 +66,9 @@ export const ViewerOverlay = ({
         flexDirection="row-reverse"
         gap="m"
         textProps={{ color: "white" }}
+        style={{
+          gap: 10,
+        }}
       />
     </Animated.View>
   </>
@@ -73,6 +82,8 @@ const styles = StyleSheet.create({
     zIndex: 21,
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 16,
+    gap: 16,
   },
   bottomOverlay: {
     position: "absolute",
