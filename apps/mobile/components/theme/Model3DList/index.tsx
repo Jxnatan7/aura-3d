@@ -8,6 +8,7 @@ import useModels3D from "@/hooks/useModels3D";
 import { Model3D } from "@/services/Model3DService";
 import { useRouter } from "expo-router";
 import { ModelItem } from "../ModelItem";
+import { useModelListContext } from "@/contexts/ModelListContext";
 
 export type Model3DListProps = Partial<PaginatedFlashListProps<Model3D>> & {
   listType: "ALL" | "MY";
@@ -58,6 +59,7 @@ export const Model3DList = ({
 }: Model3DListProps) => {
   const { push } = useRouter();
   const { mutateAsync } = useModels3D();
+  const { setModels } = useModelListContext();
 
   const fetchRequests = useCallback(
     async (
@@ -108,6 +110,7 @@ export const Model3DList = ({
       style={{
         backgroundColor: "transparent",
       }}
+      onDataChange={setModels}
       renderItem={renderItem}
       fetchData={fetchRequests}
       pageSize={10}

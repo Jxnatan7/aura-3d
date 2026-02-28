@@ -13,6 +13,7 @@ import { useAppStore } from "@/stores/appStore";
 import { useDeviceTheme } from "@/hooks/useDeviceTheme";
 import theme, { darkTheme } from "@/theme";
 import { ModelContextProvider } from "@/contexts/ModelContext";
+import { ModelListProvider } from "@/contexts/ModelListContext";
 
 export { ErrorBoundary } from "expo-router";
 const queryClient = new QueryClient();
@@ -50,21 +51,23 @@ function RootLayoutNav() {
         <KeyboardProvider>
           <AuthProvider>
             <ModelContextProvider>
-              <ThemeProvider theme={currentTheme}>
-                <StatusBar style="light" />
-                <Stack
-                  initialRouteName="(tabs)"
-                  screenOptions={{
-                    headerShown: false,
-                  }}
-                >
-                  <Stack.Screen name="(tabs)" />
-                  <Stack.Screen name="model-view" />
-                  <Stack.Screen name="model-preview" />
-                  <Stack.Screen name="login" />
-                  <Stack.Screen name="register" />
-                </Stack>
-              </ThemeProvider>
+              <ModelListProvider>
+                <ThemeProvider theme={currentTheme}>
+                  <StatusBar style="light" />
+                  <Stack
+                    initialRouteName="(tabs)"
+                    screenOptions={{
+                      headerShown: false,
+                    }}
+                  >
+                    <Stack.Screen name="(tabs)" />
+                    <Stack.Screen name="model-view" />
+                    <Stack.Screen name="model-preview" />
+                    <Stack.Screen name="login" />
+                    <Stack.Screen name="register" />
+                  </Stack>
+                </ThemeProvider>
+              </ModelListProvider>
             </ModelContextProvider>
           </AuthProvider>
         </KeyboardProvider>

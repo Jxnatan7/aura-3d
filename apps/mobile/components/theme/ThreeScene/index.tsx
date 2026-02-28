@@ -68,5 +68,5 @@ export const ThreeScene = ({
 );
 
 const styles = StyleSheet.create({
-  canvas: { flex: 1, zIndex: 5 },
+  canvas: { flex: 1 },
 });

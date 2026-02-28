@@ -18,12 +18,14 @@ export type PaginatedFlashListProps<T> = Omit<
   ) => Promise<PaginatedResult<T> | undefined>;
   pageSize?: number;
   ListEmptyComponent?: React.JSX.Element;
+  onDataChange?: (data: T[]) => void;
 };
 
 export function PaginatedFlashList<T>({
   fetchData,
   pageSize = 10,
   ListEmptyComponent,
+  onDataChange,
   ...props
 }: PaginatedFlashListProps<T>) {
   const [data, setData] = useState<T[]>([]);
@@ -54,10 +56,11 @@ export function PaginatedFlashList<T>({
         if (result && result.items) {
           if (shouldRefresh) {
             setData(result.items);
+            onDataChange?.(result.items);
           } else {
             setData((prevData) => [...prevData, ...result.items]);
+            onDataChange?.(result.items);
           }
-
           setHasMore(pageToFetch < result.totalPages);
           setPage(pageToFetch);
         }

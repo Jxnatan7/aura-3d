@@ -33,6 +33,7 @@ export type ModelViewerProps = {
 };
 
 export const ModelViewer = ({
+  id,
   name = "Model",
   children,
   formats,
@@ -84,8 +85,14 @@ export const ModelViewer = ({
           // @ts-ignore
           sharedTransitionTag={sharedTransitionTag}
           style={[
-            StyleSheet.absoluteFillObject,
-            { zIndex: 10 },
+            {
+              zIndex: 10,
+              width: "90%",
+              height: "90%",
+              position: "absolute",
+              alignSelf: "center",
+              bottom: "5%",
+            },
             animatedImageStyle,
           ]}
           resizeMode="contain"
@@ -101,6 +108,7 @@ export const ModelViewer = ({
       </ThreeScene>
 
       <ViewerOverlay
+        id={id}
         name={name}
         uiHidden={uiHidden}
         setUiHidden={setUiHidden}
