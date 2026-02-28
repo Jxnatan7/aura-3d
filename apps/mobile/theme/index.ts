@@ -506,6 +506,7 @@ const theme = createTheme({
   cardVariants: {
     header: {
       width: "100%",
+      height: "auto",
       paddingHorizontal: "s",
       backgroundColor: "transparent",
     },

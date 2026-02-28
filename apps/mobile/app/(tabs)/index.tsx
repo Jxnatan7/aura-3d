@@ -56,15 +56,6 @@ export default function DashboardScreen() {
         flexDirection="row"
         alignItems="center"
         justifyContent="space-between"
-        style={{
-          shadowColor: "#272727",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-        }}
       >
         <Box alignItems="center" flexDirection="row" padding="m">
           <Text
@@ -91,7 +82,6 @@ export default function DashboardScreen() {
         alignItems="center"
         justifyContent="flex-start"
         gap="m"
-        marginBottom="m"
         backgroundColor="transparent"
       >
         <Button
