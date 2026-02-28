@@ -12,6 +12,7 @@ export type ContainerProps = RestyleContainerProps & {
   containerHeaderChildren?: React.ReactNode;
   gradient?: boolean;
 };
+
 export const Container = ({
   children,
   hideHeader,
@@ -22,51 +23,40 @@ export const Container = ({
 }: ContainerProps) => {
   const theme = useTheme<Theme>();
 
-  const Container = () =>
-    gradient ? (
-      <LinearGradient
-        colors={["#0D0D0D", "#1A1A2E", "#2D2B55", "#1C1C3A", "#111111"]}
-        locations={[0, 0.25, 0.5, 0.75, 1]}
-        style={styles.background}
-        start={{ x: 0.1, y: 0 }}
-        end={{ x: 0.9, y: 1 }}
-      >
-        <LinearGradient
-          colors={[
-            "transparent",
-            "rgba(24, 19, 45, 0.15)",
-            "rgba(76, 76, 90, 0.08)",
-            "transparent",
-          ]}
-          locations={[0, 0.3, 0.7, 1]}
-          style={styles.background}
-          start={{ x: 1, y: 0.2 }}
-          end={{ x: 0, y: 0.8 }}
+  // O conteúdo interno do container
+  const content = (
+    <RestyleContainer {...props}>
+      {!hideHeader && (
+        <ContainerHeader
+          children={containerHeaderChildren}
+          {...containerHeaderProps}
         />
-        <RestyleContainer {...props}>
-          {!hideHeader && (
-            <ContainerHeader
-              children={containerHeaderChildren}
-              {...containerHeaderProps}
-            />
-          )}
-          {children}
-        </RestyleContainer>
-      </LinearGradient>
-    ) : (
-      <RestyleContainer {...props}>
-        {!hideHeader && (
-          <ContainerHeader
-            children={containerHeaderChildren}
-            {...containerHeaderProps}
-          />
-        )}
-        {children}
-      </RestyleContainer>
-    );
+      )}
+      {children}
+    </RestyleContainer>
+  );
 
-  return <Container />;
+  // Retorna com ou sem o gradiente em volta
+  if (gradient) {
+    return (
+      <LinearGradient
+        // Cores extraídas da imagem: Preto -> Roxo Escuro -> Magenta -> Rosa -> Laranja
+        colors={["#000000", "#1D133B", "#852063", "#DF456A", "#FF9955"]}
+        // Controla onde cada cor começa (o preto ocupa bastante espaço no topo)
+        locations={[0.15, 0.45, 0.65, 0.85, 1]}
+        // Direção levemente diagonal (do topo-esquerda para baixo-direita)
+        start={{ x: 0.2, y: 0 }}
+        end={{ x: 0.8, y: 1 }}
+        style={styles.background}
+      >
+        {content}
+      </LinearGradient>
+    );
+  }
+
+  return content;
 };
+
 const styles = StyleSheet.create({
   background: {
     position: "absolute",

@@ -33,23 +33,13 @@ export function LiquidGlassView({
   ...props
 }: LiquidGlassViewProps) {
   return (
-    <View
-      style={[
-        {
-          borderRadius,
-          overflow: "hidden",
-        },
-        style,
-      ]}
-      {...props}
-    >
+    <View style={[{ borderRadius, overflow: "hidden" }, style]} {...props}>
       <BlurView
         intensity={intensity}
         // @ts-ignore
         tint={tint}
         style={StyleSheet.absoluteFillObject}
       />
-
       <LinearGradient
         colors={[
           "rgba(255, 255, 255, 0.45)",
@@ -60,7 +50,6 @@ export function LiquidGlassView({
         end={{ x: 1, y: 1 }}
         style={StyleSheet.absoluteFillObject}
       />
-
       <View
         style={[
           StyleSheet.absoluteFillObject,
@@ -75,7 +64,6 @@ export function LiquidGlassView({
         ]}
         pointerEvents="none"
       />
-
       <View style={[{ flex: 1, zIndex: 2 }, contentContainerStyle]}>
         {children}
       </View>

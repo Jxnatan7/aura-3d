@@ -29,6 +29,7 @@ type ModelState = {
 
 const INITIAL_STATE: Partial<ModelState> = {
   isGenerating: false,
+  isCompleted: false,
   fakeProgress: 0,
 };
 
