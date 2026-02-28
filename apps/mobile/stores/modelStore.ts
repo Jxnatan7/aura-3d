@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { generalStorage } from "./store";
 import { ModelUrls } from "@/services/Model3DService";
+import { ModelUpdatedPayload } from "@/hooks/useModelSSE";
 
 type ModelState = {
   modelName: string | null;
@@ -22,7 +23,7 @@ type ModelState = {
   setModelUrls: (modelUrls: ModelUrls) => void;
   setProgress: (progress: number) => void;
   setFakeProgress: (progress: number) => void;
-  updateModelStatus: (data: any) => void;
+  updateModelStatus: (data: ModelUpdatedPayload) => void;
   setError: (error: string) => void;
 };
 
@@ -55,9 +56,8 @@ export const useModelStore = create<ModelState>()(
         set({
           modelStatus: data.status,
           isCompleted: data.status === "SUCCEEDED",
-          isGenerating: data.status === "IN_PROGRESS",
-          progress: data.progress,
-          modelUrls: data.model_urls,
+          isGenerating: data.status === "IN_PROGRESS" && data.progress < 100,
+          progress: data.status === "IN_PROGRESS" ? data.progress : 0,
         });
       },
       setError: (error) => set({ error }),

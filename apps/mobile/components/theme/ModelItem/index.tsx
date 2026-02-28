@@ -33,7 +33,7 @@ export const ModelItem = memo(
       <RestyleCard
         variant={horizontal ? "model-horizontal" : "model-vertical"}
         width={horizontal ? undefined : CARD_WIDTH}
-        height={horizontal ? undefined : CARD_WIDTH * 1.3}
+        height={horizontal ? undefined : CARD_WIDTH * 1.25}
         marginTop={index % 2 === 0 || horizontal ? "l" : "none"}
         marginBottom="minus"
         borderRadius={16}

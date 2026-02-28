@@ -10,12 +10,12 @@ import { IconButton } from "@/components/theme/IconButton";
 import { Image } from "@/components/theme/Image";
 import { useCreateModel } from "@/hooks/useCreateModel";
 import { useAuthStore } from "@/stores/authStore";
-import { useModelContext } from "@/contexts/ModelContext";
 import useLoginModal from "@/hooks/useLoginModal";
 import { Theme } from "@/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { LiquidGlassView } from "@/components/theme/LiquidGlassView";
 import { useDebounce } from "@/hooks/useDebounce";
+import { useModelStore } from "@/stores/modelStore";
 
 const EmptyState = ({ pickImageFromGallery, takePhoto, theme }: any) => (
   <>
@@ -167,7 +167,7 @@ const FormState = ({
 export default function CreateModel() {
   const theme = useTheme<Theme>();
   const { isAuthenticated } = useAuthStore();
-  const { isGenerating } = useModelContext();
+  const { isGenerating, isCompleted } = useModelStore();
 
   const {
     name,
@@ -184,7 +184,7 @@ export default function CreateModel() {
     "Para criar um modelo público, você precisa estar logado.",
   );
 
-  const { debouncedFn, clear } = useDebounce(setName, 1000);
+  const { debouncedFn } = useDebounce(setName, 1000);
 
   const [isPublic, setIsPublic] = useState(true);
 
@@ -203,7 +203,7 @@ export default function CreateModel() {
     handleGeneratePress();
   }, [handleGeneratePress]);
 
-  if (isGenerating) {
+  if (isGenerating || isCompleted) {
     return <Redirect href="/model-preview" />;
   }
 
@@ -235,7 +235,7 @@ export default function CreateModel() {
           takePhoto={takePhoto}
           theme={theme}
         />
-      )}{" "}
+      )}
     </Container>
   );
 }
