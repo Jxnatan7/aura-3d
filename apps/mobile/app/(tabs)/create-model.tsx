@@ -39,9 +39,7 @@ const EmptyState = ({ pickImageFromGallery, takePhoto, theme }: any) => (
         // onPress={() => push("/model-preview")}
         onPress={pickImageFromGallery}
         icon={
-          <Box borderColor="blue300" marginBottom="s">
-            <FontAwesome name="photo" size={40} color={theme.colors.blue300} />
-          </Box>
+          <FontAwesome name="photo" size={40} color={theme.colors.blue300} />
         }
         flexDirection="column-reverse"
       />
@@ -51,9 +49,7 @@ const EmptyState = ({ pickImageFromGallery, takePhoto, theme }: any) => (
         text="Tirar Foto"
         onPress={takePhoto}
         icon={
-          <Box borderColor="blue300" marginBottom="s">
-            <FontAwesome name="camera" size={40} color={theme.colors.pink100} />
-          </Box>
+          <FontAwesome name="camera" size={40} color={theme.colors.blue300} />
         }
         flexDirection="column-reverse"
       />

@@ -101,7 +101,7 @@ export const ModelItem = memo(
               {String(item.name).toUpperCase()}
             </Text>
             <Text
-              fontFamily="StackSansNotch-Bold"
+              fontFamily="StackSansNotch-Medium"
               fontSize={12}
               color="gray300"
               numberOfLines={2}

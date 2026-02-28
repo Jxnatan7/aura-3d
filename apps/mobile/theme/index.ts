@@ -150,8 +150,6 @@ const theme = createTheme({
       height: 200,
       alignItems: "center",
       justifyContent: "center",
-      borderColor: "gray900",
-      borderWidth: 1,
     },
     createModel: {
       width: 70,

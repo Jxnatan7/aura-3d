@@ -6,6 +6,8 @@ import { Feather } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
 import { LiquidGlassView } from "../LiquidGlassView";
 import { useModelActions } from "@/hooks/useModelActions";
+import useLoginModal from "@/hooks/useLoginModal";
+import { useAuthStore } from "@/stores/authStore";
 
 export const ViewerOverlay = ({
   id,
@@ -16,7 +18,19 @@ export const ViewerOverlay = ({
   setShowDownloadModal,
   handleRecord,
 }: any) => {
+  const { isAuthenticated } = useAuthStore();
   const { handleNext, handlePrev, hasNext, hasPrev } = useModelActions(id);
+  const { showModal, LoginAlertComponent } = useLoginModal(
+    "Para curtir um modelo, você precisa fazer login.",
+  );
+
+  const handleLikeModel = () => {
+    if (!isAuthenticated) {
+      showModal();
+      return;
+    }
+  };
+
   return (
     <>
       {hasPrev && (
@@ -52,6 +66,7 @@ export const ViewerOverlay = ({
               <Text variant="modelUser">AURA3D</Text>
             </Box>
             <IconButton
+              onPress={handleLikeModel}
               icon={<Feather name="heart" size={24} color="#FFF" />}
             />
           </RestyleCard>
@@ -92,6 +107,7 @@ export const ViewerOverlay = ({
           }}
         />
       </Animated.View>
+      <LoginAlertComponent />
     </>
   );
 };

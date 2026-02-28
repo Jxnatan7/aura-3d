@@ -19,7 +19,7 @@ export default function DashboardScreen() {
   const { isAuthenticated } = useAuthStore();
   usePreventGoBack(true);
 
-  const { showModal } = useLoginModal(
+  const { showModal, LoginAlertComponent } = useLoginModal(
     "Para ver seus modelos, você precisa estar logado.",
   );
 
@@ -122,6 +122,7 @@ export default function DashboardScreen() {
       </Box>
 
       <Model3DList listType={listType} keyExtractor={keyExtractor} />
+      <LoginAlertComponent />
     </Container>
   );
 }

@@ -2,8 +2,6 @@ import { RestyleContainer, RestyleContainerProps } from "@/components/restyle";
 import { ContainerHeader, ContainerHeaderProps } from "../ContainerHeader";
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet } from "react-native";
-import { useTheme } from "@shopify/restyle";
-import { Theme } from "@/theme";
 import { SCREEN_HEIGHT } from "@/constants";
 
 export type ContainerProps = RestyleContainerProps & {
@@ -21,9 +19,6 @@ export const Container = ({
   gradient = true,
   ...props
 }: ContainerProps) => {
-  const theme = useTheme<Theme>();
-
-  // O conteúdo interno do container
   const content = (
     <RestyleContainer {...props}>
       {!hideHeader && (
@@ -36,15 +31,11 @@ export const Container = ({
     </RestyleContainer>
   );
 
-  // Retorna com ou sem o gradiente em volta
   if (gradient) {
     return (
       <LinearGradient
-        // Cores extraídas da imagem: Preto -> Roxo Escuro -> Magenta -> Rosa -> Laranja
         colors={["#000000", "#1D133B", "#852063", "#DF456A", "#FF9955"]}
-        // Controla onde cada cor começa (o preto ocupa bastante espaço no topo)
         locations={[0.15, 0.45, 0.65, 0.85, 1]}
-        // Direção levemente diagonal (do topo-esquerda para baixo-direita)
         start={{ x: 0.2, y: 0 }}
         end={{ x: 0.8, y: 1 }}
         style={styles.background}

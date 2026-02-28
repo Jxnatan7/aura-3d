@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
-import { Box, Text } from "@/components/restyle";
+import { Box } from "@/components/restyle";
 
 export const LoadingState = ({
   isLoading,
@@ -21,10 +21,9 @@ export const LoadingState = ({
       zIndex={30}
       justifyContent="center"
       alignItems="center"
-      // style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
     >
       <ActivityIndicator size="large" color="#ffffff" />
-      <Text style={{ color: "white", marginTop: 10 }}>{message}</Text>
+      {/* <Text style={{ color: "white", marginTop: 10 }}>{message}</Text> */}
     </Box>
   );
 };
