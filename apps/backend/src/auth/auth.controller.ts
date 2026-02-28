@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   HttpCode,
@@ -31,5 +32,17 @@ export class AuthController {
   public async register(@Body() createUserRequest: CreateUserDto) {
     const user = await this.userService.create(createUserRequest);
     return { user };
+  }
+
+  @Post("google")
+  @HttpCode(200)
+  public async googleLogin(@Body() body: { accessToken: string }) {
+    const accessToken = body.accessToken;
+
+    if (!accessToken) {
+      throw new BadRequestException("Access token do Google não fornecido.");
+    }
+
+    return this.authService.googleLogin(accessToken);
   }
 }

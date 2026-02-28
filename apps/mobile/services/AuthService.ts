@@ -19,6 +19,12 @@ export const AuthService = {
     });
     return data;
   },
+  googleLogin: async (accessToken: string) => {
+    const { data } = await axiosClient.post<LoginResponse>("/auth/google", {
+      accessToken,
+    });
+    return data;
+  },
 
   register: async ({
     name,

@@ -6,6 +6,7 @@ import * as Google from "expo-auth-session/providers/google";
 import { IconButton } from "@/components/theme/IconButton";
 import { AntDesign } from "@expo/vector-icons";
 import { Platform } from "react-native";
+import { useAuthStore } from "@/stores/authStore";
 
 const redirectUri = Platform.select({
   ios: process.env.EXPO_PUBLIC_GOOGLE_REDIRECT_URI,
@@ -23,47 +24,47 @@ const CREDENTIALS = {
 };
 
 export default function Login() {
+  const { googleLogin, isAuthenticated, user } = useAuthStore();
   const [request, response, promptAsync] = Google.useAuthRequest(CREDENTIALS);
 
   useEffect(() => {
-    console.log("🚀 ~ Login ~ response:", response);
     if (response?.type === "success") {
       const { authentication } = response;
 
-      const idToken = authentication?.idToken;
+      const accessToken = authentication?.accessToken;
 
-      if (idToken) {
-        enviarTokenParaOBackend(idToken);
+      if (accessToken) {
+        googleLogin(accessToken);
       }
     }
   }, [response]);
 
-  const enviarTokenParaOBackend = async (idToken: string) => {
-    try {
-      console.log("Enviando token para o NestJS...", idToken);
-    } catch (error) {
-      console.error("Erro ao enviar token para o backend:", error);
-    }
-  };
-
   return (
-    <Container variant="screen" hideHeader justifyContent="center" gap="l">
-      <Text variant="containerHeader">Faça o seu Login</Text>
+    <Container variant="screen" hideHeader justifyContent="center">
+      {isAuthenticated && user ? (
+        <>
+          <Text variant="containerHeader">{user.name}</Text>
+        </>
+      ) : (
+        <>
+          <Text variant="containerHeader">Faça o seu Login</Text>
 
-      <IconButton
-        variant="default"
-        icon={<AntDesign name="google" size={24} color="#fff" />}
-        text="Entrar com Google"
-        disabled={!request}
-        onPress={() => {
-          promptAsync();
-        }}
-        flexDirection="row"
-        gap="m"
-        alignItems="center"
-        justifyContent="center"
-        marginTop="m"
-      />
+          <IconButton
+            variant="default"
+            icon={<AntDesign name="google" size={24} color="#fff" />}
+            text="Entrar com Google"
+            disabled={!request}
+            onPress={() => {
+              promptAsync();
+            }}
+            flexDirection="row"
+            gap="m"
+            alignItems="center"
+            justifyContent="center"
+            marginTop="m"
+          />
+        </>
+      )}
     </Container>
   );
 }

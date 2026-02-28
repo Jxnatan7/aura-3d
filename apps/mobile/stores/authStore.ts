@@ -28,6 +28,7 @@ export type AuthState = {
   setHasHydrated: (state: boolean) => void;
 
   login: (phone: string, password: string) => Promise<void>;
+  googleLogin: (accessToken: string) => Promise<void>;
   register: (payload: {
     name: string;
     email?: string;
@@ -76,7 +77,24 @@ export const useAuthStore = create<AuthState>()(
           throw error;
         }
       },
-
+      googleLogin: async (accessToken: string) => {
+        set({ isLoading: true, error: null });
+        try {
+          const data = await AuthService.googleLogin(accessToken);
+          set({
+            token: data.token,
+            user: data.user,
+            isAuthenticated: true,
+            isLoading: false,
+          });
+        } catch (error: any) {
+          set({
+            error: error.response?.data?.message || "Falha no login",
+            isLoading: false,
+          });
+          throw error;
+        }
+      },
       register: async ({ name, email, phone, password }) => {
         set({ isLoading: true, error: null });
         try {

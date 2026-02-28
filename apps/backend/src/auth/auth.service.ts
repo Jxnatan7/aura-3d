@@ -1,8 +1,9 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { compareSync } from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 import { UserService } from "src/user/core/services/user.service";
 import { User } from "src/user/core/schemas/user.schema";
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -33,7 +34,6 @@ export class AuthService {
     };
 
     return {
-      ...user,
       token: this.jwtService.sign(payload),
       user: {
         id: user._id,
@@ -43,5 +43,29 @@ export class AuthService {
         phone: user.phone,
       },
     };
+  }
+
+  async googleLogin(accessToken: string) {
+    const googleResponse = await fetch(
+      "https://www.googleapis.com/oauth2/v3/userinfo",
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      },
+    );
+
+    if (!googleResponse.ok) {
+      throw new UnauthorizedException("Token do Google inválido ou expirado.");
+    }
+
+    const googleUser = await googleResponse.json();
+    let user = await this.userService.findByEmail(googleUser.email);
+    if (!user) {
+      user = await this.userService.create({
+        email: googleUser.email,
+        name: googleUser.name,
+      } as any);
+    }
+
+    return this.login(user);
   }
 }
