@@ -21,7 +21,7 @@ export const LoadingState = ({
       zIndex={30}
       justifyContent="center"
       alignItems="center"
-      style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
+      // style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
     >
       <ActivityIndicator size="large" color="#ffffff" />
       <Text style={{ color: "white", marginTop: 10 }}>{message}</Text>

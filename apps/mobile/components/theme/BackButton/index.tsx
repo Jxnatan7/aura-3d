@@ -15,6 +15,7 @@ export const BackButton = ({
   const { canGoBack, back } = useRouter();
   return (
     <IconButton
+      glass={false}
       onPress={callback ? callback : canGoBack() ? back : fallback}
       icon={
         <MaterialIcons

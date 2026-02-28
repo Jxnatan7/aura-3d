@@ -12,7 +12,6 @@ export type ContainerProps = RestyleContainerProps & {
   containerHeaderChildren?: React.ReactNode;
   gradient?: boolean;
 };
-
 export const Container = ({
   children,
   hideHeader,
@@ -26,15 +25,24 @@ export const Container = ({
   const Container = () =>
     gradient ? (
       <LinearGradient
-        colors={[
-          theme.colors.gradientDark1,
-          theme.colors.gradientDark0,
-          theme.colors.gradientDark1,
-        ]}
-        style={[styles.background]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
+        colors={["#0D0D0D", "#1A1A2E", "#2D2B55", "#1C1C3A", "#111111"]}
+        locations={[0, 0.25, 0.5, 0.75, 1]}
+        style={styles.background}
+        start={{ x: 0.1, y: 0 }}
+        end={{ x: 0.9, y: 1 }}
       >
+        <LinearGradient
+          colors={[
+            "transparent",
+            "rgba(24, 19, 45, 0.15)",
+            "rgba(76, 76, 90, 0.08)",
+            "transparent",
+          ]}
+          locations={[0, 0.3, 0.7, 1]}
+          style={styles.background}
+          start={{ x: 1, y: 0.2 }}
+          end={{ x: 0, y: 0.8 }}
+        />
         <RestyleContainer {...props}>
           {!hideHeader && (
             <ContainerHeader
@@ -59,7 +67,6 @@ export const Container = ({
 
   return <Container />;
 };
-
 const styles = StyleSheet.create({
   background: {
     position: "absolute",

@@ -1,17 +1,13 @@
-import {
-  Box,
-  RestyleCard,
-  RestyleTouchableOpacity,
-  Text,
-} from "@/components/restyle";
+import { Box, RestyleCard, Text } from "@/components/restyle";
 import { Model3D } from "@/services/Model3DService";
 import { memo } from "react";
 import { Platform, StyleSheet } from "react-native";
 import { ModelImage } from "../ModelImage";
 import { SCREEN_WIDTH } from "@/constants";
 import { formatMediaUrl } from "@/utils/formatMediaUrl";
-import { Feather } from "@expo/vector-icons";
 import { LiquidGlassView } from "../LiquidGlassView";
+import { IconButton } from "../IconButton";
+import { Feather } from "@expo/vector-icons";
 
 export type ModelItemProps = {
   item: Model3D;
@@ -37,14 +33,14 @@ export const ModelItem = memo(
       <RestyleCard
         variant={horizontal ? "model-horizontal" : "model-vertical"}
         width={horizontal ? undefined : CARD_WIDTH}
-        height={horizontal ? undefined : CARD_WIDTH}
+        height={horizontal ? undefined : CARD_WIDTH * 1.3}
         marginTop={index % 2 === 0 || horizontal ? "l" : "none"}
         marginBottom="minus"
         borderRadius={16}
         style={styles.cardWrapper}
       >
         <LiquidGlassView
-          intensity={15}
+          intensity={20}
           tint="dark"
           borderRadius={16}
           style={StyleSheet.absoluteFillObject}
@@ -55,8 +51,10 @@ export const ModelItem = memo(
             flex: 1,
             width: "100%",
             height: "100%",
-            justifyContent: "center",
-            alignItems: "center",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
             zIndex: 11,
           }}
         >
@@ -69,57 +67,59 @@ export const ModelItem = memo(
           />
         </Box>
 
-        <Box flex={1} maxWidth="90%" position="absolute" top={10} left={10}>
-          <Text
-            fontFamily="StackSansNotch-Bold"
-            fontSize={24}
-            color="white"
-            numberOfLines={2}
-            style={{
-              textShadowColor: "rgba(0, 0, 0, 0.3)",
-              textShadowOffset: { width: 0, height: 1 },
-              textShadowRadius: 2,
-            }}
-          >
-            {String(item.name).toUpperCase()}
-          </Text>
-        </Box>
-
-        <RestyleTouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => onPress(item, glbUrl)}
-          backgroundColor="transparent"
-          style={{
-            width: 40,
-            height: 40,
-            bottom: 10,
-            right: 10,
-            position: "absolute",
-            alignSelf: "flex-end",
-            zIndex: 12,
-            borderRadius: 999,
-          }}
+        <Box
+          flex={1}
+          position="absolute"
+          bottom={12}
+          width="90%"
+          height={50}
+          padding="s"
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="center"
+          zIndex={99}
         >
           <LiquidGlassView
             intensity={15}
-            tint="light"
-            borderRadius={999}
-            style={{
-              flex: 1,
-              width: "100%",
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            contentContainerStyle={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Feather name="arrow-right" size={20} color="white" />
-          </LiquidGlassView>
-        </RestyleTouchableOpacity>
+            tint="dark"
+            borderRadius={8}
+            style={StyleSheet.absoluteFillObject}
+          />
+          <Box>
+            <Text
+              fontFamily="StackSansNotch-Bold"
+              fontSize={14}
+              color="white"
+              maxWidth="100%"
+              numberOfLines={1}
+              style={{
+                textShadowColor: "rgba(0, 0, 0, 0.3)",
+                textShadowOffset: { width: 0, height: 1 },
+                textShadowRadius: 2,
+              }}
+            >
+              {String(item.name).toUpperCase()}
+            </Text>
+            <Text
+              fontFamily="StackSansNotch-Bold"
+              fontSize={12}
+              color="gray300"
+              numberOfLines={2}
+              style={{
+                textShadowColor: "rgba(0, 0, 0, 0.3)",
+                textShadowOffset: { width: 0, height: 1 },
+                textShadowRadius: 2,
+              }}
+            >
+              AURA3D
+            </Text>
+          </Box>
+          <IconButton
+            glass={false}
+            backgroundColor="transparent"
+            icon={<Feather name="heart" size={20} color="white" />}
+          />
+        </Box>
       </RestyleCard>
     );
   },

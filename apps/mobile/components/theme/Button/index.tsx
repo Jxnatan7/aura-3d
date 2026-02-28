@@ -8,11 +8,13 @@ import { Theme } from "@/theme";
 import { useTheme } from "@shopify/restyle";
 import React from "react";
 import { StyleSheet } from "react-native";
-import { LiquidGlassView } from "../LiquidGlassView";
+import { LiquidGlassView, LiquidGlassViewProps } from "../LiquidGlassView";
 
 export type ButtonProps = RestyleTouchableOpacityProps & {
   text?: string;
   textProps?: TextProps;
+  glass?: boolean;
+  glassProps?: LiquidGlassViewProps;
 };
 
 export default function Button({
@@ -20,6 +22,8 @@ export default function Button({
   textProps,
   variant = "default",
   children,
+  glass = true,
+  glassProps,
   ...props
 }: ButtonProps) {
   const theme = useTheme<Theme>();
@@ -37,10 +41,14 @@ export default function Button({
       {...props}
       style={[styles.touchable, props.style]}
     >
-      <LiquidGlassView
-        style={StyleSheet.absoluteFillObject}
-        contentContainerStyle={[styles.contentContainer, props.style]}
-      />
+      {glass && (
+        <LiquidGlassView
+          style={[StyleSheet.absoluteFillObject, props.style]}
+          contentContainerStyle={[styles.contentContainer, props.style]}
+          {...glassProps}
+        />
+      )}
+
       {text && (
         <Text
           variant="button"
@@ -58,7 +66,6 @@ export default function Button({
 
 const styles = StyleSheet.create({
   touchable: {
-    // overflow: "hidden",
     justifyContent: "center",
     alignItems: "center",
   },

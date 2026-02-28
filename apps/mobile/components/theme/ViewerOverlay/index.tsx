@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { RestyleCard, Text } from "@/components/restyle";
+import { Box, RestyleCard, Text } from "@/components/restyle";
 import { IconButton } from "../IconButton";
-import { AntDesign, Feather } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
 import { LiquidGlassView } from "../LiquidGlassView";
 
@@ -21,17 +21,11 @@ export const ViewerOverlay = ({
     >
       <LiquidGlassView style={{ flex: 1, width: "100%" }}>
         <RestyleCard variant="modelInfo">
-          <Text variant="modelName">{String(name).toUpperCase()}</Text>
-          <IconButton
-            onPress={() => setUiHidden(true)}
-            icon={
-              <AntDesign
-                name={uiHidden ? "shrink" : "expand-alt"}
-                size={24}
-                color="#CECECE"
-              />
-            }
-          />
+          <Box>
+            <Text variant="modelName">{String(name).toUpperCase()}</Text>
+            <Text variant="modelUser">AURA3D</Text>
+          </Box>
+          <IconButton icon={<Feather name="heart" size={24} color="#FFF" />} />
         </RestyleCard>
       </LiquidGlassView>
     </Animated.View>
@@ -59,7 +53,6 @@ export const ViewerOverlay = ({
         width="45%"
         flex={1}
         height={40}
-        backgroundColor="black"
         onPress={handleRecord}
         icon={<Feather name="camera" size={20} color="#CECECE" />}
         text="GIF"

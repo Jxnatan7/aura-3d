@@ -9,8 +9,8 @@ const lightColors = {
   buttonBackground: pallete.buttonBackgroundLight,
   inputBackground: pallete.inputBackgroundLight,
   inputText: pallete.inputTextLight,
-  backgroundGradient0: pallete.gradientLight0,
-  backgroundGradient1: pallete.gradientLight1,
+  backgroundGradient0: pallete.gradientLight1,
+  backgroundGradient1: pallete.gradientLight2,
   myMessageBackground: pallete.buttonBackgroundLight,
 };
 
@@ -51,10 +51,12 @@ const theme = createTheme({
   },
   imageVariants: {
     model: {
-      flex: 1,
-      minWidth: "100%",
-      minHeight: "100%",
-      borderRadius: 8,
+      // flex: 1,
+      width: "100%",
+      height: "100%",
+      // width: 300,
+      // height: 400,
+      // borderRadius: 8,
     },
     default: {
       width: 40,
@@ -146,7 +148,7 @@ const theme = createTheme({
   },
   buttonVariants: {
     imageOption: {
-      backgroundColor: "extraBlack",
+      backgroundColor: "transparent",
       borderRadius: 28,
       width: 200,
       height: 200,
@@ -161,16 +163,16 @@ const theme = createTheme({
       borderRadius: 50,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: "yellow900",
+      backgroundColor: "transparent",
       position: "absolute",
       bottom: 30,
     },
     success: {
-      backgroundColor: "success",
+      backgroundColor: "transparent",
       color: "buttonTextLight",
     },
     red: {
-      backgroundColor: "finish",
+      backgroundColor: "transparent",
       color: "buttonTextLight",
     },
     transparent: {
@@ -185,11 +187,11 @@ const theme = createTheme({
       justifyContent: "center",
       paddingHorizontal: "m",
       borderRadius: 20,
-      backgroundColor: "gray900",
       color: "buttonTextLight",
       borderWidth: 1,
       borderColor: "gray800",
       opacity: 0.5,
+      backgroundColor: "transparent",
     },
     chip: {
       width: "auto",
@@ -199,7 +201,7 @@ const theme = createTheme({
       justifyContent: "center",
       paddingHorizontal: "m",
       borderRadius: 20,
-      backgroundColor: "gray900",
+      backgroundColor: "transparent",
       color: "buttonTextLight",
       borderWidth: 1,
       borderColor: "gray800",
@@ -223,7 +225,7 @@ const theme = createTheme({
       height: 50,
     },
     default: {
-      backgroundColor: "buttonGradientPrimary1",
+      backgroundColor: "transparent",
       color: "buttonTextLight",
       alignItems: "center",
       justifyContent: "center",
@@ -236,7 +238,7 @@ const theme = createTheme({
       },
     },
     defaults: {
-      backgroundColor: "buttonBackgroundLight",
+      backgroundColor: "transparent",
       color: "buttonTextLight",
       alignItems: "center",
       justifyContent: "center",
@@ -249,12 +251,12 @@ const theme = createTheme({
       },
     },
     primary: {
-      backgroundColor: "buttonGradientPrimary1",
+      backgroundColor: "transparent",
       color: "buttonTextLight",
       borderRadius: 30,
     },
     secondary: {
-      backgroundColor: "buttonGradientSecondary1",
+      backgroundColor: "transparent",
       color: "buttonTextDark",
       borderRadius: 30,
     },
@@ -277,8 +279,13 @@ const theme = createTheme({
   textVariants: {
     modelName: {
       color: "mainText",
-      fontFamily: "Sekuya-Regular",
+      fontFamily: "StackSansNotch-Bold",
       fontSize: 20,
+    },
+    modelUser: {
+      color: "gray300",
+      fontFamily: "StackSansNotch-Bold",
+      fontSize: 16,
     },
     subHeader: {
       color: "mainText",
@@ -314,11 +321,11 @@ const theme = createTheme({
     },
     containerHeader: {
       color: "mainText",
-      fontFamily: "StackSansNotch-Bold",
+      fontFamily: "MulishFontBold",
       fontSize: 24,
     },
     button: {
-      fontFamily: "StackSansNotch-Medium",
+      fontFamily: "MulishFontMedium",
       fontSize: {
         smallPhone: 16,
         phone: 18,
@@ -344,7 +351,7 @@ const theme = createTheme({
       textAlign: "center",
     },
     body: {
-      fontFamily: "StackSansNotch-Medium",
+      fontFamily: "MulishFontMedium",
       color: "mainText",
       fontSize: {
         smallPhone: 14,
@@ -537,20 +544,21 @@ const theme = createTheme({
       height: 200,
     },
     "model-vertical": {
-      backgroundColor: "allBlack",
+      backgroundColor: "transparent",
       marginHorizontal: "s",
       justifyContent: "center",
       alignItems: "center",
     },
     modelInfo: {
       width: "100%",
-      height: 70,
+      height: 80,
       backgroundColor: "transparent",
       marginHorizontal: "s",
       flexDirection: "row",
       justifyContent: "space-between",
       padding: "m",
       alignItems: "center",
+      gap: "m",
       overflow: "hidden",
       borderRadius: 12,
     },

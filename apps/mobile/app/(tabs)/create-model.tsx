@@ -14,6 +14,7 @@ import { useModelContext } from "@/contexts/ModelContext";
 import useLoginModal from "@/hooks/useLoginModal";
 import { Theme } from "@/theme";
 import { LinearGradient } from "expo-linear-gradient";
+import { LiquidGlassView } from "@/components/theme/LiquidGlassView";
 
 export default function CreateModel() {
   const theme = useTheme<Theme>();
@@ -115,7 +116,7 @@ export default function CreateModel() {
   );
 
   const renderFormState = () => (
-    <Box alignItems="center" width="100%">
+    <Box alignItems="center" width="100%" flex={1}>
       <Box style={styles.imageContainer}>
         <Image
           source={{ uri: selectedImage! }}
@@ -123,16 +124,19 @@ export default function CreateModel() {
           height="100%"
           contentFit="cover"
           paddingBottom="l"
+          borderRadius={16}
         />
         <LinearGradient
-          colors={["#080808ff", "rgba(8, 8, 8, 0)"]}
+          colors={["#1A1A2E", "rgba(8, 8, 8, 0)"]}
           start={{ x: 0, y: 1 }}
           end={{ x: 0, y: 0 }}
           style={styles.gradient}
         />
       </Box>
 
-      <Box width="100%" padding="m">
+      <Box width="95%" marginTop="xl" padding="m" borderRadius={16}>
+        <LiquidGlassView style={StyleSheet.absoluteFill} />
+
         <TextInput
           placeholder="Nome do Modelo"
           value={name ? name : undefined}
@@ -140,15 +144,15 @@ export default function CreateModel() {
             setName(event.nativeEvent.text);
           }}
           placeholderTextColor="#FFF"
-          containerProps={{
-            backgroundColor: "transparent",
-            borderBottomWidth: 2,
-            borderBottomColor: "blue300",
-            marginBottom: "m",
-          }}
           backgroundColor="transparent"
           color="white"
-          style={{ fontFamily: "MulishFontSemiBold" }}
+          style={{ fontFamily: "Sekuya-Regular", fontSize: 24, padding: 0 }}
+          containerProps={{
+            style: {
+              borderBottomWidth: 1,
+              borderBottomColor: "#FFF",
+            },
+          }}
         />
 
         <Box
@@ -171,16 +175,18 @@ export default function CreateModel() {
           disabled={isButtonDisabled}
           flexDirection="row-reverse"
           gap="m"
-          borderRadius={10}
           maxWidth={500}
-          backgroundColor="blue300"
           text="Gerar Modelo 3D"
           textProps={{
-            color: "extraBlack",
+            color: "black",
             fontFamily: "MulishFontBold",
             fontSize: 18,
           }}
-          style={{ opacity: isButtonDisabled ? 0.5 : 1 }}
+          style={{ opacity: isButtonDisabled ? 0.7 : 1 }}
+          glassProps={{
+            tint: "light",
+            intensity: 50,
+          }}
         />
 
         <IconButton
@@ -189,7 +195,6 @@ export default function CreateModel() {
           onPress={reset}
           flexDirection="row-reverse"
           gap="m"
-          borderRadius={10}
           maxWidth={500}
           backgroundColor="yellow100"
           text="Escolher outra imagem"
@@ -197,6 +202,9 @@ export default function CreateModel() {
             color: "extraBlack",
             fontFamily: "MulishFontBold",
             fontSize: 18,
+          }}
+          glassProps={{
+            intensity: 50,
           }}
         />
       </Box>
@@ -224,8 +232,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imageContainer: {
-    width: "100%",
+    width: "95%",
     height: 500,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 16,
   },
   gradient: {
     position: "absolute",
@@ -234,6 +245,8 @@ const styles = StyleSheet.create({
     right: 0,
     height: "60%",
     zIndex: 1,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
   },
   inputContainer: {
     width: "100%",

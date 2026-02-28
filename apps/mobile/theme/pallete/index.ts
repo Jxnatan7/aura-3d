@@ -61,10 +61,12 @@ const pallete = {
   accepted: "#0053e3ff",
   rejected: "#FF0000",
 
-  gradientDark1: "#080808ff",
-  gradientDark0: "#545454ff",
-  gradientLight1: "#999999",
-  gradientLight0: "#FFFFFF",
+  gradientDark0: "#0D0D0D",
+  gradientDark1: "#1A1A2E",
+  gradientDark2: "#16213E",
+  gradientDark3: "#2D2B55",
+  gradientLight1: "#3A3A5C",
+  gradientLight2: "#C8C8D4",
 
   buttonGradientPrimary1: "#4B5788",
   buttonGradientPrimary0: "#8490BF",
