@@ -160,6 +160,7 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     padding: 4,
     elevation: 20,
+    height: 50,
   },
   pillBorder: {
     ...StyleSheet.absoluteFillObject,
@@ -184,8 +185,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 12,
     borderRadius: 22,
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     gap: 4,
   },
   centerTabWrapper: {
@@ -193,8 +194,8 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   createButton: {
-    width: 50,
-    height: 50,
+    width: 45,
+    height: 45,
     borderRadius: 22,
     backgroundColor: "#0026ff",
     alignItems: "center",

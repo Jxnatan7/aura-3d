@@ -1,12 +1,8 @@
 import React from "react";
 import { Tabs } from "expo-router";
-import { useTheme } from "@shopify/restyle";
-import { Theme } from "@/theme";
 import { FloatingTabBar } from "@/components/theme/FloatingTabBar";
 
 export default function TabLayout() {
-  const theme = useTheme<Theme>();
-
   return (
     <Tabs
       tabBar={(props) => <FloatingTabBar {...props} />}
@@ -18,7 +14,7 @@ export default function TabLayout() {
     >
       <Tabs.Screen name="index" options={{ tabBarLabel: "Home" }} />
       <Tabs.Screen name="create-model" options={{ tabBarLabel: "Criar" }} />
-      <Tabs.Screen name="login" options={{ tabBarLabel: "Conta" }} />
+      <Tabs.Screen name="auth" options={{ tabBarLabel: "Conta" }} />
     </Tabs>
   );
 }

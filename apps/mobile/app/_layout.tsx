@@ -13,6 +13,7 @@ import { useAppStore } from "@/stores/appStore";
 import { useDeviceTheme } from "@/hooks/useDeviceTheme";
 import theme, { darkTheme } from "@/theme";
 import { ModelContextProvider } from "@/contexts/ModelContext";
+import { MobileWebPrompt } from "@/components/theme/MobileWebPrompt";
 import { ModelListProvider } from "@/contexts/ModelListContext";
 
 export { ErrorBoundary } from "expo-router";
@@ -54,6 +55,7 @@ function RootLayoutNav() {
               <ModelListProvider>
                 <ThemeProvider theme={currentTheme}>
                   <StatusBar style="light" />
+                  <MobileWebPrompt />
                   <Stack
                     initialRouteName="(tabs)"
                     screenOptions={{
@@ -61,10 +63,8 @@ function RootLayoutNav() {
                     }}
                   >
                     <Stack.Screen name="(tabs)" />
-                    <Stack.Screen name="model-view" />
                     <Stack.Screen name="model-preview" />
-                    <Stack.Screen name="login" />
-                    <Stack.Screen name="register" />
+                    <Stack.Screen name="model-view" />
                   </Stack>
                 </ThemeProvider>
               </ModelListProvider>

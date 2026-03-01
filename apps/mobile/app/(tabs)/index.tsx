@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import { useRouter } from "expo-router";
 import { Box, Text } from "@/components/restyle";
 import { RestyleCard } from "@/components/restyle/Card";
@@ -23,30 +23,20 @@ export default function DashboardScreen() {
     "Para ver seus modelos, você precisa estar logado.",
   );
 
-  const [listType, setListType] = useState<ListType>("ALL");
-
   const handleLogout = useCallback(() => {
     logout();
-    push("/login");
+    push("/(tabs)/auth");
   }, [logout, push]);
 
-  const handleTabChange = useCallback(
-    (type: ListType) => {
-      if (type === "MY" && !isAuthenticated) {
-        showModal();
-        return;
-      }
-      setListType(type);
-    },
-    [isAuthenticated, showModal],
-  );
+  const handleTabChange = useCallback(() => {
+    if (!isAuthenticated) {
+      showModal();
+      return;
+    }
+    push("/(tabs)/auth");
+  }, [isAuthenticated, showModal]);
 
   const keyExtractor = useCallback((item: any) => item._id.toString(), []);
-
-  const listTitle = useMemo(
-    () => (listType === "ALL" ? "Recentes" : "Meus Modelos"),
-    [listType],
-  );
 
   return (
     <Container variant="screen" paddingHorizontal="m" hideHeader>
@@ -85,33 +75,27 @@ export default function DashboardScreen() {
         backgroundColor="transparent"
       >
         <Button
-          variant={listType === "ALL" ? "chipActive" : "chip"}
+          variant={"chipActive"}
           // onPress={() => handleTabChange("ALL")}
           onPress={handleLogout}
           text="Recentes"
           textProps={{
             fontSize: 16,
-            color: listType === "ALL" ? "white" : "mainText",
+            color: "white",
           }}
         />
         <Button
-          variant={
-            isAuthenticated
-              ? listType === "MY"
-                ? "chipActive"
-                : "chip"
-              : "chipDisabled"
-          }
-          onPress={() => handleTabChange("MY")}
+          variant={isAuthenticated ? "chipActive" : "chipDisabled"}
+          onPress={handleTabChange}
           text="Meus Modelos"
           textProps={{
             fontSize: 16,
-            color: listType === "MY" ? "white" : "mainText",
+            color: "white",
           }}
         />
       </Box>
 
-      <Model3DList listType={listType} keyExtractor={keyExtractor} />
+      <Model3DList keyExtractor={keyExtractor} />
       <LoginAlertComponent />
     </Container>
   );

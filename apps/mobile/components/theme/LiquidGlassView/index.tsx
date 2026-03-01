@@ -1,13 +1,8 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  ViewProps,
-  StyleProp,
-  ViewStyle,
-} from "react-native";
+import { StyleSheet, ViewProps, StyleProp, ViewStyle } from "react-native";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
+import { Box } from "@/components/restyle";
 
 export type LiquidGlassViewProps = ViewProps & {
   intensity?: number;
@@ -33,7 +28,7 @@ export function LiquidGlassView({
   ...props
 }: LiquidGlassViewProps) {
   return (
-    <View style={[{ borderRadius, overflow: "hidden" }, style]} {...props}>
+    <Box style={[{ borderRadius, overflow: "hidden" }, style]} {...props}>
       <BlurView
         intensity={intensity}
         // @ts-ignore
@@ -50,7 +45,7 @@ export function LiquidGlassView({
         end={{ x: 1, y: 1 }}
         style={StyleSheet.absoluteFillObject}
       />
-      <View
+      <Box
         style={[
           StyleSheet.absoluteFillObject,
           {
@@ -64,9 +59,9 @@ export function LiquidGlassView({
         ]}
         pointerEvents="none"
       />
-      <View style={[{ flex: 1, zIndex: 2 }, contentContainerStyle]}>
+      <Box style={[{ flex: 1, zIndex: 2 }, contentContainerStyle]}>
         {children}
-      </View>
-    </View>
+      </Box>
+    </Box>
   );
 }

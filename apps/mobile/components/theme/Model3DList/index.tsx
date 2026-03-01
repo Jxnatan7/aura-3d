@@ -11,7 +11,7 @@ import { ModelItem } from "../ModelItem";
 import { useModelListContext } from "@/contexts/ModelListContext";
 
 export type Model3DListProps = Partial<PaginatedFlashListProps<Model3D>> & {
-  listType: "ALL" | "MY";
+  listType?: "ALL" | "MY";
   search?: string;
 };
 
@@ -52,7 +52,7 @@ const List = ({ horizontal, ...props }: PaginatedFlashListProps<Model3D>) => {
 };
 
 export const Model3DList = ({
-  listType,
+  listType = "ALL",
   search,
   horizontal,
   ...props
