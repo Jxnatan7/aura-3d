@@ -3,6 +3,7 @@ import { Container } from "@/components/theme/Container";
 import { useGoogleAuth } from "@/hooks/useGoogleAuth";
 import { UserProfileView } from "@/components/theme/UserProfileView";
 import { LoginView } from "@/components/theme/LoginView";
+import { LogoutButton } from "@/components/theme/LogoutButton";
 
 export default function AuthScreen() {
   const { request, promptAsync, isAuthenticated, user } = useGoogleAuth();
@@ -10,9 +11,13 @@ export default function AuthScreen() {
   return (
     <Container
       variant="screen"
-      hideHeader
       justifyContent="flex-start"
       paddingHorizontal="m"
+      containerHeaderChildren={isAuthenticated ? <LogoutButton /> : null}
+      containerHeaderProps={{
+        hideBackButton: true,
+        justifyContent: "flex-end",
+      }}
     >
       {isAuthenticated && user ? (
         <UserProfileView user={user} />

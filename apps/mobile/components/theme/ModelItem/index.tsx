@@ -14,6 +14,7 @@ export type ModelItemProps = {
   index: number;
   onPress: (item: Model3D, glbUrl?: string) => void;
   horizontal: boolean | null | undefined;
+  onLike: () => void;
 };
 
 const CARD_WIDTH = Math.min(
@@ -25,7 +26,7 @@ const CARD_WIDTH = Math.min(
 );
 
 export const ModelItem = memo(
-  ({ item, index, onPress, horizontal }: ModelItemProps) => {
+  ({ item, index, onPress, horizontal, onLike }: ModelItemProps) => {
     const glbUrl = formatMediaUrl(item, "glb");
     const imageUrl = formatMediaUrl(item, "image");
 
@@ -115,6 +116,7 @@ export const ModelItem = memo(
             </Text>
           </Box>
           <IconButton
+            onPress={onLike}
             glass={false}
             backgroundColor="transparent"
             icon={<Feather name="heart" size={20} color="white" />}

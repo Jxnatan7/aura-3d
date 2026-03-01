@@ -6,9 +6,10 @@ import { GeneratorService } from "./core/services/3d-generator.service";
 import { GeneratorController } from "./http/rest/controller/3d-generator.controller";
 import { IntegrationModule } from "src/integration/integration.module";
 import { SseController } from "./http/rest/controller/sse.controller";
+import { UserModule } from "src/user/user.module";
 
 @Module({
-  imports: [HttpModule, IntegrationModule],
+  imports: [HttpModule, IntegrationModule, UserModule],
   providers: [Model3dUpdatedListener, GeneratorService],
   exports: [Model3dUpdatedListener],
   controllers: [GeneratorController, SseController],

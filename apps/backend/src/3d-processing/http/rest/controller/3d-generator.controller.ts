@@ -13,7 +13,7 @@ export class GeneratorController {
     @Body() dto: Create3DGenerationDto,
     @User() user,
   ): Promise<any> {
-    return this.generatorService.startGeneration(dto, user?.id);
+    return this.generatorService.startGeneration(dto, user);
   }
 
   @Get(":id")

@@ -10,6 +10,8 @@ export enum UserRole {
   VISITOR = "VISITOR",
 }
 
+export type UserDocument = User & Document;
+
 @Schema({ timestamps: true })
 export class User extends Document {
   @Prop({ required: true })

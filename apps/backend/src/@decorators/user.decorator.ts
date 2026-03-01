@@ -1,6 +1,12 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 
-export type UserJwt = { id: string; email: string };
+export type UserJwt = {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  phone: string;
+};
 
 export const User = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {

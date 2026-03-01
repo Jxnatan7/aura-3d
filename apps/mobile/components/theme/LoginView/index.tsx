@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "@/components/restyle";
+import { Box, Text } from "@/components/restyle";
 import { IconButton } from "@/components/theme/IconButton";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -10,7 +10,13 @@ interface LoginViewProps {
 
 export function LoginView({ isRequestReady, onLoginPress }: LoginViewProps) {
   return (
-    <>
+    <Box
+      flex={1}
+      width="100%"
+      alignItems="center"
+      justifyContent="center"
+      gap="l"
+    >
       <Text variant="containerHeader">Faça o seu Login</Text>
 
       <IconButton
@@ -25,6 +31,6 @@ export function LoginView({ isRequestReady, onLoginPress }: LoginViewProps) {
         justifyContent="center"
         marginTop="m"
       />
-    </>
+    </Box>
   );
 }

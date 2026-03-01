@@ -9,6 +9,9 @@ import { Model3D } from "@/services/Model3DService";
 import { useRouter } from "expo-router";
 import { ModelItem } from "../ModelItem";
 import { useModelListContext } from "@/contexts/ModelListContext";
+import useLoginModal from "@/hooks/useLoginModal";
+import { useLikeModel } from "@/hooks/useLikeModel";
+import { useAuthStore } from "@/stores/authStore";
 
 export type Model3DListProps = Partial<PaginatedFlashListProps<Model3D>> & {
   listType?: "ALL" | "MY";
@@ -57,9 +60,14 @@ export const Model3DList = ({
   horizontal,
   ...props
 }: Model3DListProps) => {
+  const { isAuthenticated } = useAuthStore();
   const { push } = useRouter();
   const { mutateAsync } = useModels3D();
   const { setModels } = useModelListContext();
+  const { showModal, LoginAlertComponent } = useLoginModal(
+    "Para curtir um modelo, você precisa fazer login.",
+  );
+  const { handleLikeModel } = useLikeModel();
 
   const fetchRequests = useCallback(
     async (
@@ -99,24 +107,30 @@ export const Model3DList = ({
         index={index}
         onPress={handleModelPress}
         horizontal={horizontal}
+        onLike={() => {
+          handleLikeModel(isAuthenticated, showModal);
+        }}
       />
     ),
     [handleModelPress],
   );
 
   return (
-    <List
-      {...props}
-      style={{
-        backgroundColor: "transparent",
-      }}
-      onDataChange={setModels}
-      renderItem={renderItem}
-      fetchData={fetchRequests}
-      pageSize={10}
-      horizontal={horizontal}
-      numColumns={horizontal ? undefined : 2}
-      showsVerticalScrollIndicator={false}
-    />
+    <>
+      <List
+        {...props}
+        style={{
+          backgroundColor: "transparent",
+        }}
+        onDataChange={setModels}
+        renderItem={renderItem}
+        fetchData={fetchRequests}
+        pageSize={10}
+        horizontal={horizontal}
+        numColumns={horizontal ? undefined : 2}
+        showsVerticalScrollIndicator={false}
+      />
+      <LoginAlertComponent />
+    </>
   );
 };

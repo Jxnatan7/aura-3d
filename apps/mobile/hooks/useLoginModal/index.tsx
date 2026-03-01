@@ -13,7 +13,7 @@ const useLoginModal = (
 
   const handleConfirm = () => {
     hideModal();
-    push("/login");
+    push("/(tabs)/auth");
   };
 
   const LoginAlertComponent = () => (

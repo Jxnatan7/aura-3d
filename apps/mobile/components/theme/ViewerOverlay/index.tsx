@@ -8,6 +8,7 @@ import { LiquidGlassView } from "../LiquidGlassView";
 import { useModelActions } from "@/hooks/useModelActions";
 import useLoginModal from "@/hooks/useLoginModal";
 import { useAuthStore } from "@/stores/authStore";
+import { useLikeModel } from "@/hooks/useLikeModel";
 
 export const ViewerOverlay = ({
   id,
@@ -23,13 +24,7 @@ export const ViewerOverlay = ({
   const { showModal, LoginAlertComponent } = useLoginModal(
     "Para curtir um modelo, você precisa fazer login.",
   );
-
-  const handleLikeModel = () => {
-    if (!isAuthenticated) {
-      showModal();
-      return;
-    }
-  };
+  const { handleLikeModel } = useLikeModel();
 
   return (
     <>
@@ -66,7 +61,7 @@ export const ViewerOverlay = ({
               <Text variant="modelUser">AURA3D</Text>
             </Box>
             <IconButton
-              onPress={handleLikeModel}
+              onPress={() => handleLikeModel(isAuthenticated, showModal)}
               icon={<Feather name="heart" size={24} color="#FFF" />}
             />
           </RestyleCard>

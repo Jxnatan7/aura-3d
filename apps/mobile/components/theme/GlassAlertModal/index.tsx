@@ -59,7 +59,7 @@ export function GlassAlertModal({
         <Pressable onPress={(e) => e.stopPropagation()}>
           <Box style={styles.alertContainer}>
             <LiquidGlassView
-              intensity={60}
+              intensity={100}
               tint="dark"
               borderRadius={14}
               style={styles.glassWrapper}

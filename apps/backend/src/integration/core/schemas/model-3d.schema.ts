@@ -28,6 +28,18 @@ export class ModelUrls {
   preRemeshedGlb?: string;
 }
 
+@Schema({ _id: false })
+export class EmbeddedUser {
+  @Prop({ type: Types.ObjectId, ref: "User" })
+  _id: Types.ObjectId;
+
+  @Prop()
+  name: string;
+
+  @Prop()
+  email: string;
+}
+
 @Schema({ timestamps: true, collection: "models_3d" })
 export class Model3D extends Document {
   @Prop()
@@ -78,8 +90,8 @@ export class Model3D extends Document {
   @Prop()
   finishedAt?: number;
 
-  @Prop({ type: Types.ObjectId, ref: "User", required: false })
-  userId?: Types.ObjectId;
+  @Prop({ type: EmbeddedUser })
+  user?: EmbeddedUser;
 
   @Prop({ type: Object })
   rawMetadata?: any;

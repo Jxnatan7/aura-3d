@@ -27,7 +27,9 @@ export class AuthService {
 
   async login(user: User) {
     const payload = {
+      id: user._id,
       sub: user._id,
+      name: user.name,
       email: user.email,
       role: user.role,
       phone: user.phone,

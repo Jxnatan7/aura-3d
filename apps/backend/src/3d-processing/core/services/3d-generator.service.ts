@@ -5,10 +5,15 @@ import {
   createMongoQueryService,
   FilterRequest,
   PaginatedResult,
+  toObjectIdOrLeave,
 } from "src/@core/services/mongo-query.service";
+import { UserJwt } from "src/@decorators/user.decorator";
 import { IAIProvider } from "src/integration/core/interfaces/ai-provider.interface";
 import { Model3DRepository } from "src/integration/core/repositories/model-3d.repository";
-import { Model3D } from "src/integration/core/schemas/model-3d.schema";
+import {
+  EmbeddedUser,
+  Model3D,
+} from "src/integration/core/schemas/model-3d.schema";
 
 @Injectable()
 export class GeneratorService {
@@ -19,7 +24,7 @@ export class GeneratorService {
 
   async startGeneration(
     dto: Create3DGenerationDto,
-    userId?: string,
+    user?: UserJwt,
   ): Promise<Model3D> {
     const { result: externalId } = await this.aiProvider.createImageTo3D({
       image_url: `data:image/png;base64,${dto.imageBase64}`,
@@ -31,9 +36,17 @@ export class GeneratorService {
       should_remesh: true,
     });
 
+    const embeddedUser = new EmbeddedUser();
+
+    if (user) {
+      embeddedUser._id = toObjectIdOrLeave(user.id) as Types.ObjectId;
+      embeddedUser.name = user.name;
+      embeddedUser.email = user.email;
+    }
+
     return this.model3DRepository.create({
       externalId,
-      userId: userId ? new Types.ObjectId(userId) : undefined,
+      user: embeddedUser,
       status: "PENDING",
       name: dto.name,
     });

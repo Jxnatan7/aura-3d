@@ -38,7 +38,6 @@ export class MeshyUpdateProcessor extends WorkerHost {
         ...payload,
         externalId: payload.id,
         name: model3D?.name,
-        userId: model3D?.userId,
         status: payload.status,
         modelUrls: payload.model_urls,
         textureUrls: payload.texture_urls,

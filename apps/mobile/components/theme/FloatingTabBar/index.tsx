@@ -1,6 +1,6 @@
 import { Box } from "@/components/restyle";
 import { useEffect, useRef } from "react";
-import { Animated, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Animated, StyleSheet, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LiquidGlassView } from "../LiquidGlassView";
 import { FontAwesome } from "@expo/vector-icons";
@@ -114,20 +114,22 @@ export function FloatingTabBar({
                   }}
                 >
                   {isCreate ? (
-                    <View style={styles.createButton}>
+                    <Box style={styles.createButton}>
                       <LiquidGlassView
                         intensity={50}
                         tint="dark"
                         style={[StyleSheet.absoluteFillObject]}
                       />
                       <FontAwesome name={tab.icon} size={26} color="#FFFFFF" />
-                    </View>
+                    </Box>
                   ) : (
-                    <FontAwesome
-                      name={tab.icon}
-                      size={24}
-                      color={focused ? "#FFFFFF" : "rgba(255,255,255,0.45)"}
-                    />
+                    <Box style={styles.button}>
+                      <FontAwesome
+                        name={tab.icon}
+                        size={20}
+                        color={focused ? "#FFFFFF" : "rgba(255,255,255,0.45)"}
+                      />
+                    </Box>
                   )}
                 </Animated.View>
               </TouchableOpacity>
@@ -205,6 +207,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 10,
     elevation: 10,
+  },
+  button: {
+    width: 45,
+    height: 45,
+    borderRadius: 22,
+    alignItems: "center",
+    justifyContent: "center",
   },
   activeBubble: {
     ...StyleSheet.absoluteFillObject,
