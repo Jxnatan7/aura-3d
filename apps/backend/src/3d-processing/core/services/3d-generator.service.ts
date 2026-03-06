@@ -66,7 +66,10 @@ export class GeneratorService {
   async search(
     filterRequest: FilterRequest,
   ): Promise<PaginatedResult<Model3D>> {
-    const baseQuery = { status: "SUCCEEDED" };
+    const baseQuery = {
+      status: "SUCCEEDED",
+      thumbnailUrl: { $exists: true, $nin: [null, ""] },
+    };
     const query = createMongoQueryService<Model3D>(
       this.model3DRepository.getModel(),
     );
