@@ -42,7 +42,7 @@ export class MeshyAIProvider extends BaseApiProvider implements IAIProvider {
     return this.request<{ result: string }>("post", "/image-to-3d", data);
   }
 
-  async getTaskStatus(taskId: string): Promise<MeshyTaskResponse> {
+  async getModelStatus(taskId: string): Promise<MeshyTaskResponse> {
     return this.request<MeshyTaskResponse>("get", `/image-to-3d/${taskId}`);
   }
 

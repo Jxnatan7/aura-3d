@@ -32,7 +32,7 @@ export class GeneratorService {
       enable_pbr: true,
       should_texture: true,
       texture_image_url: `data:image/png;base64,${dto.imageBase64}`,
-      target_polycount: 100000,
+      target_polycount: 300000,
       should_remesh: true,
     });
 
@@ -50,6 +50,11 @@ export class GeneratorService {
       status: "PENDING",
       name: dto.name,
     });
+  }
+
+  async syncModel3D(modelExternalId: string) {
+    const model = await this.aiProvider.getModelStatus(modelExternalId);
+    await this.model3DRepository.updateByExternalId(modelExternalId, model);
   }
 
   async getModel3DById(modelId: string) {
