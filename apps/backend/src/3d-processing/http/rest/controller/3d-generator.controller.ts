@@ -1,13 +1,15 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { Create3DGenerationDto } from "../dto/create-generation.dto";
 import { GeneratorService } from "src/3d-processing/core/services/3d-generator.service";
 import { FilterRequest } from "src/@core/services/mongo-query.service";
 import { User } from "src/@decorators/user.decorator";
+import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 
 @Controller("api/v1/3d-generation")
 export class GeneratorController {
   constructor(private readonly generatorService: GeneratorService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async generate(
     @Body() dto: Create3DGenerationDto,
