@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import { StyleSheet, Switch } from "react-native";
+import React, { useCallback } from "react";
+import { StyleSheet } from "react-native";
 import { Redirect } from "expo-router";
 import { useTheme } from "@shopify/restyle";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -9,8 +9,6 @@ import { TextInput } from "@/components/theme/TextInput";
 import { IconButton } from "@/components/theme/IconButton";
 import { Image } from "@/components/theme/Image";
 import { useCreateModel } from "@/hooks/useCreateModel";
-import { useAuthStore } from "@/stores/authStore";
-import useLoginModal from "@/hooks/useLoginModal";
 import { Theme } from "@/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { LiquidGlassView } from "@/components/theme/LiquidGlassView";
@@ -61,8 +59,6 @@ const FormState = ({
   selectedImage,
   name,
   setName,
-  isPublic,
-  handlePublicToggle,
   onGenerate,
   isButtonDisabled,
   reset,
@@ -103,16 +99,6 @@ const FormState = ({
           },
         }}
       />
-
-      <Box
-        style={styles.inputContainer}
-        flexDirection="row"
-        alignItems="center"
-        gap="m"
-      >
-        <Switch value={isPublic} onValueChange={handlePublicToggle} />
-        <Text variant="body">Público (visível para todos)</Text>
-      </Box>
 
       <IconButton
         icon={
@@ -162,7 +148,6 @@ const FormState = ({
 
 export default function CreateModel() {
   const theme = useTheme<Theme>();
-  const { isAuthenticated } = useAuthStore();
   const { isGenerating, isCompleted } = useModelStore();
 
   const {
@@ -174,26 +159,10 @@ export default function CreateModel() {
     takePhoto,
     pickImageFromGallery,
     reset,
+    LoginAlertComponent,
   } = useCreateModel();
 
-  const { showModal } = useLoginModal(
-    "Para criar um modelo público, você precisa estar logado.",
-  );
-
   const { debouncedFn } = useDebounce(setName, 1000);
-
-  const [isPublic, setIsPublic] = useState(true);
-
-  const handlePublicToggle = useCallback(
-    (value: boolean) => {
-      if (!isAuthenticated) {
-        showModal();
-        return;
-      }
-      setIsPublic(value);
-    },
-    [isAuthenticated, showModal],
-  );
 
   const onGenerate = useCallback(() => {
     handleGeneratePress();
@@ -219,8 +188,6 @@ export default function CreateModel() {
           selectedImage={selectedImage}
           name={name}
           setName={debouncedFn}
-          isPublic={isPublic}
-          handlePublicToggle={handlePublicToggle}
           onGenerate={onGenerate}
           isButtonDisabled={isButtonDisabled}
           reset={reset}
@@ -232,6 +199,7 @@ export default function CreateModel() {
           theme={theme}
         />
       )}
+      <LoginAlertComponent />
     </Container>
   );
 }

@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Alert, ActionSheetIOS, Platform } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import { useModelStore } from "@/stores/modelStore";
 import { processImage } from "@/utils/imageProcessor";
 import useGenerateModel3D from "../useGenerateModel3D";
+import useLoginModal from "../useLoginModal";
+import { useAuthStore } from "@/stores/authStore";
 
 export function useCreateModel() {
+  const { isAuthenticated } = useAuthStore();
   const { push } = useRouter();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedImageBase64, setSelectedImageBase64] = useState<string | null>(
@@ -16,6 +19,9 @@ export function useCreateModel() {
 
   const { mutateAsync } = useGenerateModel3D();
   const { setModelId, setIsGenerating, setModelName } = useModelStore();
+  const { showModal, LoginAlertComponent } = useLoginModal(
+    "Para criar um modelo, você precisa estar logado.",
+  );
 
   const reset = () => {
     setSelectedImage(null);
@@ -62,6 +68,22 @@ export function useCreateModel() {
     });
     await handleImageResult(result);
   };
+
+  const handlePickImage = useCallback(() => {
+    if (!isAuthenticated) {
+      showModal();
+      return;
+    }
+    pickImageFromGallery();
+  }, [isAuthenticated, showModal, pickImageFromGallery]);
+
+  const handleTakePhoto = useCallback(() => {
+    if (!isAuthenticated) {
+      showModal();
+      return;
+    }
+    takePhoto();
+  }, [isAuthenticated, showModal, takePhoto]);
 
   const showImageOptions = () => {
     if (Platform.OS === "ios") {
@@ -114,8 +136,9 @@ export function useCreateModel() {
     handleGeneratePress: submitModel,
     isAdLoaded: true,
     isButtonDisabled: !name || !selectedImageBase64,
-    takePhoto,
-    pickImageFromGallery,
+    takePhoto: handleTakePhoto,
+    pickImageFromGallery: handlePickImage,
     reset,
+    LoginAlertComponent,
   };
 }
