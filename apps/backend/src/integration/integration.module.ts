@@ -17,6 +17,7 @@ import { FileDownloaderService } from "./core/service/file-downloader.service";
 import { ImageProcessingService } from "./core/service/image-processing.service";
 import { LikeSchema } from "./core/schemas/like.schema";
 import { LikeService } from "./core/service/like.service";
+import { LikeRepository } from "./core/repositories/like.repository";
 
 @Module({
   imports: [
@@ -42,12 +43,20 @@ import { LikeService } from "./core/service/like.service";
     FileDownloaderService,
     ImageProcessingService,
     LikeService,
+    LikeRepository,
     {
       provide: "AI_PROVIDER",
       useClass: MeshyAIProvider,
     },
   ],
   controllers: [MeshyWebhookController],
-  exports: [Model3DRepository, "AI_PROVIDER", BullModule, RedisPubSubService],
+  exports: [
+    Model3DRepository,
+    "AI_PROVIDER",
+    BullModule,
+    RedisPubSubService,
+    LikeRepository,
+    LikeService,
+  ],
 })
 export class IntegrationModule {}

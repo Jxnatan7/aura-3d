@@ -4,14 +4,14 @@ import {
   PaginatedFlashListProps,
   PaginatedResult,
 } from "../PaginatedFlashList";
-import useModels3D from "@/hooks/useModels3D";
-import { Model3D } from "@/services/Model3DService";
+import Model3DService, { Model3D } from "@/services/Model3DService";
 import { useRouter } from "expo-router";
 import { ModelItem } from "../ModelItem";
 import { useModelListContext } from "@/contexts/ModelListContext";
 import useLoginModal from "@/hooks/useLoginModal";
 import { useLikeModel } from "@/hooks/useLikeModel";
 import { useAuthStore } from "@/stores/authStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 export type Model3DListProps = Partial<PaginatedFlashListProps<Model3D>> & {
   listType?: "ALL" | "MY";
@@ -60,9 +60,9 @@ export const Model3DList = ({
   horizontal,
   ...props
 }: Model3DListProps) => {
+  const queryClient = useQueryClient();
   const { isAuthenticated, user } = useAuthStore();
   const { push } = useRouter();
-  const { mutateAsync } = useModels3D();
   const { setModels } = useModelListContext();
   const { showModal, LoginAlertComponent } = useLoginModal(
     "Para curtir um modelo, você precisa fazer login.",
@@ -74,16 +74,22 @@ export const Model3DList = ({
       page: number,
       pageSize: number,
     ): Promise<PaginatedResult<Model3D> | undefined> => {
-      const { data: response } = await mutateAsync({
+      const filters = {
         q: search,
         page,
         pageSize,
         userId: listType === "MY" && user ? user.id : undefined,
+      };
+
+      const response = await queryClient.fetchQuery({
+        queryKey: ["models", filters],
+        queryFn: () => Model3DService.search(filters),
+        staleTime: 1000 * 60 * 5,
       });
 
-      return response;
+      return response.data;
     },
-    [mutateAsync, search],
+    [search, listType, user, queryClient],
   );
 
   const handleModelPress = useCallback(
@@ -91,7 +97,7 @@ export const Model3DList = ({
       push({
         pathname: "/model-view",
         params: {
-          id: item._id,
+          id: item.id,
           glb: glbUrl,
           name: item.name,
           imageUrl: item.thumbnailUrl ?? item.imageUrl,
@@ -109,20 +115,18 @@ export const Model3DList = ({
         onPress={handleModelPress}
         horizontal={horizontal}
         onLike={() => {
-          handleLikeModel(isAuthenticated, showModal);
+          handleLikeModel(item.id, isAuthenticated, showModal);
         }}
       />
     ),
-    [handleModelPress],
+    [handleModelPress, isAuthenticated, showModal, handleLikeModel, horizontal],
   );
 
   return (
     <>
       <List
         {...props}
-        style={{
-          backgroundColor: "transparent",
-        }}
+        style={{ backgroundColor: "transparent" }}
         onDataChange={setModels}
         renderItem={renderItem}
         fetchData={fetchRequests}

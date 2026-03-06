@@ -23,7 +23,7 @@ export function useModelPreviewLogic() {
         progress: data?.data.progress,
         modelUrls: data?.data.modelUrls,
         name: data?.data.name,
-        id: data?.data._id,
+        id: data?.data.id,
       };
     }, [data]);
 

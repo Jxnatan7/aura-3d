@@ -27,6 +27,7 @@ const CARD_WIDTH = Math.min(
 
 export const ModelItem = memo(
   ({ item, index, onPress, horizontal, onLike }: ModelItemProps) => {
+    console.log("🚀 ~ item:", item.isLikedByMe);
     const glbUrl = formatMediaUrl(item, "glb");
     const imageUrl = formatMediaUrl(item, "image");
 
@@ -61,7 +62,7 @@ export const ModelItem = memo(
         >
           <ModelImage
             uri={imageUrl ?? ""}
-            sharedTransitionTag={`image-${item._id}`}
+            sharedTransitionTag={`image-${item.id}`}
             motiProps={{
               onPress: () => onPress(item, glbUrl),
             }}
@@ -119,13 +120,19 @@ export const ModelItem = memo(
             onPress={onLike}
             glass={false}
             backgroundColor="transparent"
-            icon={<Feather name="heart" size={20} color="white" />}
+            icon={
+              <Feather
+                name="heart"
+                size={20}
+                color={item.isLikedByMe ? "red" : "#fff"}
+              />
+            }
           />
         </Box>
       </RestyleCard>
     );
   },
-  (prevProps, nextProps) => prevProps.item._id === nextProps.item._id,
+  (prevProps, nextProps) => prevProps.item.id === nextProps.item.id,
 );
 
 const styles = StyleSheet.create({

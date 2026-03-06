@@ -36,7 +36,7 @@ export default function DashboardScreen() {
     push("/(tabs)/auth");
   }, [isAuthenticated, showModal]);
 
-  const keyExtractor = useCallback((item: any) => item._id.toString(), []);
+  const keyExtractor = useCallback((item: any) => item.id.toString(), []);
 
   return (
     <Container variant="screen" paddingHorizontal="m" hideHeader>

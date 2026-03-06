@@ -5,7 +5,7 @@ export const useModelActions = (id: string) => {
   const { replace } = useRouter();
   const { models } = useModelListContext();
 
-  const currentIndex = models?.findIndex((m) => m._id === id);
+  const currentIndex = models?.findIndex((m) => m.id === id);
   const hasNext = currentIndex !== -1 && currentIndex < models?.length - 1;
   const hasPrev = currentIndex > 0;
 
@@ -15,7 +15,7 @@ export const useModelActions = (id: string) => {
       replace({
         pathname: "/model-view",
         params: {
-          id: nextModel._id,
+          id: nextModel.id,
           glb: nextModel.modelUrls?.glb,
           name: nextModel.name,
           imageUrl: nextModel.thumbnailUrl ?? nextModel.imageUrl,
@@ -30,7 +30,7 @@ export const useModelActions = (id: string) => {
       replace({
         pathname: "/model-view",
         params: {
-          id: prevModel._id,
+          id: prevModel.id,
           glb: prevModel.modelUrls?.glb,
           name: prevModel.name,
           imageUrl: prevModel.thumbnailUrl ?? prevModel.imageUrl,

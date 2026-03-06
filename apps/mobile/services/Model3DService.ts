@@ -33,7 +33,7 @@ export type MeshyStatus =
   | "CANCELED";
 
 export type Model3D = {
-  _id?: string;
+  id?: string;
   name: string;
   externalId: string;
   status: MeshyStatus;
@@ -55,6 +55,8 @@ export type Model3D = {
   createdAt?: string | Date;
   updatedAt?: string | Date;
   isStoredLocally?: boolean;
+  likesCount?: number;
+  isLikedByMe?: boolean;
 };
 
 export type FilterRequest = {
@@ -76,10 +78,9 @@ const Model3DService = {
   async search(filterRequest: FilterRequest) {
     return axiosClient.post(`/3d-generation/search`, filterRequest);
   },
-  async processImage(id: string) {
-    return axiosClient.post(`/webhooks/meshy/test/${id}`, {
-      baseURL: "http://localhost:3001",
-    });
+
+  toggleLike(id: string) {
+    return axiosClient.post(`/3d-generation/${id}/like`);
   },
 };
 

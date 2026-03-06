@@ -101,6 +101,8 @@ export class Model3D extends Document {
 
   @Prop({ type: Number, default: 0 })
   likesCount: number;
+
+  isLikedByMe?: boolean;
 }
 
 export const ModelSchema = SchemaFactory.createForClass(Model3D);

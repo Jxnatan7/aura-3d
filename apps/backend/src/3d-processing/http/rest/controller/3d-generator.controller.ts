@@ -27,9 +27,10 @@ export class GeneratorController {
     return this.generatorService.getModel3DById(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post("/search")
-  async search(@Body() filterRequest: FilterRequest) {
-    return this.generatorService.search(filterRequest);
+  async search(@Body() filterRequest: FilterRequest, @User() user: UserJwt) {
+    return this.generatorService.search(filterRequest, user?.id);
   }
 
   @UseGuards(JwtAuthGuard)
