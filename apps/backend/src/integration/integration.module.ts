@@ -15,10 +15,15 @@ import { ModelProcessorService } from "./core/service/model-processor.service";
 import { AssetMigratorService } from "./core/service/asset-migrator.service";
 import { FileDownloaderService } from "./core/service/file-downloader.service";
 import { ImageProcessingService } from "./core/service/image-processing.service";
+import { LikeSchema } from "./core/schemas/like.schema";
+import { LikeService } from "./core/service/like.service";
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Model3D.name, schema: ModelSchema }]),
+    MongooseModule.forFeature([
+      { name: Model3D.name, schema: ModelSchema },
+      { name: "Like", schema: LikeSchema },
+    ]),
     HttpModule,
     BullModule.registerQueue({
       name: "meshy-processing",
@@ -36,6 +41,7 @@ import { ImageProcessingService } from "./core/service/image-processing.service"
     AssetMigratorService,
     FileDownloaderService,
     ImageProcessingService,
+    LikeService,
     {
       provide: "AI_PROVIDER",
       useClass: MeshyAIProvider,

@@ -98,6 +98,9 @@ export class Model3D extends Document {
 
   @Prop({ default: false, index: true })
   isStoredLocally: boolean;
+
+  @Prop({ type: Number, default: 0 })
+  likesCount: number;
 }
 
 export const ModelSchema = SchemaFactory.createForClass(Model3D);
