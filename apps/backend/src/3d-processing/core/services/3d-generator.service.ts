@@ -70,6 +70,11 @@ export class GeneratorService {
       status: "SUCCEEDED",
       thumbnailUrl: { $exists: true, $nin: [null, ""] },
     };
+
+    if (filterRequest.userId) {
+      baseQuery["user._id"] = toObjectIdOrLeave(filterRequest.userId);
+    }
+
     const query = createMongoQueryService<Model3D>(
       this.model3DRepository.getModel(),
     );

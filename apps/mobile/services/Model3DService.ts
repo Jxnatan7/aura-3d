@@ -65,6 +65,7 @@ export type FilterRequest = {
   sortDirection?: string;
   from?: string;
   to?: string;
+  userId?: string;
 };
 
 const Model3DService = {

@@ -8,6 +8,7 @@ export type FilterRequest = {
   sortDirection?: string;
   from?: string;
   to?: string;
+  userId?: string;
 };
 
 export type PaginatedResult<T> = {

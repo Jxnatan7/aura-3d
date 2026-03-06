@@ -60,7 +60,7 @@ export const Model3DList = ({
   horizontal,
   ...props
 }: Model3DListProps) => {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
   const { push } = useRouter();
   const { mutateAsync } = useModels3D();
   const { setModels } = useModelListContext();
@@ -78,6 +78,7 @@ export const Model3DList = ({
         q: search,
         page,
         pageSize,
+        userId: listType === "MY" && user ? user.id : undefined,
       });
 
       return response;
