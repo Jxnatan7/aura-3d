@@ -3893,9 +3893,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/testing@npm:^11.0.1":
-  version: 11.1.13
-  resolution: "@nestjs/testing@npm:11.1.13"
+"@nestjs/testing@npm:^11.1.16":
+  version: 11.1.16
+  resolution: "@nestjs/testing@npm:11.1.16"
   dependencies:
     tslib: "npm:2.8.1"
   peerDependencies:
@@ -3908,7 +3908,7 @@ __metadata:
       optional: true
     "@nestjs/platform-express":
       optional: true
-  checksum: 10c0/25485800881d33260663a7a576e6226c34b4f5068c60a93af92e2895343e640962a4986613f7e85118a77e905a31ef15567a8bfa2f70e0983aade8f4977b2e8a
+  checksum: 10c0/0e607c97fbd576aa3d413817c030aee472a299b4ca11195dbfc2da0897ccc9aa1c19c6efdf1b60057fd17c23f0f7fa241d7b30da7c8ea78afab0f797456b0f4c
   languageName: node
   linkType: hard
 
@@ -4620,18 +4620,6 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10c0/cc34c7529ac9e308b995817476fd8de12c0db134ae5544cdbedc2a9e9f215e3d9b188d5e4ef9b23d02f482916b37fce0ff74fb1dd4cb9cc312394354b0b520e9
-  languageName: node
-  linkType: hard
-
-"@react-native/virtualized-lists@npm:^0.72.4":
-  version: 0.72.8
-  resolution: "@react-native/virtualized-lists@npm:0.72.8"
-  dependencies:
-    invariant: "npm:^2.2.4"
-    nullthrows: "npm:^1.1.1"
-  peerDependencies:
-    react-native: "*"
-  checksum: 10c0/1fe43afeacf5aacec270d7f64b9ce6c69afe1c65d1e487fff75e647d1f57114527f2223602d546b95fc982b348a6f1773db66184a2e90ba434f4f013f3991bac
   languageName: node
   linkType: hard
 
@@ -5876,13 +5864,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-native@npm:^0.72.8":
-  version: 0.72.8
-  resolution: "@types/react-native@npm:0.72.8"
+"@types/react-native@npm:^0.73.0":
+  version: 0.73.0
+  resolution: "@types/react-native@npm:0.73.0"
   dependencies:
-    "@react-native/virtualized-lists": "npm:^0.72.4"
-    "@types/react": "npm:*"
-  checksum: 10c0/2dde171c2331ac8f6102f9b7a88616c695d158d3140e7b7aee3a393e3645f2aaa202b3411ae371fbbcd28386459fca8d47bd5d3801a0adfdd8815a8ba5c0d5fe
+    react-native: "npm:*"
+  checksum: 10c0/81b8824f3bea30f18f92bb1e7c69777801b6b91a603c712173179b10e8fd6754f3594841dc452d0fc4a4cdc597e366fdf7839d27e0c5c5957f7dadde65882212
   languageName: node
   linkType: hard
 
@@ -5892,15 +5879,6 @@ __metadata:
   peerDependencies:
     "@types/react": "*"
   checksum: 10c0/9fe71fa856aab2cd4742fe0416bdd4f5c82ecc05ef6451ee7fcb65a5efdf5fa588f5820fbe2a665b15371b0da3bfc4097f28bb6d450b9a834af2d0fc00f403bd
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:*":
-  version: 19.2.11
-  resolution: "@types/react@npm:19.2.11"
-  dependencies:
-    csstype: "npm:^3.2.2"
-  checksum: 10c0/a02aa87853fa6ef82353dd58803f18744e367e05760845be9a35f9771031fb81077ef05fb5ef3e9d7bbd91d3f8394b47106a18a833ddfed81e6fbf0be55a3544
   languageName: node
   linkType: hard
 
@@ -6640,7 +6618,7 @@ __metadata:
     "@nestjs/schedule": "npm:^6.1.1"
     "@nestjs/schematics": "npm:^11.0.0"
     "@nestjs/swagger": "npm:^11.2.6"
-    "@nestjs/testing": "npm:^11.0.1"
+    "@nestjs/testing": "npm:^11.1.16"
     "@nestjs/websockets": "npm:^11.1.16"
     "@types/cron": "npm:^2.4.3"
     "@types/sharp": "npm:^0.32.0"
@@ -6679,7 +6657,7 @@ __metadata:
     "@types/events": "npm:^3"
     "@types/js-cookie": "npm:^3.0.6"
     "@types/qrcode": "npm:^1.5.6"
-    "@types/react-native": "npm:^0.72.8"
+    "@types/react-native": "npm:^0.73.0"
     "@types/three": "npm:^0.182.0"
     axios: "npm:^1.13.6"
     base-64: "npm:^1.0.0"
@@ -6731,7 +6709,7 @@ __metadata:
     react-native-web: "npm:~0.21.0"
     react-native-worklets: "npm:0.7.4"
     react-native-worklets-core: "npm:^1.6.3"
-    react-test-renderer: "npm:19.1.0"
+    react-test-renderer: "npm:19.2.4"
     socket.io-client: "npm:^4.8.1"
     three: "npm:^0.183.2"
     zustand: "npm:^5.0.8"
@@ -6752,8 +6730,8 @@ __metadata:
     ts-jest: "npm:^29.2.5"
     ts-node: "npm:^10.9.2"
     tsconfig-paths: "npm:^4.2.0"
-    turbo: "npm:^2.6.0"
-    typescript: "npm:5.9.2"
+    turbo: "npm:^2.8.14"
+    typescript: "npm:5.9.3"
   languageName: unknown
   linkType: soft
 
@@ -13819,7 +13797,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^19.1.0":
+"react-is@npm:^19.1.0, react-is@npm:^19.2.4":
   version: 19.2.4
   resolution: "react-is@npm:19.2.4"
   checksum: 10c0/477a7cfc900f24194606e315fa353856a3a13487ea8eca841678817cad4daef64339ea0d1e84e58459fc75dbe0d9ba00bb0cc626db3d07e0cf31edc64cb4fa37
@@ -14004,7 +13982,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native@npm:0.84.1":
+"react-native@npm:*, react-native@npm:0.84.1":
   version: 0.84.1
   resolution: "react-native@npm:0.84.1"
   dependencies:
@@ -14113,15 +14091,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-test-renderer@npm:19.1.0":
-  version: 19.1.0
-  resolution: "react-test-renderer@npm:19.1.0"
+"react-test-renderer@npm:19.2.4":
+  version: 19.2.4
+  resolution: "react-test-renderer@npm:19.2.4"
   dependencies:
-    react-is: "npm:^19.1.0"
-    scheduler: "npm:^0.26.0"
+    react-is: "npm:^19.2.4"
+    scheduler: "npm:^0.27.0"
   peerDependencies:
-    react: ^19.1.0
-  checksum: 10c0/34ed4a37ba8b0beb96c048de6ff28574f018a18dd1042c24f8f46142d48eb5b27f82ff7c2823d082932fd3983c5a3529ab8cc8f15191d4306df0082f9f84678f
+    react: ^19.2.4
+  checksum: 10c0/76f0a419a8ca7776ac6fae7c25056b9326a92a3d79971817e8ffd262d9121d1e87fde058b4fd6d33c365b1001cd6236d9053816dabed20afa62fbfe2a1a59f1a
   languageName: node
   linkType: hard
 
@@ -15758,58 +15736,58 @@ __metadata:
   languageName: node
   linkType: hard
 
-"turbo-darwin-64@npm:2.8.3":
-  version: 2.8.3
-  resolution: "turbo-darwin-64@npm:2.8.3"
+"turbo-darwin-64@npm:2.8.14":
+  version: 2.8.14
+  resolution: "turbo-darwin-64@npm:2.8.14"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-darwin-arm64@npm:2.8.3":
-  version: 2.8.3
-  resolution: "turbo-darwin-arm64@npm:2.8.3"
+"turbo-darwin-arm64@npm:2.8.14":
+  version: 2.8.14
+  resolution: "turbo-darwin-arm64@npm:2.8.14"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-linux-64@npm:2.8.3":
-  version: 2.8.3
-  resolution: "turbo-linux-64@npm:2.8.3"
+"turbo-linux-64@npm:2.8.14":
+  version: 2.8.14
+  resolution: "turbo-linux-64@npm:2.8.14"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-linux-arm64@npm:2.8.3":
-  version: 2.8.3
-  resolution: "turbo-linux-arm64@npm:2.8.3"
+"turbo-linux-arm64@npm:2.8.14":
+  version: 2.8.14
+  resolution: "turbo-linux-arm64@npm:2.8.14"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-windows-64@npm:2.8.3":
-  version: 2.8.3
-  resolution: "turbo-windows-64@npm:2.8.3"
+"turbo-windows-64@npm:2.8.14":
+  version: 2.8.14
+  resolution: "turbo-windows-64@npm:2.8.14"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-windows-arm64@npm:2.8.3":
-  version: 2.8.3
-  resolution: "turbo-windows-arm64@npm:2.8.3"
+"turbo-windows-arm64@npm:2.8.14":
+  version: 2.8.14
+  resolution: "turbo-windows-arm64@npm:2.8.14"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo@npm:^2.6.0":
-  version: 2.8.3
-  resolution: "turbo@npm:2.8.3"
+"turbo@npm:^2.8.14":
+  version: 2.8.14
+  resolution: "turbo@npm:2.8.14"
   dependencies:
-    turbo-darwin-64: "npm:2.8.3"
-    turbo-darwin-arm64: "npm:2.8.3"
-    turbo-linux-64: "npm:2.8.3"
-    turbo-linux-arm64: "npm:2.8.3"
-    turbo-windows-64: "npm:2.8.3"
-    turbo-windows-arm64: "npm:2.8.3"
+    turbo-darwin-64: "npm:2.8.14"
+    turbo-darwin-arm64: "npm:2.8.14"
+    turbo-linux-64: "npm:2.8.14"
+    turbo-linux-arm64: "npm:2.8.14"
+    turbo-windows-64: "npm:2.8.14"
+    turbo-windows-arm64: "npm:2.8.14"
   dependenciesMeta:
     turbo-darwin-64:
       optional: true
@@ -15825,7 +15803,7 @@ __metadata:
       optional: true
   bin:
     turbo: bin/turbo
-  checksum: 10c0/eae8698697505de4df29e3aea7ac60b7a7a018cfe7b26f30131664a11d7a64ec2cca3fe4a0c91439d8ad583c266531f10620d31baad5a072550115f74bf041a0
+  checksum: 10c0/36836b63f3b788e2118d509d58d9f98b1dc9add1cd5a77ba9c3906984bf3a94496dac75d02d00481f4409869cb5c1899da5c21d4731531079e1ac9158cf4aed1
   languageName: node
   linkType: hard
 
@@ -15894,16 +15872,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.9.2":
-  version: 5.9.2
-  resolution: "typescript@npm:5.9.2"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/cd635d50f02d6cf98ed42de2f76289701c1ec587a363369255f01ed15aaf22be0813226bff3c53e99d971f9b540e0b3cc7583dbe05faded49b1b0bed2f638a18
-  languageName: node
-  linkType: hard
-
 "typescript@npm:5.9.3":
   version: 5.9.3
   resolution: "typescript@npm:5.9.3"
@@ -15911,16 +15879,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10c0/6bd7552ce39f97e711db5aa048f6f9995b53f1c52f7d8667c1abdc1700c68a76a308f579cd309ce6b53646deb4e9a1be7c813a93baaf0a28ccd536a30270e1c5
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@npm%3A5.9.2#optional!builtin<compat/typescript>":
-  version: 5.9.2
-  resolution: "typescript@patch:typescript@npm%3A5.9.2#optional!builtin<compat/typescript>::version=5.9.2&hash=5786d5"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/34d2a8e23eb8e0d1875072064d5e1d9c102e0bdce56a10a25c0b917b8aa9001a9cf5c225df12497e99da107dc379360bc138163c66b55b95f5b105b50578067e
   languageName: node
   linkType: hard
 
