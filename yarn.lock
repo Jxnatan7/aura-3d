@@ -6684,7 +6684,7 @@ __metadata:
     expo-secure-store: "npm:~15.0.7"
     expo-sharing: "npm:~14.0.8"
     expo-splash-screen: "npm:~31.0.11"
-    expo-status-bar: "npm:~3.0.8"
+    expo-status-bar: "npm:~55.0.4"
     expo-three: "npm:^8.0.0"
     expo-web-browser: "npm:~15.0.10"
     formik: "npm:^2.4.9"
@@ -9160,15 +9160,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-status-bar@npm:~3.0.8":
-  version: 3.0.9
-  resolution: "expo-status-bar@npm:3.0.9"
+"expo-status-bar@npm:~55.0.4":
+  version: 55.0.4
+  resolution: "expo-status-bar@npm:55.0.4"
   dependencies:
     react-native-is-edge-to-edge: "npm:^1.2.1"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/b35ed996a3da45a657075447bbf687dad4e7d5321129182e58737ea0fa4aeb8bb145bbe20967abd6823587a738e4c6fd62c41d18d8c11094ff926e2079c02fc2
+  checksum: 10c0/80258eb39fa34fec3ee4a6b6e47b224ad1661618876add00d542f797e8db9188753396b77103fac7bd4a1d9c473942071aab0b7a3045fdffd24c3af467b59ffb
   languageName: node
   linkType: hard
 
