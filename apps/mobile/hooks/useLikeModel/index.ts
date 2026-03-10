@@ -83,7 +83,7 @@ export const useLikeModel = () => {
   });
 
   const handleLikeModel = (
-    modelId: string,
+    model: Model3D,
     isAuthenticated: boolean,
     showModal: () => void,
   ) => {
@@ -91,7 +91,7 @@ export const useLikeModel = () => {
       showModal();
       return;
     }
-    mutate(modelId);
+    mutate(model.id);
   };
 
   return {
