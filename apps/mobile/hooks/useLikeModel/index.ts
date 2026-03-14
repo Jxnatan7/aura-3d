@@ -6,11 +6,11 @@ export const useLikeModel = () => {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (model: Model3D) => Model3DService.toggleLike(model.id),
+    mutationFn: (model: Model3D) => Model3DService.toggleLike(model.id ?? ""),
     mutationKey: ["toggle-like-model"],
 
-    onMutate: async (model: Model3D) => { 
-       model.isLikedByMe = true;
+    onMutate: async (model: Model3D) => {
+      model.isLikedByMe = true;
     },
     onError: (err, model, context) => {
       model.isLikedByMe = false;
@@ -31,7 +31,7 @@ export const useLikeModel = () => {
       showModal();
       return;
     }
-    mutate(model.id);
+    mutate(model);
   };
 
   return {
