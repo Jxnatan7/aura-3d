@@ -115,7 +115,7 @@ export const Model3DList = ({
         onPress={handleModelPress}
         horizontal={horizontal}
         onLike={() => {
-          handleLikeModel(item.id, isAuthenticated, showModal);
+          handleLikeModel(item, isAuthenticated, showModal);
         }}
       />
     ),
