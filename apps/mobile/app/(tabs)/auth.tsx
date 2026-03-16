@@ -1,9 +1,9 @@
 import React from "react";
-import { Container } from "@/components/theme/Container";
-import { useGoogleAuth } from "@/hooks/useGoogleAuth";
-import { UserProfileView } from "@/components/theme/UserProfileView";
-import { LoginView } from "@/components/theme/LoginView";
-import { LogoutButton } from "@/components/theme/LogoutButton";
+import { Container } from "@/src/components/theme/Container";
+import { useGoogleAuth } from "@/src/hooks/useGoogleAuth";
+import { UserProfileView } from "@/src/components/theme/UserProfileView";
+import { LoginView } from "@/src/components/theme/LoginView";
+import { LogoutButton } from "@/src/components/theme/LogoutButton";
 
 export default function AuthScreen() {
   const { request, promptAsync, isAuthenticated, user } = useGoogleAuth();

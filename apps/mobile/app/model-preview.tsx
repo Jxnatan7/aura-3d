@@ -1,9 +1,9 @@
 import React from "react";
-import { Box, Text } from "@/components/restyle";
-import { Container } from "@/components/theme/Container";
-import { Model3DList } from "@/components/theme/Model3DList";
+import { Box, Text } from "@/src/components/restyle";
+import { Container } from "@/src/components/theme/Container";
+import { Model3DList } from "@/src/components/theme/Model3DList";
 import { useRouter } from "expo-router";
-import { ModelLoadingAnimation } from "@/components/theme/ModelLoadingAnimation";
+import { ModelLoadingAnimation } from "@/src/components/theme/ModelLoadingAnimation";
 
 export default function ModelPreview() {
   const router = useRouter();

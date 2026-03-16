@@ -1,6 +1,6 @@
 import React from "react";
 import { Tabs } from "expo-router";
-import { FloatingTabBar } from "@/components/theme/FloatingTabBar";
+import { FloatingTabBar } from "@/src/components/theme/FloatingTabBar";
 
 export default function TabLayout() {
   return (

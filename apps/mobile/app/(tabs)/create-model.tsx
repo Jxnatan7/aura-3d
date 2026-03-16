@@ -3,17 +3,17 @@ import { StyleSheet } from "react-native";
 import { Redirect } from "expo-router";
 import { useTheme } from "@shopify/restyle";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Container } from "@/components/theme/Container";
-import { Box, Text } from "@/components/restyle";
-import { TextInput } from "@/components/theme/TextInput";
-import { IconButton } from "@/components/theme/IconButton";
-import { Image } from "@/components/theme/Image";
-import { useCreateModel } from "@/hooks/useCreateModel";
+import { Container } from "@/src/components/theme/Container";
+import { Box, Text } from "@/src/components/restyle";
+import { TextInput } from "@/src/components/theme/TextInput";
+import { IconButton } from "@/src/components/theme/IconButton";
+import { Image } from "@/src/components/theme/Image";
+import { useCreateModel } from "@/src/hooks/useCreateModel";
 import { Theme } from "@/theme";
 import { LinearGradient } from "expo-linear-gradient";
-import { LiquidGlassView } from "@/components/theme/LiquidGlassView";
-import { useDebounce } from "@/hooks/useDebounce";
-import { useModelStore } from "@/stores/modelStore";
+import { LiquidGlassView } from "@/src/components/theme/LiquidGlassView";
+import { useDebounce } from "@/src/hooks/useDebounce";
+import { useModelStore } from "@/src/stores/modelStore";
 
 const EmptyState = ({ pickImageFromGallery, takePhoto, theme }: any) => (
   <>

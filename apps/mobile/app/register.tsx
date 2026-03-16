@@ -1,10 +1,10 @@
 import React from "react";
-import { Text } from "@/components/restyle";
-import { Container } from "@/components/theme/Container";
+import { Text } from "@/src/components/restyle";
+import { Container } from "@/src/components/theme/Container";
 import { useRouter } from "expo-router";
-import { Form, FormTextInput, FormButton } from "@/components/theme/Form";
-import { registerFormValidation } from "@/utils/schemaValidation";
-import { useAuthActions, useUser } from "@/contexts/AuthProvider";
+import { Form, FormTextInput, FormButton } from "@/src/components/theme/Form";
+import { registerFormValidation } from "@/src/utils/schemaValidation";
+import { useAuthActions, useUser } from "@/src/contexts/AuthProvider";
 
 export default function Register() {
   const user = useUser();

@@ -1,6 +1,6 @@
-import { Container } from "@/components/theme/Container";
-import Model from "@/components/theme/Model";
-import { ModelViewer } from "@/components/theme/MovelViewer";
+import { Container } from "@/src/components/theme/Container";
+import Model from "@/src/components/theme/Model";
+import { ModelViewer } from "@/src/components/theme/MovelViewer";
 import { useLocalSearchParams, useRouter } from "expo-router";
 
 export default function ModelView() {
