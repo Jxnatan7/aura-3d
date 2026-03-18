@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text } from "@/src/components/restyle";
-import { Container } from "@/src/components/theme/Container";
+import { Container } from "@/src/components/layout/Container";
 import { Model3DList } from "@/src/components/theme/Model3DList";
 import { useRouter } from "expo-router";
 import { ModelLoadingAnimation } from "@/src/components/theme/ModelLoadingAnimation";

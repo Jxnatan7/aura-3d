@@ -1,6 +1,6 @@
 import React from "react";
 import { Text } from "@/src/components/restyle";
-import { Container } from "@/src/components/theme/Container";
+import { Container } from "@/src/components/layout/Container";
 import { useRouter } from "expo-router";
 import { Form, FormTextInput, FormButton } from "@/src/components/theme/Form";
 import { registerFormValidation } from "@/src/utils/schemaValidation";
@@ -43,7 +43,7 @@ export default function Register() {
   return (
     <Container
       variant="screen"
-      containerHeaderProps={{ backButtonFallback: () => push("/login") }}
+      containerHeaderProps={{ backButtonFallback: () => push("/auth") }}
     >
       <Text variant="header" mt="xxxl">
         Crie a sua conta

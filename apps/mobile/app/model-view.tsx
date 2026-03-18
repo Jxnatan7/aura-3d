@@ -1,4 +1,4 @@
-import { Container } from "@/src/components/theme/Container";
+import { Container } from "@/src/components/layout/Container";
 import Model from "@/src/components/theme/Model";
 import { ModelViewer } from "@/src/components/theme/MovelViewer";
 import { useLocalSearchParams, useRouter } from "expo-router";
