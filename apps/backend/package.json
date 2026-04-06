@@ -49,9 +49,9 @@
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
-    "@nestjs/cli": "^11.0.0",
-    "@nestjs/schematics": "^11.0.0",
-    "@nestjs/testing": "^11.1.16",
+    "@nestjs/cli": "^11.0.17",
+    "@nestjs/schematics": "^11.0.10",
+    "@nestjs/testing": "^11.1.18",
     "@types/cron": "^2.4.3",
     "@types/sharp": "^0.32.0",
     "ngrok": "^5.0.0-beta.2"
